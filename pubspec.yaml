@@ -31,6 +31,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
+  flutter_dotenv: ^6.0.0
   flutter_launcher_icons: ^0.14.4
   go_router: ^16.3.0
 flutter_launcher_icons:
@@ -55,7 +56,8 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/logo_app/logo1.png # - images/a_dot_ham.jpeg
+    - assets/logo_app/logo1.png 
+    - .env
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/to/resolution-aware-images
     # For details regarding adding assets from package dependencies, see

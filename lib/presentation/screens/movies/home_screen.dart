@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movies_app/config/constants/environment.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -12,7 +14,9 @@ class HomeScreen extends StatelessWidget {
         title: Text('Home Screen'),
       ),
 
-      body: Placeholder(),
+      body: Center(
+        child: Text(Environment.movieDBKey),
+      ),
     );
   }
 }
