@@ -1,0 +1,46 @@
+//todo, esto es para proveer las peliculas, pero dependiendo el caso de uso
+
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/providers/movies/movies_repository_provider.dart';
+
+final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    //todo, le pasamos el repo 
+    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getNowPlaying;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    return MoviesNotifier(
+      fetchMoreMovies: fetchMoreMoviesR
+    ); 
+  }
+);
+
+
+//todo, el objetivo es definir el caso de uso
+typedef MovieCallBack = Future<List<Movie>> Function({int page});  
+
+///todo, se crea dependiendo del caso de uso
+class MoviesNotifier extends StateNotifier<List<Movie>> {
+  //todo, actualiza en la pagina que esta
+  int currentPage = 0;
+  //todo, una funcion que sabe como traer las peliculas
+  MovieCallBack fetchMoreMovies;
+
+  MoviesNotifier(
+    {
+      required this.fetchMoreMovies
+    }
+  ): super([]);
+
+  //todo, este metodo carga mas peliculas
+  Future<void> loadNextPage() async{
+    currentPage++;
+
+
+    final List<Movie> movies = await fetchMoreMovies(page: currentPage);
+    state = [...state, ...movies];
+
+  }
+
+  
+
+}

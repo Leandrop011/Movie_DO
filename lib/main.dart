@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
 
@@ -9,7 +10,7 @@ Future <void> main()async{
   await dotenv.load(fileName: '.env');
 
   runApp(
-  const MyApp(),
+  ProviderScope(child: const MyApp()),
   );
 }
 
