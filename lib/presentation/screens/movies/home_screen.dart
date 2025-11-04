@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/presentation/providers/movies/movies_providers.dart';
+import 'package:movies_app/presentation/providers/providers.dart';
+
 //todo, dotenv es para mover archivos de entorno hacia la app
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:movies_app/config/constants/environment.dart';
@@ -13,14 +14,20 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Screen'),
-      ),
 
-      body: _HomeView()
+      body: _HomeView(),
+
+      bottomNavigationBar: CustomBottomNavigationbar(),
     );
   }
 }
+
+/*
+  todo, el StateLes solo sirve para leer y reaccionar a los providers
+  todo, miestras que el stateful tienes poder del initsate y riverpod
+  todo, el initsate es el lugar ideal para inicializar cosas que tu widget necesita antes de renderizarse. 
+  todo, el initsate: se ejecuta una sola vez, antes del primer render y es para inicializar lógica o cargar datos
+*/
 
 //todo consumer de un ful para los providers 
 class _HomeView extends ConsumerStatefulWidget {
@@ -34,7 +41,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   void initState() {
     super.initState();
-    //todo, aqui simplemente se dice que cargue la siguiente pagina
+    //todo, aqui simplemente se dice que cargue la primer pagina
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
   }
 
@@ -48,17 +55,20 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   Widget build(BuildContext context) {
     //todo, renderizar la data, llamamos al repository
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    //todo, es un provider que me da solo 6 de las peliculas que hay en esa lista de movies
+    final slideShowMovies = ref.read(moviesSlideshowProvider);
 
-    return ListView.builder(
-      itemCount: nowPlayingMovies.length,
-      itemBuilder: (context, index) {
-        final movie = nowPlayingMovies[index];//todo, tomamos la pelicula
+    return Column(
+      children: [
+        //todo, appbar
+        CustomAppbar(),
+        //todo, widget que dibuja un carrucel de peliculas
+        MoviesSlideshow(movies: slideShowMovies),
 
-        return ListTile(
-          title: Text(movie.title),
 
-        );
-      },
+      
+
+      ],
     );
   }
 }
