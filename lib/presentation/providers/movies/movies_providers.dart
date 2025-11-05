@@ -6,10 +6,44 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/movies/movies_repository_provider.dart';
 
+//* DEL PRIMER REPOSITORY(USAMOS LA MISMA CLASE DE ABAJO PARA LAS DOS)
 final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
   (ref) {
     //todo, le pasamos el repo 
     final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getNowPlaying;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    return MoviesNotifier(
+      fetchMoreMovies: fetchMoreMoviesR
+    ); 
+  }
+);
+
+//* DEL SEGUNDO RESPOSITORY
+final popularMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    //todo, le pasamos el repo 
+    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getPopular;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    return MoviesNotifier(
+      fetchMoreMovies: fetchMoreMoviesR
+    ); 
+  }
+);
+
+//* DEL TERCER REPOSITORY
+final upComingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    //todo, le pasamos el repo 
+    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getUpComing;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    return MoviesNotifier(
+      fetchMoreMovies: fetchMoreMoviesR
+    ); 
+  }
+);
+
+//* DEL CUARTO REPOSITORY
+final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    //todo, le pasamos el repo 
+    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getTopRated;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
     return MoviesNotifier(
       fetchMoreMovies: fetchMoreMoviesR
     ); 

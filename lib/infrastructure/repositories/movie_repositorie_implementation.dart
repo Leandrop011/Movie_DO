@@ -12,9 +12,31 @@ class MovieRepositorieImplementation extends MoviesRepositorie{
 
   MovieRepositorieImplementation( this.datasource );
  
+  //* PRIMER REPOSITORY
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) {
     return datasource.getNowPlaying(page: page);//todo, le mandamos la page del datasource
   }
+  
+  //* SEGUNDO REPOSITORY
+  @override
+  Future<List<Movie>> getPopular({int page = 1}) {
+    return datasource.getPopular(page: page);
+  }
+  
+  //* TERCER REPOSITORY
+  @override
+  Future<List<Movie>> getUpComing({int page = 1}) {
+    return datasource.getUpComing(page: page);
+  }
+
+  //* CUARTO REPOSITORY
+  @override
+  Future<List<Movie>> getTopRated({int page = 1}) {
+    return datasource.getTopRated(page: page);
+  }
+  
+
+  
   
 }

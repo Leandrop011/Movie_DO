@@ -41,8 +41,11 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   void initState() {
     super.initState();
-    //todo, aqui simplemente se dice que cargue la primer pagina
+    //todo, aqui simplemente se dice que cargue peliculas para comenzar
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(upComingMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
   }
 
   @override
@@ -57,32 +60,95 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     //todo, es un provider que me da solo 6 de las peliculas que hay en esa lista de movies
     final slideShowMovies = ref.read(moviesSlideshowProvider);
+    //todo, provider que da las peliculas populares
+    final popularMovies = ref.watch(popularMoviesProvider);
+    //todo, provider que da las peliculas up coming
+    final upcomingMovies = ref.watch(upComingMoviesProvider);
+    //todo, provider que da las peliculas top rated
+    final topratedMovies = ref.watch(topRatedMoviesProvider);
 
-    return SingleChildScrollView(
+
+    return CustomScrollView(//todo, para controlar el scroll
+
       physics: BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          //todo, appbar
-          CustomAppbar(),
-          //todo, widget que dibuja un carrucel de peliculas
-          MoviesSlideshow(movies: slideShowMovies),
-      
-          //todo, peliculas en Cines
-          MovieHorizontalListview(
-            movies: nowPlayingMovies,
-            title: 'En cines',
-            subTitle: 'Lunes 20', 
-            loadNextPage: () {
-              //todo, le mandamos las peliculas cad avez que llega al final
-              ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-            },
-          ),
+      slivers: [
 
-      
-        
-      
-        ],
-      ),
+        SliverAppBar(//todo, appbar de un sliver(constrolara que si subimos un poco aparece)
+          floating: true,//* para que aparezca cuando se sube un poco
+          flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar
+            title: CustomAppbar(),
+          ),
+        ),
+
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Column(
+
+                children: [
+
+                  //todo, widget que dibuja un carrucel de peliculas
+                  MoviesSlideshow(movies: slideShowMovies),
+
+                  //todo
+
+                  //* Peliculas en Cines
+
+                  MovieHorizontalListview(
+                    movies: nowPlayingMovies,
+                    title: 'En cines',
+                    subTitle: 'Lunes 20', 
+                    loadNextPage: () {
+                      //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+
+                  //* Peliculas Populares
+
+                  MovieHorizontalListview(
+                    movies: popularMovies,
+                    title: 'Populares',
+                    subTitle: 'En este mes', 
+                    loadNextPage: () {
+                      //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                      ref.read(popularMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+
+                  //* Peliculas Proximamente
+
+                  MovieHorizontalListview(
+                    movies: upcomingMovies,
+                    title: 'Proximamente',
+                    //subTitle: 'En este mes', 
+                    loadNextPage: () {
+                      //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                      ref.read(upComingMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+
+                  //* Peliculas Mejor Calificadas
+
+                  MovieHorizontalListview(
+                    movies: topratedMovies,
+                    title: 'Mejor calificadas',
+                    subTitle: 'Desde siempre', 
+                    loadNextPage: () {
+                      //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                      ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+              
+                ],
+              );
+            },
+            //TODO, ENTENDER ESTA PARTE
+            childCount: 1,
+          )
+        )
+      ]
+    
     );
   }
 }
