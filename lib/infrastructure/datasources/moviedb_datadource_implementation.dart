@@ -22,7 +22,11 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
   Future<List<Movie>> getNowPlaying({int page = 1}) async{
 
     //todo, lo que se coloca para obtener cierto numero de peliculas del datasource 
-    final response = await dio.get('/movie/now_playing');
+    final response = await dio.get('/movie/now_playing', 
+      queryParameters: {//todo, en la peticion colocamos esto para que me devuelva peliculas infinitas y no solo ciertas
+        'page': page
+      }
+    );
     //todo, leerla, mapearla y regresarle un listado de peliculas
 
     final movieDBResponse = MovideDbResponse.fromJson(response.data);

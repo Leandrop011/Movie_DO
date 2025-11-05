@@ -58,17 +58,31 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     //todo, es un provider que me da solo 6 de las peliculas que hay en esa lista de movies
     final slideShowMovies = ref.read(moviesSlideshowProvider);
 
-    return Column(
-      children: [
-        //todo, appbar
-        CustomAppbar(),
-        //todo, widget que dibuja un carrucel de peliculas
-        MoviesSlideshow(movies: slideShowMovies),
-
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          //todo, appbar
+          CustomAppbar(),
+          //todo, widget que dibuja un carrucel de peliculas
+          MoviesSlideshow(movies: slideShowMovies),
+      
+          //todo, peliculas en Cines
+          MovieHorizontalListview(
+            movies: nowPlayingMovies,
+            title: 'En cines',
+            subTitle: 'Lunes 20', 
+            loadNextPage: () {
+              //todo, le mandamos las peliculas cad avez que llega al final
+              ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+            },
+          ),
 
       
-
-      ],
+        
+      
+        ],
+      ),
     );
   }
 }

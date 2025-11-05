@@ -11,5 +11,6 @@ import 'package:movies_app/infrastructure/repositories/movie_repositorie_impleme
 //todo, y aqui la ciencia, podemos colocar otro datasource y sin necesidad de cambiar toda la app
 final movieRepositoryProvider = Provider((ref) {
   //todo,    devuelve el repositorio      con este datasource
+  //todo, requiere el datasource, le mandamos un datasource
   return MovieRepositorieImplementation( MoviedbDatadourceImplementation() );
 });

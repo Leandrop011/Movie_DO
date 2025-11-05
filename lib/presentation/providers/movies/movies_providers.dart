@@ -1,5 +1,7 @@
 //todo, esto es para proveer las peliculas, pero dependiendo el caso de uso
 
+//TODO, ENTENDERLO MEJOR ESTUDIARLO
+
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/movies/movies_repository_provider.dart';
@@ -20,6 +22,8 @@ typedef MovieCallBack = Future<List<Movie>> Function({int page});
 
 ///todo, se crea dependiendo del caso de uso
 class MoviesNotifier extends StateNotifier<List<Movie>> {
+
+  bool isLoading = false;
   //todo, actualiza en la pagina que esta
   int currentPage = 0;
   //todo, una funcion que sabe como traer las peliculas
@@ -33,11 +37,15 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   //todo, este metodo carga mas peliculas
   Future<void> loadNextPage() async{
+    if(isLoading == true) return;//todo, para que no haga demasiadas peticiones simultaneas
+
+    isLoading = true;
+    
     currentPage++;
-
-
     final List<Movie> movies = await fetchMoreMovies(page: currentPage);
     state = [...state, ...movies];
+    
+    isLoading = false;
 
   }
 
