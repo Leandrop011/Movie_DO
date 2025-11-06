@@ -36,7 +36,13 @@ class MovieRepositorieImplementation extends MoviesRepositorie{
     return datasource.getTopRated(page: page);
   }
   
-
+  //* QUITO REPOSITORY(DEVUELVE UNA PELICULA POR ID)
+  @override
+  Future<Movie> getMovieById(String id) {
+    return datasource.getMovieById(id);
+  }
+  
+  
   
   
 }

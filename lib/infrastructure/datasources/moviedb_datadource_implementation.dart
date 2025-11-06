@@ -3,6 +3,7 @@ import 'package:movies_app/config/constants/environment.dart';
 import 'package:movies_app/domain/data_sources/movies_datasource.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/infrastructure/mappers/movie_mapper.dart';
+import 'package:movies_app/infrastructure/models/moviedb/movie_details.dart';
 import 'package:movies_app/infrastructure/models/moviedb/moviedb_response.dart';
 
 //todo, aqui es la implementacion, si o si debo hacer una implementacion
@@ -83,6 +84,24 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
 
     return _jsonToMovies(response.data);
 
+  }
+  
+  //todo, DATA SOURCE QUE DEVUELVE UNA PELICULA POR ID
+  @override
+  Future<Movie> getMovieById(String id) async{
+
+    final response = await dio.get('/movie/$id');
+    //* por si no hay pelicula 
+    if(response.statusCode != 200 ) throw Exception('Movie with id: $id not found');
+
+    //todo, mapeo
+    final movieDBDetails = MovideDbDetails.fromJson(response.data);
+
+    //todo, devolver una movie, ahora el mapper , recibe un movidetails como objeto y regresa una entidad
+
+    final Movie movie = MovieMapper.movieDetailsToEntity(movieDBDetails);
+
+    return movie;
   }
   
     

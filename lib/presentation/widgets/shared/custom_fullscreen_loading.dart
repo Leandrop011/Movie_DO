@@ -7,7 +7,6 @@ class CustomFullscreenLoading extends StatelessWidget {
    
     final messages = <String> [//* arreglo de mensajes, los mostraremos en pantalla, conforme va pasando
       'Cargando Peliculas',
-      'Comprando palommitas de maiz',
       'Cargando populares',
       'Ya mero...',
       'Esto esta tardando mas de lo esperado :(',
@@ -26,10 +25,10 @@ class CustomFullscreenLoading extends StatelessWidget {
         children: [
           Text('Espere por favor'),
           SizedBox(height: 20,),
-          CircularProgressIndicator(strokeWidth: 2,),
+          CircularProgressIndicator(strokeWidth: 4,),
           SizedBox(height: 10,),
 
-          StreamBuilder(
+          StreamBuilder(//* esto es pa que vaya mostrando frases conforme un tiempo va pasando
             stream: getLoadingMessages(), 
             builder: (context, snapshot) {
               if( !snapshot.hasData ) return Text('Cargando....');

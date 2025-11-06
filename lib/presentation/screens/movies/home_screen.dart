@@ -160,7 +160,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                 );
               },
       
-              //TODO, ENTENDER ESTA PARTE
+              //todo, esto le dira cuantos hijos construir(osea cuantas veces construir lo que esta dentro)
               childCount: 1,
             )
           )

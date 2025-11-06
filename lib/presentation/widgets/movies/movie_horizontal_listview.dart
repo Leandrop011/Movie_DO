@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 
@@ -146,19 +147,24 @@ class _Slide extends StatelessWidget {
             width: 150,
             child: ClipRRect(
               borderRadius: BorderRadiusGeometry.circular(20),
-              child: Image.network(
-                movie.posterPath,
-                width: 150,
-                fit: BoxFit.cover,
-
-                //todo, un loading
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress != null) {//todo, cuando ya es null mostrara la imagen, de lo contrario tiene algo en su sistema 
-                    return Center(child: CircularProgressIndicator(),);
-                  }
-
-                  return FadeIn(child: child);
+              child: GestureDetector(
+                onTap: () {
+                  context.push('/movie/${movie.id}');
                 },
+                child: Image.network(
+                  movie.posterPath,
+                  width: 150,
+                  fit: BoxFit.cover,
+                
+                  //todo, un loading
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress != null) {//todo, cuando ya es null mostrara la imagen, de lo contrario tiene algo en su sistema 
+                      return Center(child: CircularProgressIndicator(),);
+                    }
+                
+                    return FadeIn(child: child);
+                  },
+                ),
               ),
             ),
           ),  
