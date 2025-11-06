@@ -56,6 +56,11 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    //todo, provider que determina si los provider ya  tienen data y asi hacer lo que se dice
+    final initialLoading = ref.watch(initialLoadingProvider);
+
+    if(initialLoading == true ) return CustomFullscreenLoading();
+
     //todo, renderizar la data, llamamos al repository
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     //todo, es un provider que me da solo 6 de las peliculas que hay en esa lista de movies
@@ -66,7 +71,6 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final upcomingMovies = ref.watch(upComingMoviesProvider);
     //todo, provider que da las peliculas top rated
     final topratedMovies = ref.watch(topRatedMoviesProvider);
-
 
     return CustomScrollView(//todo, para controlar el scroll
 
@@ -143,6 +147,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                 ],
               );
             },
+
             //TODO, ENTENDER ESTA PARTE
             childCount: 1,
           )
