@@ -34,9 +34,9 @@ class CustomAppbar extends ConsumerWidget {
                 ref.read(isdarckProvider.notifier).update((value) => !value);
               }, 
               icon: isdarck? 
-                    Icon(Icons.dark_mode)
-                    :
                     Icon(Icons.light_mode_outlined)
+                    :
+                    Icon(Icons.dark_mode)
             )
           ],
         ),
