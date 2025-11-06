@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
@@ -13,11 +14,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-      body: _HomeView(),
-
-      bottomNavigationBar: CustomBottomNavigationbar(),
+    return FadeIn(
+      child: Scaffold(
+      
+        body: _HomeView(),
+      
+        bottomNavigationBar: CustomBottomNavigationbar(),
+      ),
     );
   }
 }
@@ -72,88 +75,98 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     //todo, provider que da las peliculas top rated
     final topratedMovies = ref.watch(topRatedMoviesProvider);
 
-    return CustomScrollView(//todo, para controlar el scroll
+    final finishLoadinf = ref.watch(visibilityMoviesProvider);
 
-      physics: BouncingScrollPhysics(),
-      slivers: [
+    return Visibility(//* para mostrar cuando todo este cargado(estilo visual)
+      visible: finishLoadinf,
 
-        SliverAppBar(//todo, appbar de un sliver(constrolara que si subimos un poco aparece)
-          floating: true,//* para que aparezca cuando se sube un poco
-          flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar
-            title: CustomAppbar(),
-          ),
-        ),
-
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              return Column(
-
-                children: [
-
-                  //todo, widget que dibuja un carrucel de peliculas
-                  MoviesSlideshow(movies: slideShowMovies),
-
-                  //todo
-
-                  //* Peliculas en Cines
-
-                  MovieHorizontalListview(
-                    movies: nowPlayingMovies,
-                    title: 'En cines',
-                    subTitle: 'Lunes 20', 
-                    loadNextPage: () {
-                      //todo, le pedimos que nos carge mas peliculas(infity scroll)
-                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-                    },
-                  ),
-
-                  //* Peliculas Populares
-
-                  MovieHorizontalListview(
-                    movies: popularMovies,
-                    title: 'Populares',
-                    subTitle: 'En este mes', 
-                    loadNextPage: () {
-                      //todo, le pedimos que nos carge mas peliculas(infity scroll)
-                      ref.read(popularMoviesProvider.notifier).loadNextPage();
-                    },
-                  ),
-
-                  //* Peliculas Proximamente
-
-                  MovieHorizontalListview(
-                    movies: upcomingMovies,
-                    title: 'Proximamente',
-                    //subTitle: 'En este mes', 
-                    loadNextPage: () {
-                      //todo, le pedimos que nos carge mas peliculas(infity scroll)
-                      ref.read(upComingMoviesProvider.notifier).loadNextPage();
-                    },
-                  ),
-
-                  //* Peliculas Mejor Calificadas
-
-                  MovieHorizontalListview(
-                    movies: topratedMovies,
-                    title: 'Mejor calificadas',
-                    subTitle: 'Desde siempre', 
-                    loadNextPage: () {
-                      //todo, le pedimos que nos carge mas peliculas(infity scroll)
-                      ref.read(topRatedMoviesProvider.notifier).loadNextPage();
-                    },
-                  ),
+      replacement: SizedBox.shrink(),//* para que no ocupe espacio
+      child: CustomScrollView(//todo, para controlar el scroll
+      
+        physics: BouncingScrollPhysics(),
+        slivers: [
+      
+          SliverAppBar(//todo, appbar de un sliver(constrolara que si subimos un poco aparece)
+            floating: true,//* para que aparezca cuando se sube un poco
+            flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar
               
-                ],
-              );
-            },
-
-            //TODO, ENTENDER ESTA PARTE
-            childCount: 1,
+              title: Padding(
+                padding: EdgeInsetsGeometry.only(right: 50),
+                child: CustomAppbar()),
+            ),
+          ),
+      
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Column(
+      
+                  children: [
+      
+                    //todo, widget que dibuja un carrucel de peliculas
+                    MoviesSlideshow(movies: slideShowMovies),
+      
+                    //todo
+      
+                    //* Peliculas en Cines
+      
+                    MovieHorizontalListview(
+                      movies: nowPlayingMovies,
+                      title: 'En cines',
+                      subTitle: 'Lunes 20', 
+                      loadNextPage: () {
+                        //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                        ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                      },
+                    ),
+      
+                    //* Peliculas Populares
+      
+                    MovieHorizontalListview(
+                      movies: popularMovies,
+                      title: 'Populares',
+                      subTitle: 'En este mes', 
+                      loadNextPage: () {
+                        //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                        ref.read(popularMoviesProvider.notifier).loadNextPage();
+                      },
+                    ),
+      
+                    //* Peliculas Proximamente
+      
+                    MovieHorizontalListview(
+                      movies: upcomingMovies,
+                      title: 'Proximamente',
+                      //subTitle: 'En este mes', 
+                      loadNextPage: () {
+                        //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                        ref.read(upComingMoviesProvider.notifier).loadNextPage();
+                      },
+                    ),
+      
+                    //* Peliculas Mejor Calificadas
+      
+                    MovieHorizontalListview(
+                      movies: topratedMovies,
+                      title: 'Mejor calificadas',
+                      subTitle: 'Desde siempre', 
+                      loadNextPage: () {
+                        //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                        ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+                      },
+                    ),
+                
+                  ],
+                );
+              },
+      
+              //TODO, ENTENDER ESTA PARTE
+              childCount: 1,
+            )
           )
-        )
-      ]
-    
+        ]
+      
+      ),
     );
   }
 }
