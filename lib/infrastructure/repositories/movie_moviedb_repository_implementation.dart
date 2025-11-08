@@ -6,11 +6,11 @@ import 'package:movies_app/domain/data_sources/movies_datasource.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/domain/repositories/movies_repositorie.dart';
 
-class MovieRepositorieImplementation extends MoviesRepositorie{
+class MovieMovieDbRepositoryImplementation extends MoviesRepositorie{
   
   final MoviesDatasource datasource;
 
-  MovieRepositorieImplementation( this.datasource );
+  MovieMovieDbRepositoryImplementation( this.datasource );
  
   //* PRIMER REPOSITORY
   @override

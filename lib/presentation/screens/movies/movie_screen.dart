@@ -1,9 +1,11 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies_app/domain/entities/actor.dart';
 import 'package:movies_app/domain/entities/movie.dart';
-import 'package:movies_app/presentation/providers/movies/movie_info_provider.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
 
+//todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
 class MovieScreen extends ConsumerStatefulWidget {
 
   static const String name = 'movie-screen';
@@ -24,6 +26,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   void initState() {
     super.initState();
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
   }
   
   @override
@@ -47,7 +50,14 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
         physics: ClampingScrollPhysics(),
         slivers: [
 
-          _CustomSliverAppBar(movie: movie)
+          _CustomSliverAppBar(movie: movie),
+
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => _MovieDetails(movie: movie,),
+              childCount: 1,
+            )
+          ),
         ],
       ),
 
@@ -56,6 +66,176 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
+//* DETALLES DE LA PELICULA
+class _MovieDetails extends StatelessWidget {
+  final Movie movie;
+  const _MovieDetails({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    //* para saber el tamano del dispositivo y asi aplicar un tamanao bueno pa todos
+    final size = MediaQuery.of(context).size;
+    final textStyle = Theme.of(context).textTheme;
+
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsetsGeometry.all(8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(20),
+                child: Image.network(
+                  width: size.width * 0.3,
+                  movie.posterPath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              
+              SizedBox(width: 10,),
+
+              SizedBox(
+                width: size.width * 0.6,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(movie.title, style: textStyle.titleLarge,),
+                    SizedBox(height: 10,),
+                    Text(
+                      movie.overview, 
+                      style: textStyle.titleSmall,
+                      maxLines: 8,
+                      overflow: TextOverflow.ellipsis,
+                    )
+
+                  ],
+                )
+              )
+            ],
+          ),
+        ),
+
+        //* GENEROS DE LA PELICULA
+        Padding(
+          padding: EdgeInsetsGeometry.all(8),
+          child: Wrap(
+            children: [
+              //* obtengo los generos disponibles y para eso hago un mapeo, porque son algunos
+              //* generos como accion, suspenso y asi 
+              ...movie.genreIds.map((gender) => Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Chip(
+                  label: Text(gender),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(20)),
+                ),
+              ))
+            ],
+          ),
+        ),
+
+
+
+        //* WIDGET QUE HARA TODA LAS LISTVIEW DE LOS ACTORES, DEPENDIENDO DEL ID
+        _ActorsByMovie(movieId: movie.id.toString()),
+
+
+        SizedBox(height: 50,),
+
+        
+      ],
+    );
+  }
+}
+
+//* ACTORES DE LA PELICULA
+class _ActorsByMovie extends ConsumerWidget {
+  
+
+  final String movieId;
+
+  const _ActorsByMovie({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    
+    final actorsByMovie = ref.watch(actorsByMovieProvider);
+
+    if(actorsByMovie[movieId]== null){
+      return CircularProgressIndicator();
+    }
+
+    final actors = actorsByMovie[movieId]!;
+
+
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: actors.length,
+        itemBuilder: (context, index) {
+          final actor = actors[index];
+
+          return _ActorView(actor: actor);
+        },
+      ),
+    );
+  }
+}
+
+//* CAJA DE CADA ACTOR Y SU INFORMACION
+class _ActorView extends StatelessWidget {
+
+  final Actor actor;
+  const _ActorView({required this.actor});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+      padding: EdgeInsets.all(8),
+      width: 135,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //* Foto de el Actor
+          FadeInRight(
+            child: ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(20),
+              child: Image.network(
+                actor.profilePath,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          //* Nombre de el Actor
+
+          SizedBox(height: 5,),
+
+          Text(
+            actor.name, 
+            maxLines: 2,
+          ),
+
+          //* el papel que interpretaron 
+          Text(
+            actor.character ?? '', 
+            maxLines: 2,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              overflow: TextOverflow.ellipsis
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+
+//* APPBAR
 class _CustomSliverAppBar extends StatelessWidget {
 
   final Movie movie;
@@ -75,19 +255,18 @@ class _CustomSliverAppBar extends StatelessWidget {
           horizontal: 10,
           vertical: 5
         ),
-        title: Text(
-          movie.title,
-          style: TextStyle(fontSize: 20),
-          textAlign: TextAlign.start,          
-        ),
 
         //* contenido
         background: _ContentSilverAppBar(movie: movie),
+
+        
       ),
     );
   }
 }
 
+
+//* CONTENIDO DE LA APPBAR, MUESTRA LA PELICULA Y SU NOMBRE
 class _ContentSilverAppBar extends StatelessWidget {
   const _ContentSilverAppBar({
     required this.movie,
@@ -101,10 +280,18 @@ class _ContentSilverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(//* el fondo
       children: [
-        SizedBox.expand(
-          child: Image.network(
-            movie.posterPath,
-            fit: BoxFit.cover,
+        ClipRRect(
+          borderRadius: BorderRadiusGeometry.circular(30),
+          child: SizedBox.expand(
+            child: Image.network(
+              movie.posterPath,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress){
+                if(loadingProgress != null) return SizedBox();
+
+                return FadeIn(child: child);
+              },
+            ),
           ),
         ),
     
@@ -142,3 +329,5 @@ class _ContentSilverAppBar extends StatelessWidget {
     );
   }
 }
+
+

@@ -5,3 +5,6 @@ export 'package:movies_app/presentation/providers/movies/movies_slideshow_proivd
 export 'package:movies_app/presentation/widgets/widgets.dart';
 export 'package:movies_app/presentation/providers/movies/initial_loading_provider.dart';
 export 'package:movies_app/presentation/providers/movies/visibility_movies_provider.dart';
+
+export 'package:movies_app/presentation/providers/actors/actors_bymovie_provider.dart';
+export 'package:movies_app/presentation/providers/movies/movie_info_provider.dart';

@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 //todo, usaremos un SWIPER, para el carrucel => card_swiper
 class MoviesSlideshow extends StatelessWidget {
@@ -35,7 +36,12 @@ class MoviesSlideshow extends StatelessWidget {
         itemBuilder: (context, index) {
           final movie = movies[index];
           
-          return _Slide(movie: movie);//todo, construye todas, cuando avanza y se consulta el index
+          return GestureDetector(
+            onTap: () {
+              context.push('/movie/${movie.id}');
+            },
+            child: _Slide(movie: movie)
+          );//todo, construye todas, cuando avanza y se consulta el index
         },
       ),
 

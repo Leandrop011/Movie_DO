@@ -3,7 +3,7 @@
 //todo, el provider encargado de proveer ese repositorio
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/infrastructure/datasources/moviedb_datadource_implementation.dart';
-import 'package:movies_app/infrastructure/repositories/movie_repositorie_implementation.dart';
+import 'package:movies_app/infrastructure/repositories/movie_moviedb_repository_implementation.dart';
 
 //todo, este provider es de solo lectura, solo provee, pero no puede cambiarse su fuente
 
@@ -12,5 +12,5 @@ import 'package:movies_app/infrastructure/repositories/movie_repositorie_impleme
 final movieRepositoryProvider = Provider((ref) {
   //todo,    devuelve el repositorio      con este datasource
   //todo, requiere el datasource, le mandamos un datasource
-  return MovieRepositorieImplementation( MoviedbDatadourceImplementation() );
+  return MovieMovieDbRepositoryImplementation( MoviedbDatadourceImplementation() );
 });
