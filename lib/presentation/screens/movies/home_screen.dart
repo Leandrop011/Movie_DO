@@ -91,8 +91,10 @@ class _HomeViewState extends ConsumerState<_HomeView> {
             flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar
               
               title: Padding(
-                padding: EdgeInsetsGeometry.only(right: 50),
-                child: CustomAppbar()),
+                padding: EdgeInsetsGeometry.only(right: 10),
+                child: CustomAppbar()
+              ),
+            
             ),
           ),
       
@@ -113,7 +115,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                     MovieHorizontalListview(
                       movies: nowPlayingMovies,
                       title: 'En cines',
-                      subTitle: 'Lunes 20', 
+                      subTitle: 'Este mes', 
                       loadNextPage: () {
                         //todo, le pedimos que nos carge mas peliculas(infity scroll)
                         ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
@@ -125,7 +127,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                     MovieHorizontalListview(
                       movies: popularMovies,
                       title: 'Populares',
-                      subTitle: 'En este mes', 
+                      //subTitle: 'En este mes', 
                       loadNextPage: () {
                         //todo, le pedimos que nos carge mas peliculas(infity scroll)
                         ref.read(popularMoviesProvider.notifier).loadNextPage();

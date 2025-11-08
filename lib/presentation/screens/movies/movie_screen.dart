@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/actor.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
@@ -249,12 +250,14 @@ class _CustomSliverAppBar extends StatelessWidget {
     
     return SliverAppBar(
       backgroundColor: Colors.black,
+      leading: IconButton(
+        onPressed: (){
+          context.pop();
+        }, 
+        icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)
+      ),
       expandedHeight: size.height * 0.7,
-      flexibleSpace: FlexibleSpaceBar(//* contenido
-        titlePadding: EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 5
-        ),
+      flexibleSpace: FlexibleSpaceBar(//*contenido
 
         //* contenido
         background: _ContentSilverAppBar(movie: movie),
@@ -280,8 +283,8 @@ class _ContentSilverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(//* el fondo
       children: [
+
         ClipRRect(
-          borderRadius: BorderRadiusGeometry.circular(30),
           child: SizedBox.expand(
             child: Image.network(
               movie.posterPath,

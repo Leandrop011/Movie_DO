@@ -20,6 +20,7 @@ class CustomAppbar extends ConsumerWidget {
             Icon(Icons.movie_creation_outlined, color: colors.primary,),
             SizedBox(width: 5,),
             Text('MovieDo', style: titleStyle,),
+            
       
             Spacer(),//todo, que tome todo el espacio disponibleentre esos widgets
             //todo, por ende lo mueve hasta el final
