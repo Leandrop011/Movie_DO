@@ -48,7 +48,10 @@ class MovieMovieDbRepositoryImplementation extends MoviesRepositorie{
     return datasource.searchMovies(query);
   }
   
-  
-  
+  //* SEPTIMO RESPOSITORIO QUE DA LISTA DE PELICULAS SIMILAR SEGUN SU ID
+  @override
+  Future<List<Movie>> getMoviesSimilar(String id) {
+    return datasource.getMoviesSimilar(id);
+  }
   
 }

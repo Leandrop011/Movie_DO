@@ -104,7 +104,7 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
     return movie;
   }
   
-  //* DATA SOURCE QUE ME DA RESPUESTA DE UN PELICULAS SEGUN UN QUERY QUE MANDAMOS
+  //todo, DATA SOURCE QUE ME DA RESPUESTA DE UN PELICULAS SEGUN UN QUERY QUE MANDAMOS
   @override
   Future<List<Movie>> searchMovies(String query) async{
     final response = await dio.get('/search/movie',
@@ -116,5 +116,12 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
     return _jsonToMovies(response.data);
   }
   
-    
+  
+  //todo, Datasource que me da lista de peliculas similares de un id de una pelicula
+  @override
+  Future<List<Movie>> getMoviesSimilar(String id) async{
+    final response = await dio.get('/movie/$id/similar');
+
+    return _jsonToMovies(response.data /*as Map<String, dynamic>*/);
+  }  
 }

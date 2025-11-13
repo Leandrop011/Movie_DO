@@ -16,4 +16,5 @@ abstract class MoviesDatasource {
 
   Future<List<Movie>> searchMovies(String query);
 
+  Future<List<Movie>> getMoviesSimilar(String id);
 }

@@ -2,6 +2,7 @@
 
 //TODO, ENTENDERLO MEJOR ESTUDIARLO
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/movies/movies_repository_provider.dart';
@@ -43,16 +44,21 @@ final upComingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>
 final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
   (ref) {
     //todo, le pasamos el repo 
-    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getTopRated;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    final getTopRatedMovies = ref.watch(movieRepositoryProvider).getTopRated;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
     return MoviesNotifier(
-      fetchMoreMovies: fetchMoreMoviesR
+      fetchMoreMovies: getTopRatedMovies
     ); 
   }
 );
 
 
+
+
 //todo, el objetivo es definir el caso de uso
 typedef MovieCallBack = Future<List<Movie>> Function({int page});  
+
+typedef SimilarMoviesCallback = Future<List<Movie>> Function(String movieId);
+
 
 ///todo, se crea dependiendo del caso de uso
 class MoviesNotifier extends StateNotifier<List<Movie>> {
@@ -85,4 +91,39 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   
 
+}
+
+
+final similarMoviesProvider = StateNotifierProvider<SimilarMoviesNotifier, Map<String, List<Movie>>>(
+  (ref) {
+    //todo, le pasamos el repo 
+    final getMoviesSimilar = ref.watch(movieRepositoryProvider).getMoviesSimilar;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    return SimilarMoviesNotifier(
+      fetchSimilarMovies: getMoviesSimilar
+    ); 
+  }
+);
+//todo, PARA OBTENER SEGUN EL ID MAS PELICULAS SIMILARES  
+class SimilarMoviesNotifier extends StateNotifier<Map<String, List<Movie>>> {
+  
+  final SimilarMoviesCallback fetchSimilarMovies;
+  bool isLoading = false;
+  SimilarMoviesNotifier({required this.fetchSimilarMovies}):super({});
+
+  
+  Future<void> loadSimilarMovies(String movieId) async{
+    // opcional: si ya las cargaste, no vuelves a pedirlas
+    if (state[movieId] != null) return;
+    if (isLoading) return;
+
+    isLoading = true;
+
+    final movies = await fetchSimilarMovies(movieId);
+
+    state = {
+      ...state,
+      movieId: movies//segun un id me da peliculas
+    };
+    isLoading = false;
+  }
 }
