@@ -1,19 +1,17 @@
+
+
 import 'package:intl/intl.dart';
 
-//todo, hace la transformacion de numeros a compactos
-//* 1000 => 1k
-//* 10000 -> 10k
 class HumanFormats {
-  
-  static String humanReadbleNumber (double number){
-
-    final formatterNumber = NumberFormat.compactCurrency(
-      decimalDigits: 0,
-      symbol: '',
+  /// Convierte 1500 -> 1.5K, 1000000 -> 1M, etc., usando intl
+  static String humanReadableNumber(double number, [int decimals = 0]) {//* decimals es opcional
+    final formatter = NumberFormat.compactCurrency(
+      decimalDigits: decimals,
+      symbol:
+          '', // quitamos el símbolo de moneda (por defecto pone $ o algo según el locale)
       locale: 'en'
-    ).format(number);
+    );
 
-
-    return formatterNumber;
+    return formatter.format(number);
   }
 }

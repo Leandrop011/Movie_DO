@@ -81,7 +81,7 @@ class _Slide extends StatelessWidget {
       child: Stack( 
         alignment: Alignment.bottomLeft,
         children: [
-
+      
           //* FOTO DE LA PELICULA
           DecoratedBox(
             decoration: decoration,
@@ -91,6 +91,7 @@ class _Slide extends StatelessWidget {
               child: Image.network(
                 movie.backdropPath,//todo, consultamos a esa cierta pelicula, segune el index
                 fit: BoxFit.cover,
+                height: double.infinity,
                 //todo, esto es como para que mientras carga se coloque algo
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {
@@ -108,7 +109,7 @@ class _Slide extends StatelessWidget {
             ),
               
           ),
-
+      
           //* GRADIENTE
           SizedBox.expand(
               child: DecoratedBox(
@@ -126,7 +127,7 @@ class _Slide extends StatelessWidget {
                 )
               ),
           ),
-
+      
           //* TITULO DE LA PELICULA
           Padding(
             padding: EdgeInsetsGeometry.only(left: 17, bottom: 10),
@@ -138,9 +139,9 @@ class _Slide extends StatelessWidget {
                 fontSize: 17
               )
             ),
-
+      
           )
-
+      
         ],
       ),
     );

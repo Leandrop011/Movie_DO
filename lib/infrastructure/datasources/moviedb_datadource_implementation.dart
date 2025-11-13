@@ -104,5 +104,17 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
     return movie;
   }
   
+  //* DATA SOURCE QUE ME DA RESPUESTA DE UN PELICULAS SEGUN UN QUERY QUE MANDAMOS
+  @override
+  Future<List<Movie>> searchMovies(String query) async{
+    final response = await dio.get('/search/movie',
+      queryParameters: {
+        'query': query
+      }
+    );
+
+    return _jsonToMovies(response.data);
+  }
+  
     
 }

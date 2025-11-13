@@ -22,9 +22,9 @@ class MovieMapper {
     posterPath: (moviedb.posterPath != '')? 
     'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
     :
-    'no-poster'
+    'https://movienewsletters.net/photos/000000H1.jpg'
     ,
-    releaseDate: moviedb.releaseDate,
+    releaseDate: moviedb.releaseDate != null ? moviedb.releaseDate! : DateTime.now(),
     title: moviedb.title,
     video: moviedb.video,
     voteAverage: moviedb.voteAverage,
@@ -37,19 +37,19 @@ class MovieMapper {
     backdropPath: (moviedb.backdropPath != '') ? //todo, para saber si viene o no
     'https://image.tmdb.org/t/p/w500${moviedb.backdropPath}'
      : 
-    'no-backdro',
+    'https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg',
     genreIds: moviedb.genres.map((e) => e.name).toList(),
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
     originalTitle: moviedb.originalTitle,
-    overview: moviedb.overview,
+    overview: (moviedb.overview != '') ? moviedb.overview : '',
     popularity: moviedb.popularity,
     posterPath: (moviedb.posterPath != '')? 
     'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
     :
-    'no-poster'
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoWcWg0E8pSjBNi0TtiZsqu8uD2PAr_K11DA&s'
     ,
-    releaseDate: moviedb.releaseDate,
+    releaseDate: moviedb.releaseDate != null ? moviedb.releaseDate! : DateTime.now(),
     title: moviedb.title,
     video: moviedb.video,
     voteAverage: moviedb.voteAverage,

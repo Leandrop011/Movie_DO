@@ -194,7 +194,7 @@ class _Slide extends StatelessWidget {
                 Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
                 const Spacer(),
                 //todo, solucionar problema de no transformacion correcta del numero
-                Text('${HumanFormats.humanReadbleNumber(movie.popularity)}M', style: textStyle.bodySmall,),
+                Text('${HumanFormats.humanReadableNumber(movie.popularity)}k', style: textStyle.bodySmall,),
                 
               ],
             ),

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/actor.dart';
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
 
 //todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
@@ -68,54 +69,76 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 }
 
 //* DETALLES DE LA PELICULA
-class _MovieDetails extends StatelessWidget {
+class _MovieDetails extends ConsumerWidget {
   final Movie movie;
   const _MovieDetails({required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     //* para saber el tamano del dispositivo y asi aplicar un tamanao bueno pa todos
     final size = MediaQuery.of(context).size;
     final textStyle = Theme.of(context).textTheme;
-
+    final isDarck = ref.read(isdarckProvider);
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsetsGeometry.all(8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(20),
-                child: Image.network(
-                  width: size.width * 0.3,
-                  movie.posterPath,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              
-              SizedBox(width: 10,),
-
-              SizedBox(
-                width: size.width * 0.6,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(movie.title, style: textStyle.titleLarge,),
-                    SizedBox(height: 10,),
-                    Text(
-                      movie.overview, 
-                      style: textStyle.titleSmall,
-                      maxLines: 8,
-                      overflow: TextOverflow.ellipsis,
-                    )
-
-                  ],
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: isDarck ?
+              const Color.fromARGB(255, 42, 42, 42)
+              :
+              const Color.fromARGB(255, 225, 224, 224),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: isDarck ?
+                  const Color.fromARGB(255, 73, 72, 72)
+                  :
+                  const Color.fromARGB(255, 134, 132, 132), 
+                  blurRadius: 6,
+                  offset: Offset(1, 3)
                 )
-              )
-            ],
+              ]
+            ),
+            child: Padding(
+              padding: EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(10),
+                    child: Image.network(
+                      width: size.width * 0.3,
+                      movie.posterPath,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  
+                  SizedBox(width: 10,),
+              
+                  SizedBox(
+                    width: size.width * 0.6,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(movie.title, style: textStyle.titleLarge,),
+                        SizedBox(height: 10,),
+                        Text(
+                          movie.overview, 
+                          style: textStyle.titleSmall,
+                          maxLines: 8,
+                          overflow: TextOverflow.ellipsis,
+                        )
+              
+                      ],
+                    )
+                  )
+                ],
+              ),
+            ),
           ),
         ),
 
@@ -286,6 +309,7 @@ class _ContentSilverAppBar extends StatelessWidget {
 
         ClipRRect(
           child: SizedBox.expand(
+            
             child: Image.network(
               movie.posterPath,
               fit: BoxFit.cover,
