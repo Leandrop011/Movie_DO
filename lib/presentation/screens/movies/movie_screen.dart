@@ -29,6 +29,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     super.initState();
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
     ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
+
+    //todo, para peliculas similares
+    ref.read(similarMoviesProvider.notifier).loadSimilarMovies(widget.movieId);
   }
   
   @override
@@ -83,64 +86,9 @@ class _MovieDetails extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsetsGeometry.all(8),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: isDarck ?
-              const Color.fromARGB(255, 42, 42, 42)
-              :
-              const Color.fromARGB(255, 225, 224, 224),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: isDarck ?
-                  const Color.fromARGB(255, 73, 72, 72)
-                  :
-                  const Color.fromARGB(255, 134, 132, 132), 
-                  blurRadius: 6,
-                  offset: Offset(1, 3)
-                )
-              ]
-            ),
-            child: Padding(
-              padding: EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(10),
-                    child: Image.network(
-                      width: size.width * 0.3,
-                      movie.posterPath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  
-                  SizedBox(width: 10,),
-              
-                  SizedBox(
-                    width: size.width * 0.6,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(movie.title, style: textStyle.titleLarge,),
-                        SizedBox(height: 10,),
-                        Text(
-                          movie.overview, 
-                          style: textStyle.titleSmall,
-                          maxLines: 8,
-                          overflow: TextOverflow.ellipsis,
-                        )
-              
-                      ],
-                    )
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
+
+        //* CAJA DE PELICULA E INFO DE PELICULA
+        _ElementsInDetails(isDarck: isDarck, size: size, movie: movie, textStyle: textStyle),
 
         //* GENEROS DE LA PELICULA
         Padding(
@@ -160,16 +108,241 @@ class _MovieDetails extends ConsumerWidget {
           ),
         ),
 
-
-
         //* WIDGET QUE HARA TODA LAS LISTVIEW DE LOS ACTORES, DEPENDIENDO DEL ID
         _ActorsByMovie(movieId: movie.id.toString()),
 
+        //* TITULO ANTES DE PELICULAS SIMILARES
+        _PreSimilarMoviesView(size: size, textStyle: textStyle),
 
-        SizedBox(height: 50,),
+        //* WIDGET QUE DA LA LISTA DE PELICULAS SIMILARES A LA SELECCIONADA
+        _MoviesSimilars(movieId: movie.id.toString()),
 
+
+        SizedBox(height: 20,)
         
       ],
+    );
+  }
+}
+
+//* ELEMENTOS QUE ESTARAN DENTRO DE LA CAJA DE PELICULA, TITLE, DETAILS
+class _ElementsInDetails extends StatelessWidget {
+  const _ElementsInDetails({
+    required this.isDarck,
+    required this.size,
+    required this.movie,
+    required this.textStyle,
+  });
+
+  final bool isDarck;
+  final Size size;
+  final Movie movie;
+  final TextTheme textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsGeometry.all(8),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: isDarck ?
+          const Color.fromARGB(255, 42, 42, 42)
+          :
+          const Color.fromARGB(255, 225, 224, 224),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: isDarck ?
+              const Color.fromARGB(255, 73, 72, 72)
+              :
+              const Color.fromARGB(255, 134, 132, 132), 
+              blurRadius: 6,
+              offset: Offset(1, 3)
+            )
+          ]
+        ),
+        child: Padding(
+          padding: EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(10),
+                child: Image.network(
+                  width: size.width * 0.3,
+                  movie.posterPath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              
+              SizedBox(width: 10,),
+          
+              SizedBox(
+                width: size.width * 0.6,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(movie.title, style: textStyle.titleLarge,),
+                    SizedBox(height: 10,),
+                    Text(
+                      movie.overview, 
+                      style: textStyle.titleSmall,
+                      maxLines: 8,
+                      overflow: TextOverflow.ellipsis,
+                    )
+          
+                  ],
+                )
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//* TITULO QUE DICE "SIMILARES" ANTES DE MOSTRAR LAS PELICULAS
+class _PreSimilarMoviesView extends ConsumerWidget {
+  const _PreSimilarMoviesView({
+    required this.size,
+    required this.textStyle,
+  });
+
+  final Size size;
+  final TextTheme textStyle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final isDarck = ref.read(isdarckProvider);
+
+    return Padding(
+      padding: EdgeInsetsGeometry.only(bottom: 15, left: 10, right: 10),
+      child: SizedBox(
+        width: size.width * 1,
+        height: size.height * 0.06,
+        child: Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            color: isDarck?
+            const Color.fromARGB(255, 42, 42, 42)
+            :
+            const Color.fromARGB(255, 225, 224, 224)
+            ,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+              color: const Color.fromARGB(255, 96, 94, 94),
+              blurRadius: 3,
+              offset: Offset(2, 3),
+            )
+            ]
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              'Similares', 
+              style: textStyle.titleLarge,
+            ),
+          ),
+        )
+      ),
+    );
+  }
+}
+
+
+//* WIDGET QUE NOS DA LISTA DE PELICULAS
+class _MoviesSimilars extends ConsumerWidget {
+  final String movieId;
+  const _MoviesSimilars({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    //lista de peliculas
+    final moviesById = ref.watch(similarMoviesProvider);//* mapa que da el provider
+    final moviesSimilars = moviesById[movieId] ?? [];//* lo transformamos
+
+    if(moviesById[movieId] == null){
+      return CircularProgressIndicator();
+    }
+
+    if(moviesSimilars.isEmpty){
+      return SizedBox();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: SizedBox(
+        
+        height: 300,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          physics: BouncingScrollPhysics(),
+      
+          itemCount: moviesSimilars.length,
+          itemBuilder: (context, index) {
+            final moviesimilar = moviesSimilars[index];
+      
+            return _MovieSimilarView(movie: moviesimilar);
+          },
+        )
+      ),
+    );
+  }
+}
+//* WIDGET QUE LE DA DISENO A CADA PELICULA SIMILAR DE LA LISTA DE ARRIBA
+class _MovieSimilarView extends StatelessWidget {
+  final Movie movie;
+  const _MovieSimilarView({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final textStyle = Theme.of(context).textTheme;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: () {
+        context.push('/movie/${movie.id}');
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              
+              borderRadius: BorderRadiusGeometry.circular(20),
+              child: Image.network(
+                width: size.width * 0.4,
+                height: 230,
+                movie.posterPath,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if(loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 4,),);
+      
+                  return FadeInRight(child: child);
+                },
+              ),
+            ),
+        
+            Padding(
+              padding: const EdgeInsets.only(top: 5, left: 3),
+              child: SizedBox(
+                width: 100,
+                child: Text(
+                  movie.title, 
+                  maxLines: 2,
+                  style: textStyle.titleSmall,
+                ),
+              ),
+            ),
+        
+          ],
+        ),
+      ),
     );
   }
 }
@@ -195,7 +368,7 @@ class _ActorsByMovie extends ConsumerWidget {
 
 
     return SizedBox(
-      height: 300,
+      height: 265,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: actors.length,
@@ -275,7 +448,7 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       leading: IconButton(
         onPressed: (){
-          context.pop();
+          context.push('/');
         }, 
         icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)
       ),
