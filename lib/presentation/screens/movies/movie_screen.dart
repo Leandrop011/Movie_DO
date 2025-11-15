@@ -253,7 +253,7 @@ class _PreSimilarMoviesView extends ConsumerWidget {
 }
 
 
-//* WIDGET QUE NOS DA LISTA DE PELICULAS
+//* WIDGET QUE NOS DA LISTA DE PELICULAS SIMILARES
 class _MoviesSimilars extends ConsumerWidget {
   final String movieId;
   const _MoviesSimilars({required this.movieId});
@@ -302,13 +302,13 @@ class _MovieSimilarView extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final textStyle = Theme.of(context).textTheme;
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(10),
-      onTap: () {
-        context.push('/movie/${movie.id}');
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(right: 15),
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () {
+          context.push('/movie/${movie.id}');
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -322,7 +322,7 @@ class _MovieSimilarView extends StatelessWidget {
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingProgress) {
                   if(loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 4,),);
-      
+            
                   return FadeInRight(child: child);
                 },
               ),
@@ -361,7 +361,7 @@ class _ActorsByMovie extends ConsumerWidget {
     final actorsByMovie = ref.watch(actorsByMovieProvider);
 
     if(actorsByMovie[movieId]== null){
-      return CircularProgressIndicator();
+      return Center(child: CircularProgressIndicator());
     }
 
     final actors = actorsByMovie[movieId]!;
@@ -419,7 +419,7 @@ class _ActorView extends StatelessWidget {
           //* el papel que interpretaron 
           Text(
             actor.character ?? '', 
-            maxLines: 2,
+            maxLines: 1,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               overflow: TextOverflow.ellipsis
@@ -448,7 +448,8 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       leading: IconButton(
         onPressed: (){
-          context.push('/');
+          //* Es distinto de como apilar y desapilar con el push y pop, este coloca y ya no apila
+          context.go('/');//es como teletransporstarse hacia otra pantalla, en lugar de ir una por una
         }, 
         icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)
       ),
