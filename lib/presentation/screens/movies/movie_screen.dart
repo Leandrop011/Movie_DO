@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/actor.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
@@ -170,8 +171,18 @@ class _ElementsInDetails extends StatelessWidget {
                 borderRadius: BorderRadiusGeometry.circular(10),
                 child: Image.network(
                   width: size.width * 0.3,
-                  movie.posterPath,
+                  movie.posterPath.isEmpty?
+                  'https://movienewsletters.net/photos/000000H1.jpg'
+                  :
+                  movie.posterPath
+                  ,
                   fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if(loadingProgress != null){
+                      return Center(child: CircularProgressIndicator(),);
+                    }
+                    return child;
+                  },
                 ),
               ),
               
@@ -182,10 +193,21 @@ class _ElementsInDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(movie.title, style: textStyle.titleLarge,),
+                    Text(
+                      movie.title.isEmpty?
+                      ''
+                      :
+                      movie.title
+                      , 
+                      style: textStyle.titleLarge,
+                    ),
                     SizedBox(height: 10,),
                     Text(
-                      movie.overview, 
+                      movie.overview.isEmpty?
+                      ''
+                      :
+                      movie.overview
+                      , 
                       style: textStyle.titleSmall,
                       maxLines: 8,
                       overflow: TextOverflow.ellipsis,
@@ -218,7 +240,7 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     final isDarck = ref.read(isdarckProvider);
 
     return Padding(
-      padding: EdgeInsetsGeometry.only(bottom: 15, left: 10, right: 10),
+      padding: EdgeInsetsGeometry.only(bottom: 15, left: 8, right: 8),
       child: SizedBox(
         width: size.width * 1,
         height: size.height * 0.06,
@@ -234,8 +256,8 @@ class _PreSimilarMoviesView extends ConsumerWidget {
             boxShadow: [
               BoxShadow(
               color: const Color.fromARGB(255, 96, 94, 94),
-              blurRadius: 3,
-              offset: Offset(2, 3),
+              blurRadius: 6,
+              offset: Offset(1, 2),
             )
             ]
           ),
@@ -302,45 +324,60 @@ class _MovieSimilarView extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final textStyle = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: const EdgeInsets.only(right: 15),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          context.push('/movie/${movie.id}');
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
+    return FadeInRight(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () {
+            context.push('/movie/${movie.id}');
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                
+                borderRadius: BorderRadiusGeometry.circular(20),
+                child: Image.network(
+                  width: size.width * 0.4,
+                  height: 230,
+                  movie.posterPath,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if(loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 4,),);
               
-              borderRadius: BorderRadiusGeometry.circular(20),
-              child: Image.network(
-                width: size.width * 0.4,
-                height: 230,
-                movie.posterPath,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if(loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 4,),);
-            
-                  return FadeInRight(child: child);
-                },
-              ),
-            ),
-        
-            Padding(
-              padding: const EdgeInsets.only(top: 5, left: 3),
-              child: SizedBox(
-                width: 100,
-                child: Text(
-                  movie.title, 
-                  maxLines: 2,
-                  style: textStyle.titleSmall,
+                    return child;
+                  },
                 ),
               ),
-            ),
-        
-          ],
+          
+              Padding(
+                padding: const EdgeInsets.only(top: 5, left: 3),
+                child: SizedBox(
+                  width: 100,
+                  child: Text(
+                    movie.title, 
+                    maxLines: 2,
+                    style: textStyle.titleSmall,
+                  ),
+                ),
+              ),
+              
+              Row(
+                children: [
+                  Icon(Icons.star_half_outlined, color: Colors.amber.shade800,),
+                  SizedBox(width: 3,),
+                  Text(
+                    movie.voteAverage.toString(),
+                    style: TextStyle(
+                      color: Colors.amber.shade800,
+                    ),
+                  ),
+                ],
+              ),
+          
+            ],
+          ),
         ),
       ),
     );
@@ -481,17 +518,23 @@ class _ContentSilverAppBar extends StatelessWidget {
     return Stack(//* el fondo
       children: [
 
-        ClipRRect(
-          child: SizedBox.expand(
-            
-            child: Image.network(
-              movie.posterPath,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress){
-                if(loadingProgress != null) return SizedBox();
-
-                return FadeIn(child: child);
-              },
+        Expanded(
+          child: ClipRRect(
+            child: SizedBox.expand(
+             
+              child: Image.network(
+                movie.posterPath == null || movie.posterPath.isEmpty ?
+                'https://movienewsletters.net/photos/000000H1.jpg'
+                :
+                movie.posterPath,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if(loadingProgress != null){
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                  return child;
+                },
+              ),
             ),
           ),
         ),

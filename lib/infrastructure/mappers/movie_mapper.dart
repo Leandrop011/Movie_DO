@@ -12,20 +12,20 @@ class MovieMapper {
     backdropPath: (moviedb.backdropPath != '') ? //todo, para saber si viene o no
     'https://image.tmdb.org/t/p/w500${moviedb.backdropPath}'
      : 
-    'no-backdro',
+    'https://movienewsletters.net/photos/000000H1.jpg',
     genreIds: moviedb.genreIds.map((e) => e.toString()).toList(),
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
-    originalTitle: moviedb.originalTitle,
-    overview: moviedb.overview,
+    originalTitle: (moviedb.originalTitle.isNotEmpty) ? moviedb.originalTitle : "",
+    overview: (moviedb.overview.isNotEmpty) ? moviedb.overview: '',
     popularity: moviedb.popularity,
     posterPath: (moviedb.posterPath != '')? 
     'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
     :
-    'https://movienewsletters.net/photos/000000H1.jpg'
+    'https://movienewsletters.net/photos/000000H1.jpg' 
     ,
     releaseDate: moviedb.releaseDate != null ? moviedb.releaseDate! : DateTime.now(),
-    title: moviedb.title,
+    title: (moviedb.title.isNotEmpty) ? moviedb.title : '',
     video: moviedb.video,
     voteAverage: moviedb.voteAverage,
     voteCount: moviedb.voteCount,
@@ -42,15 +42,15 @@ class MovieMapper {
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
     originalTitle: moviedb.originalTitle,
-    overview: (moviedb.overview != '') ? moviedb.overview : '',
+    overview: (moviedb.overview.isNotEmpty) ? moviedb.overview : '',
     popularity: moviedb.popularity,
     posterPath: (moviedb.posterPath != '')? 
     'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
     :
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoWcWg0E8pSjBNi0TtiZsqu8uD2PAr_K11DA&s'
+    'https://movienewsletters.net/photos/000000H1.jpg'
     ,
     releaseDate: moviedb.releaseDate != null ? moviedb.releaseDate! : DateTime.now(),
-    title: moviedb.title,
+    title: (moviedb.title.isNotEmpty) ? moviedb.title : '',
     video: moviedb.video,
     voteAverage: moviedb.voteAverage,
     voteCount: moviedb.voteCount,

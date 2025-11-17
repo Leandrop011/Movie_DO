@@ -121,6 +121,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                         ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
                       },
                     ),
+
+                    
       
                     //* Peliculas Populares
       

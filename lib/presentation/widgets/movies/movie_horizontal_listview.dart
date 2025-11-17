@@ -139,18 +139,19 @@ class _Slide extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //* Imagen
-          SizedBox(
-            width: 150,
-            child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(20),
-              child: GestureDetector(
-                onTap: () {
-                  context.push('/movie/${movie.id}');
-                },
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () {
+          context.push('/movie/${movie.id}');
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //* Imagen
+            SizedBox(
+              width: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(20),
                 child: Image.network(
                   movie.posterPath,
                   width: 150,
@@ -166,41 +167,41 @@ class _Slide extends StatelessWidget {
                   },
                 ),
               ),
+            ),  
+        
+            SizedBox(height: 5,),
+        
+            //* Titulo
+        
+            SizedBox(
+              width: 150,
+              child: Text(
+                movie.title,
+                maxLines: 2,
+                style: textStyle.titleSmall,
+              ),
             ),
-          ),  
-
-          SizedBox(height: 5,),
-
-          //* Titulo
-
-          SizedBox(
-            width: 150,
-            child: Text(
-              movie.title,
-              maxLines: 2,
-              style: textStyle.titleSmall,
-            ),
-          ),
-
-          //* Rating
-
-          SizedBox(//todo, para que tenga un limite 
-            width: 150,
-            child: Row(
+        
+            //* Rating
+        
+            SizedBox(//todo, para que tenga un limite 
+              width: 150,
+              child: Row(
+              
+                children: [
+                  Icon(Icons.star_half_outlined, color: Colors.yellow.shade800,),
+                  SizedBox(width: 3,),
+                  Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
+                  const Spacer(),
+                  //todo, solucionar problema de no transformacion correcta del numero
+                  Text('${HumanFormats.humanReadableNumber(movie.popularity)}k', style: textStyle.bodySmall,),
+                  
+                ],
+              ),
+            )
             
-              children: [
-                Icon(Icons.star_half_outlined, color: Colors.yellow.shade800,),
-                SizedBox(width: 3,),
-                Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
-                const Spacer(),
-                //todo, solucionar problema de no transformacion correcta del numero
-                Text('${HumanFormats.humanReadableNumber(movie.popularity)}k', style: textStyle.bodySmall,),
-                
-              ],
-            ),
-          )
-          
-        ],
+          ],
+        ),
       ),
     );
   }

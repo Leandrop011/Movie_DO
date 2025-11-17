@@ -71,7 +71,7 @@ class MovideDbDetails {
         originalTitle: json["original_title"],
         overview: json["overview"],
         popularity: json["popularity"]?.toDouble(),
-        posterPath: json["poster_path"],
+        posterPath: json["poster_path"] != null ? json["poster_path"] : 'https://movienewsletters.net/photos/000000H1.jpg',
         productionCompanies: List<ProductionCompany>.from(json["production_companies"].map((x) => ProductionCompany.fromJson(x))),
         productionCountries: List<ProductionCountry>.from(json["production_countries"].map((x) => ProductionCountry.fromJson(x))),
         releaseDate: (json["release_date"]?.toString().isEmpty ?? true)
@@ -102,7 +102,7 @@ class MovideDbDetails {
         "original_title": originalTitle,
         "overview": overview,
         "popularity": popularity,
-        "poster_path": posterPath,
+        "poster_path": posterPath != null ? posterPath : 'https://movienewsletters.net/photos/000000H1.jpg',
         "production_companies": List<dynamic>.from(productionCompanies.map((x) => x.toJson())),
         "production_countries": List<dynamic>.from(productionCountries.map((x) => x.toJson())),
         "release_date": releaseDate != null ? 
@@ -137,14 +137,14 @@ class BelongsToCollection {
     factory BelongsToCollection.fromJson(Map<String, dynamic> json) => BelongsToCollection(
         id: json["id"],
         name: json["name"],
-        posterPath: json["poster_path"],
+        posterPath: json["poster_path"] != null ? json["poster_path"] : 'https://movienewsletters.net/photos/000000H1.jpg',
         backdropPath: json["backdrop_path"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "poster_path": posterPath,
+        "poster_path": posterPath != null ? posterPath : 'https://movienewsletters.net/photos/000000H1.jpg',
         "backdrop_path": backdropPath,
     };
 }
