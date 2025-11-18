@@ -8,3 +8,4 @@ export 'package:movies_app/presentation/providers/movies/visibility_movies_provi
 
 export 'package:movies_app/presentation/providers/actors/actors_bymovie_provider.dart';
 export 'package:movies_app/presentation/providers/movies/movie_info_provider.dart';
+export 'search/search_movies_provider.dart';
