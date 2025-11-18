@@ -1,4 +1,7 @@
 
+//todo, EN LOS MODELOS, EN ESTOS MODELOS, NO AGREGAR VALIDACIONES NI RESTRICCIONES
+//todo, POR EJEMPLO SI NO VIENE UNA DATA PON ESO, ESO NO HACER EN LSO MODELOS, 
+//todo, ESO SE DEBE HACER EN LOS MAPPERS
 
 class MovideDbDetails {
     final bool adult;
@@ -65,13 +68,13 @@ class MovideDbDetails {
         genres: List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
         homepage: json["homepage"],
         id: json["id"],
-        imdbId: json["imdb_id"] != null ? json["imdb_id"] : '',
+        imdbId: json["imdb_id"] ?? 'https://movienewsletters.net/photos/000000H1.jpg',
         originCountry: List<String>.from(json["origin_country"].map((x) => x)),
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
         overview: json["overview"],
         popularity: json["popularity"]?.toDouble(),
-        posterPath: json["poster_path"] != null ? json["poster_path"] : 'https://movienewsletters.net/photos/000000H1.jpg',
+        posterPath: json["poster_path"],
         productionCompanies: List<ProductionCompany>.from(json["production_companies"].map((x) => ProductionCompany.fromJson(x))),
         productionCountries: List<ProductionCountry>.from(json["production_countries"].map((x) => ProductionCountry.fromJson(x))),
         releaseDate: (json["release_date"]?.toString().isEmpty ?? true)
@@ -102,7 +105,7 @@ class MovideDbDetails {
         "original_title": originalTitle,
         "overview": overview,
         "popularity": popularity,
-        "poster_path": posterPath != null ? posterPath : 'https://movienewsletters.net/photos/000000H1.jpg',
+        "poster_path": posterPath,
         "production_companies": List<dynamic>.from(productionCompanies.map((x) => x.toJson())),
         "production_countries": List<dynamic>.from(productionCountries.map((x) => x.toJson())),
         "release_date": releaseDate != null ? 
@@ -137,14 +140,14 @@ class BelongsToCollection {
     factory BelongsToCollection.fromJson(Map<String, dynamic> json) => BelongsToCollection(
         id: json["id"],
         name: json["name"],
-        posterPath: json["poster_path"] != null ? json["poster_path"] : 'https://movienewsletters.net/photos/000000H1.jpg',
+        posterPath: json["poster_path"] ?? 'https://movienewsletters.net/photos/000000H1.jpg',
         backdropPath: json["backdrop_path"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "poster_path": posterPath != null ? posterPath : 'https://movienewsletters.net/photos/000000H1.jpg',
+        "poster_path": posterPath ?? 'https://movienewsletters.net/photos/000000H1.jpg',
         "backdrop_path": backdropPath,
     };
 }

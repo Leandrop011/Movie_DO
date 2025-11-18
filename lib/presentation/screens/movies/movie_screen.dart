@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/actor.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
@@ -171,11 +170,7 @@ class _ElementsInDetails extends StatelessWidget {
                 borderRadius: BorderRadiusGeometry.circular(10),
                 child: Image.network(
                   width: size.width * 0.3,
-                  movie.posterPath.isEmpty?
-                  'https://movienewsletters.net/photos/000000H1.jpg'
-                  :
-                  movie.posterPath
-                  ,
+                  movie.posterPath,
                   fit: BoxFit.cover,
                   loadingBuilder: (context, child, loadingProgress) {
                     if(loadingProgress != null){
@@ -194,25 +189,16 @@ class _ElementsInDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      movie.title.isEmpty?
-                      ''
-                      :
-                      movie.title
-                      , 
+                      movie.title, 
                       style: textStyle.titleLarge,
                     ),
                     SizedBox(height: 10,),
                     Text(
-                      movie.overview.isEmpty?
-                      ''
-                      :
-                      movie.overview
-                      , 
+                      movie.overview, 
                       style: textStyle.titleSmall,
                       maxLines: 8,
                       overflow: TextOverflow.ellipsis,
                     )
-          
                   ],
                 )
               )
@@ -298,7 +284,7 @@ class _MoviesSimilars extends ConsumerWidget {
       padding: const EdgeInsets.only(left: 10),
       child: SizedBox(
         
-        height: 300,
+        height: 330,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: BouncingScrollPhysics(),
@@ -523,9 +509,6 @@ class _ContentSilverAppBar extends StatelessWidget {
             child: SizedBox.expand(
              
               child: Image.network(
-                movie.posterPath == null || movie.posterPath.isEmpty ?
-                'https://movienewsletters.net/photos/000000H1.jpg'
-                :
                 movie.posterPath,
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingProgress) {

@@ -34,7 +34,7 @@ class MovieMapper {
   //todo, acoplarlo a la entidad que tenemos
   static Movie movieDetailsToEntity(MovideDbDetails moviedb) => Movie(
     adult: moviedb.adult,
-    backdropPath: (moviedb.backdropPath != '') ? //todo, para saber si viene o no
+    backdropPath: (moviedb.backdropPath.isNotEmpty) ? //todo, para saber si viene o no
     'https://image.tmdb.org/t/p/w500${moviedb.backdropPath}'
      : 
     'https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg',
@@ -44,7 +44,7 @@ class MovieMapper {
     originalTitle: moviedb.originalTitle,
     overview: (moviedb.overview.isNotEmpty) ? moviedb.overview : '',
     popularity: moviedb.popularity,
-    posterPath: (moviedb.posterPath != '')? 
+    posterPath: (moviedb.posterPath != null && moviedb.posterPath!.isNotEmpty)? 
     'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
     :
     'https://movienewsletters.net/photos/000000H1.jpg'
