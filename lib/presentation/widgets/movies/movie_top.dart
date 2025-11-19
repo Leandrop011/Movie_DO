@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +17,10 @@ class MovieTop extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
     final isDarck = ref.watch(isdarckProvider);//! watch porque tiene que estar pendientes de los cambios
 
+    if(movie.posterPath.isEmpty){
+      return Center(child: CircularProgressIndicator(),);
+    }
+    
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
@@ -28,65 +33,69 @@ class MovieTop extends ConsumerWidget {
           left: 10, 
           bottom: 10,
         ),
-        child: SizedBox(
-          width: size.width * 0.85,
-          height: size.height * 0.6,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: isDarck ?
-                      Colors.white24
-                      :
-                      Colors.black87,
-                      blurRadius: 5, 
-                      offset: Offset(3, 2)
-                    )
-                  ]
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(10),
-                  child: Image.network(
-                    movie.posterPath,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-        
-              Padding(
-                padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
-                
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () {
-                    context.push('/movie/${movie.id}');
-                  },
-                  child: _CustomButton()
-                ),
-                
-              ),
-
-              SizedBox.expand(
-                child: DecoratedBox(
+        child: FadeInDown(
+          duration: Duration(seconds: 3),
+          curve: Curves.elasticOut,
+          child: SizedBox(
+            width: size.width * 0.85,
+            height: size.height * 0.6,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,//* inicio
-                      end: Alignment.bottomCenter,//* final
-                      stops: [0.92, 1.2],
-                      colors: [
-                        Colors.transparent,
-                        Colors.black87
-                      ]
-                    )
-                  )
+                    boxShadow: [
+                      BoxShadow(
+                        color: isDarck ?
+                        Colors.white24
+                        :
+                        Colors.black87,
+                        blurRadius: 5, 
+                        offset: Offset(3, 2)
+                      )
+                    ]
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(10),
+                    child: Image.network(
+                      movie.posterPath,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+          
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
+                  
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    onTap: () {
+                      context.push('/movie/${movie.id}');
+                    },
+                    child: _CustomButton()
+                  ),
+                  
+                ),
+          
+                SizedBox.expand(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,//* inicio
+                        end: Alignment.bottomCenter,//* final
+                        stops: [0.92, 1.2],
+                        colors: [
+                          Colors.transparent,
+                          Colors.black87
+                        ]
+                      )
+                    )
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

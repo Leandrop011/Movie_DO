@@ -21,7 +21,10 @@ class CustomAppbar extends ConsumerWidget {
         width: double.infinity,
         child: Row(
           children: [
-            Icon(Icons.movie_creation_outlined, color: colors.primary,),
+            Padding(
+              padding: EdgeInsetsGeometry.only(left: 15),
+              child: Icon(Icons.movie_creation_outlined, color: colors.primary,)
+            ),
             SizedBox(width: 5,),
             Text('MovieDo', style: titleStyle,),
             
