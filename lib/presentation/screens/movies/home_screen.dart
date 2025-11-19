@@ -116,10 +116,6 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                       //* CARTELERA GRANDE DE LA PELICULA MAS POPULAR
                 
                       MovieTop(movie: movieTop),
-                        
-                      
-        
-                      //todo
         
                       //* Peliculas en Cines
         

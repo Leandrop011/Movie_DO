@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/movie.dart';
-import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
-
 
 class MovieTop extends ConsumerWidget {
   
@@ -15,7 +13,7 @@ class MovieTop extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final isDarck = ref.watch(isdarckProvider);//! watch porque tiene que estar pendientes de los cambios
+    //final isDarck = ref.watch(isdarckProvider);//! watch porque tiene que estar pendientes de los cambios
 
     if(movie.posterPath.isEmpty){
       return Center(child: CircularProgressIndicator(),);
@@ -37,34 +35,45 @@ class MovieTop extends ConsumerWidget {
           duration: Duration(seconds: 3),
           curve: Curves.elasticOut,
           child: SizedBox(
-            width: size.width * 0.85,
+            width: size.width * 0.9,
             height: size.height * 0.6,
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
                 DecoratedBox(
                   decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white, 
+                      width: 0.5,
+                    ),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: isDarck ?
-                        Colors.white24
-                        :
-                        Colors.black87,
+                        color: Colors.black87,
                         blurRadius: 5, 
                         offset: Offset(3, 2)
                       )
-                    ]
+                    ],
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(10),
-                    child: Image.network(
-                      movie.posterPath,
-                      fit: BoxFit.cover,
+
+                  child: Padding(//! SE COLOCA ESTA PADIGN PORQUE EL POSTER OCUPA ALL THIS SPACE, ENTONCES LO ACORTAMOS CON PAADIGN
+                    padding: EdgeInsetsGeometry.all(0.5),
+                    child: ClipRRect(
+                      borderRadius: BorderRadiusGeometry.circular(10),
+                      child: Image.network(
+                        movie.posterPath,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if(loadingProgress != null){
+                            return Center(child: CircularProgressIndicator(),);
+                          }
+                          return child;
+                        },
+                      ),
                     ),
                   ),
                 ),
-          
+                      
                 Padding(
                   padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
                   
@@ -77,15 +86,15 @@ class MovieTop extends ConsumerWidget {
                   ),
                   
                 ),
-          
-                SizedBox.expand(
+                      
+                SizedBox.expand(//* GRADIENTE
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,//* inicio
                         end: Alignment.bottomCenter,//* final
-                        stops: [0.92, 1.2],
+                        stops: [0.93, 1.2],
                         colors: [
                           Colors.transparent,
                           Colors.black87
