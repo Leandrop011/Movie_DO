@@ -14,16 +14,19 @@ typedef SearchMoviesCallBack = Future<List<Movie>> Function(String query);
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   final SearchMoviesCallBack searchMovie;
-  final List<Movie> initialMovies;
+  List<Movie> initialMovies;
   //* USAMOS UN STREAM CONTROLLER PARA CONTROLAR CUANDO EL USUARIO YA DEJO DE ESCRIBIR Y AHI HACER LA PETCICION HTTP
   StreamController<List<Movie>> debounceMovies = StreamController.broadcast();
+  StreamController<bool> isLoadingStream = StreamController.broadcast();
   //* Esto nos permite determinar un periodo de tiempo  
   Timer? _debounceTimer;
 
   SearchMovieDelegate({
     required this.initialMovies, 
     required this.searchMovie
-  });
+  }):super(
+    textInputAction: TextInputAction.done
+  );
 
   void clearStreams(){
     debounceMovies.close();
@@ -31,40 +34,96 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   //*DEBOUNCE MANUAL(CONTROLAR QUE SE HAGA UNA PETICION HTTP, LUEGO DE QUE EL USUARIO HAYA ESCRITO LA PELICULA)
   void _onQueryChanged(String query){//* ESTA ES LA FUNC PARA EMITIR CAMBIOS
-    if(_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+    isLoadingStream.add(true);//! cambiamos el valor del stream y asi trabaja
 
+    if(_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
     _debounceTimer = Timer (
       Duration(milliseconds: 500), 
       () async{
-        if(query.isEmpty) {//* si el query es vacio
-          debounceMovies.add([]);
-          return;
-        }
-
+        // if(query.isEmpty) {//* si el query es vacio
+        //   debounceMovies.add([]);
+          
+        //   return;
+        // }
         final movies = await searchMovie(query);//LAS MOVIES QUE NOS DA
+        initialMovies = movies;
         debounceMovies.add(movies);
-
-
+        isLoadingStream.add(false);
       },
     );
   }
 
+  //* ES UN WIDGET QUE DEVUELVE LA MISMA DATA PRO ES UNO PARA CUANDO ESCRIBE Y 
+  //* OTRO CUANDO PULSA EN BUSCAR, AMBOS SE APLICAN DE LA MISMA FORMA
+  Widget buildResultsAndSuggestions(){
+    return StreamBuilder(
+      //* LAS PELICULAS INICIADAS AHORA LAS GUARDO EN EL DEBOUNCE ENTONCES SE CARGA CUANDO DOY EN BUSCAR
+      initialData: initialMovies,
+      stream: debounceMovies.stream, 
+      builder: (context, snapshot) {
+        final movies = snapshot.data ?? [];
+
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (context, index) {
+            final movie = movies[index];
+            return _MovieItem(
+              onMovieSelected: (context, movie){
+                clearStreams();
+                close(context, movie);
+              }, 
+              movie: movie
+            );
+          },
+        );
+      },
+    );
+  }
+  
   @override
   String get searchFieldLabel => 'Buscar pelicula';
 
   //* ES COMO ESA PARTE DONDE DA VUELTAS LA CARGA DE ARCHIVOS
+  //! EL VALOR DEL STREAM LO CONTROLAMOS EN EL DEBOUNCE 
+  //! EL STREAM EMITE VALORES Y LE CONSULTA EL VALOR
+  //! CUANDO EN UNA FUNCION(DEBOUNCE) CAMBIA LA DATA NOS DA OTRO VALOR
+  //! Y EL STREAMBUILDER SE REDIBUJA
   @override
   List<Widget>? buildActions(BuildContext context) {
     return[
-      if(query.isNotEmpty)
-          FadeIn(
-            child: IconButton(
-              onPressed: (){
-                query = '';//* establaecerle al texto que tiene(query) un string vacio 
-              }, 
-              icon: Icon(Icons.clear)
-            ),
-          )
+      StreamBuilder(
+        stream: isLoadingStream.stream,
+        initialData: false,
+        builder: (context, snapshot) {
+          if(query.isEmpty){
+            return SizedBox();
+          }
+          
+          if(snapshot.data ?? false){
+            return SpinPerfect(
+              duration: Duration(seconds: 5),
+              spins: 10,
+              infinite: true,
+              child: IconButton(
+                onPressed: (){
+                  query = '';
+                }, 
+                icon: Icon(Icons.refresh),
+              ),
+            );
+          }
+
+          return FadeIn(
+              child: IconButton(
+                onPressed: (){
+                  query = '';//* establaecerle al texto que tiene(query) un string vacio 
+                }, 
+                icon: Icon(Icons.clear),
+              ),
+          );
+
+        },
+      ),
     ];
   }
 
@@ -84,40 +143,16 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   //* LO QUE SALE CUANDO NO HAY RESULTADOS
   @override
   Widget buildResults(BuildContext context) {
-    return Center(child: Text('NO ENCONTRADO....'));
+    return buildResultsAndSuggestions();
   }
 
   //* LO QUE APARECE AL INGRESAR TEXTO
   @override
   Widget buildSuggestions(BuildContext context) {
-   
    //* ESTA FUNCION SE MANDA A LLAMAR CADA QUE EL USUARIO PULSA O INGRESA ALGO
-    _onQueryChanged(query);
+    _onQueryChanged(query);//! EL DEBOUNCER
 
-    return StreamBuilder(
-      initialData: initialMovies,//* ES LA ULTIMA DATA QUE SE BUSCO, SI ES LA PRIMERA ES VACIO
-      stream: debounceMovies.stream, //* esto emite valores
-      builder: (context, snapshot) {
-        final movies = snapshot.data ?? [];
-         //! print('Realizando peticion'), esto se debe controlar para que no lance muchas peticiones http
-
-        return ListView.builder(
-          itemCount: movies.length,   
-          itemBuilder: (context, index) {
-            final movie = movies[index];
-
-            return _MovieItem(
-              movie: movie,
-              onMovieSelected: (context, movie) {
-                clearStreams();
-                close(context, movie);
-              }
-            );
-          },
-        );
-
-      },
-    );
+    return buildResultsAndSuggestions();
   }
   
 }

@@ -104,6 +104,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                 return Column(
       
                   children: [
+
+                    
       
                     //todo, widget que dibuja un carrucel de peliculas
                     MoviesSlideshow(movies: slideShowMovies),

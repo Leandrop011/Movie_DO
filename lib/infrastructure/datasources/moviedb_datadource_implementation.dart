@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:movies_app/config/constants/environment.dart';
 import 'package:movies_app/domain/data_sources/movies_datasource.dart';
 import 'package:movies_app/domain/entities/movie.dart';
@@ -107,6 +108,11 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
   //todo, DATA SOURCE QUE ME DA RESPUESTA DE UN PELICULAS SEGUN UN QUERY QUE MANDAMOS
   @override
   Future<List<Movie>> searchMovies(String query) async{
+    if(query.isEmpty) {//! Si el query esta vacio no hacer esa peticion http
+      return [];//! Y DEVOLVER UNA LISTA DE MVOIE PERO VACIA
+    }
+
+    //* print('Peticion http hecha;');
     final response = await dio.get('/search/movie',
       queryParameters: {
         'query': query
