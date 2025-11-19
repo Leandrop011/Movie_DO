@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
 
-class MovieTop extends StatelessWidget {
+class MovieTop extends ConsumerWidget {
   
   final Movie movie;
 
   const MovieTop({super.key, required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
+    final isDarck = ref.watch(isdarckProvider);//! watch porque tiene que estar pendientes de los cambios
 
     return InkWell(
       borderRadius: BorderRadius.circular(10),
@@ -31,11 +34,26 @@ class MovieTop extends StatelessWidget {
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(10),
-                child: Image.network(
-                  movie.posterPath,
-                  fit: BoxFit.cover,
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isDarck ?
+                      Colors.white24
+                      :
+                      Colors.black87,
+                      blurRadius: 5, 
+                      offset: Offset(3, 2)
+                    )
+                  ]
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(10),
+                  child: Image.network(
+                    movie.posterPath,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
         
