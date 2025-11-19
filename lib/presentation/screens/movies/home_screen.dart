@@ -1,7 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies_app/presentation/providers/movies/movie_top_provider.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
+import 'package:movies_app/presentation/widgets/movies/movie_top.dart';
 
 //todo, dotenv es para mover archivos de entorno hacia la app
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -49,6 +51,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     ref.read(popularMoviesProvider.notifier).loadNextPage();
     ref.read(upComingMoviesProvider.notifier).loadNextPage();
     ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    
   }
 
   @override
@@ -74,7 +77,9 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final upcomingMovies = ref.watch(upComingMoviesProvider);
     //todo, provider que da las peliculas top rated
     final topratedMovies = ref.watch(topRatedMoviesProvider);
-
+    
+    final movieTop = ref.read(movieTopProvider);
+    
     final finishLoadinf = ref.watch(visibilityMoviesProvider);
 
     return Visibility(//* para mostrar cuando todo este cargado(estilo visual)
@@ -104,11 +109,11 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                 return Column(
       
                   children: [
-
+                    //* CARTELERA GRANDE DE LA PELICULA MAS POPULAR
+              
+                    MovieTop(movie: movieTop),
+                      
                     
-      
-                    //todo, widget que dibuja un carrucel de peliculas
-                    MoviesSlideshow(movies: slideShowMovies),
       
                     //todo
       
@@ -124,7 +129,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                       },
                     ),
 
-                    
+                     //todo, widget que dibuja un carrucel de peliculas
+                    MoviesSlideshow(movies: slideShowMovies),
       
                     //* Peliculas Populares
       
@@ -137,6 +143,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                         ref.read(popularMoviesProvider.notifier).loadNextPage();
                       },
                     ),
+
+                    
       
                     //* Peliculas Proximamente
       

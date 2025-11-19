@@ -2,7 +2,6 @@
 
 //TODO, ENTENDERLO MEJOR ESTUDIARLO
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/movies/movies_repository_provider.dart';
