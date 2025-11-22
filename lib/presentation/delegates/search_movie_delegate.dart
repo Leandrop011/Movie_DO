@@ -53,7 +53,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     );
   }
 
-  //* ES UN WIDGET QUE DEVUELVE LA MISMA DATA PRO ES UNO PARA CUANDO ESCRIBE Y 
+  //* ES UN WIDGET QUE DEVUELVE LA MISMA DATA PERO ES UNO PARA CUANDO ESCRIBE Y 
   //* OTRO CUANDO PULSA EN BUSCAR, AMBOS SE APLICAN DE LA MISMA FORMA
   Widget buildResultsAndSuggestions(){
     return StreamBuilder(
@@ -101,7 +101,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
           
           if(snapshot.data ?? false){
             return SpinPerfect(
-              duration: Duration(seconds: 5),
+              duration: Duration(seconds: 1),
               spins: 10,
               infinite: true,
               child: IconButton(
@@ -171,90 +171,92 @@ class _MovieItem extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
     final isDarck = ref.read(isdarckProvider);
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(20),
-      onTap: () {
-        onMovieSelected(context, movie);
-      },
-      child: Padding(
-        padding: EdgeInsets.symmetric( horizontal: 10, vertical: 10,),
-      
-        child: SizedBox(
-          height: size.height * 0.23,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: isDarck ? 
-              const Color.fromARGB(255, 68, 66, 66)
-              :
-              const Color.fromARGB(255, 251, 251, 251),
-                
-              boxShadow: [
-                
-                BoxShadow(
-                  color: const Color.fromARGB(255, 111, 107, 107),
-                  blurRadius: 5,
-                  offset: Offset(2, 4)
-                )
-              ]
-            ),
-            
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                //* Image
-                SizedBox(
-                  width: size.width * 0.3,
-                  child: ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(20),
-                    child: Image.network(
-                      movie.posterPath,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if(loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 2, ));
-                    
-                        return FadeIn(child: child);
-                      },
+    return FadeInRight(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () {
+          onMovieSelected(context, movie);
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric( horizontal: 10, vertical: 10,),
+        
+          child: SizedBox(
+            height: size.height * 0.23,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: isDarck ? 
+                const Color.fromARGB(255, 68, 66, 66)
+                :
+                const Color.fromARGB(255, 251, 251, 251),
+                  
+                boxShadow: [
+                  
+                  BoxShadow(
+                    color: const Color.fromARGB(255, 111, 107, 107),
+                    blurRadius: 5,
+                    offset: Offset(2, 4)
+                  )
+                ]
+              ),
+              
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //* Image
+                  SizedBox(
+                    width: size.width * 0.3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadiusGeometry.circular(20),
+                      child: Image.network(
+                        movie.posterPath,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if(loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 2, ));
+                      
+                          return FadeIn(child: child);
+                        },
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 10,),
-            
-                //* Descripcion
-                SizedBox(
-                  width: size.width * 0.6,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(movie.title, style: textStyle.titleMedium,),
-                      SizedBox(height: 5,),
+                  SizedBox(width: 10,),
+              
+                  //* Descripcion
+                  SizedBox(
+                    width: size.width * 0.6,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(movie.title, style: textStyle.titleMedium,),
+                        SizedBox(height: 5,),
+                        
+                        (movie.overview != '') ?
+                        Text(movie.overview, maxLines: 3, overflow: TextOverflow.ellipsis,)
+                        :
+                        Text('No Description'),
+              
+                        SizedBox(height: 5,),
+              
+                        Row(
+                          children: [
+                            Icon(Icons.star_half_rounded, color: Colors.yellow.shade800,),
+                            SizedBox(width: 5,),
+                            Text(
+                              HumanFormats.humanReadableNumber(movie.voteAverage, 1),
+                              style: textStyle.bodyMedium!.copyWith(color: Colors.yellow.shade800),
+                            )
                       
-                      (movie.overview != '') ?
-                      Text(movie.overview, maxLines: 3, overflow: TextOverflow.ellipsis,)
-                      :
-                      Text('No Description'),
-            
-                      SizedBox(height: 5,),
-            
-                      Row(
-                        children: [
-                          Icon(Icons.star_half_rounded, color: Colors.yellow.shade800,),
-                          SizedBox(width: 5,),
-                          Text(
-                            HumanFormats.humanReadableNumber(movie.voteAverage, 1),
-                            style: textStyle.bodyMedium!.copyWith(color: Colors.yellow.shade800),
-                          )
-                    
-                        ],
-                      )
-            
-            
-                    ],
-                  ),
-                )
-            
-              ],
+                          ],
+                        )
+              
+              
+                      ],
+                    ),
+                  )
+              
+                ],
+              ),
             ),
           ),
         ),

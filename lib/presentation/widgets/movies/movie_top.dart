@@ -19,91 +19,95 @@ class MovieTop extends ConsumerWidget {
       return Center(child: CircularProgressIndicator(),);
     }
     
-    return InkWell(
-      borderRadius: BorderRadius.circular(10),
-      onTap: () {
-        context.push('/movie/${movie.id}');
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(
-          //top: 3, 
-          right: 10,
-          left: 10, 
-          bottom: 10,
-        ),
-        child: FadeInDown(
-          duration: Duration(seconds: 3),
-          curve: Curves.elasticOut,
-          child: SizedBox(
-            width: size.width * 0.9,
-            height: size.height * 0.6,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white, 
-                      width: 0.5,
+    return ZoomInDown(
+      //curve: Curves.elasticOut,
+      duration: Duration(seconds: 1),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () {
+          context.push('/movie/${movie.id}');
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(
+            //top: 3, 
+            right: 10,
+            left: 10, 
+            bottom: 10,
+          ),
+          child: FadeInDown(
+            duration: Duration(seconds: 3),
+            curve: Curves.elasticOut,
+            child: SizedBox(
+              width: size.width * 0.9,
+              height: size.height * 0.6,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white, 
+                        width: 0.5,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black87,
+                          blurRadius: 5, 
+                          offset: Offset(3, 2)
+                        )
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black87,
-                        blurRadius: 5, 
-                        offset: Offset(3, 2)
-                      )
-                    ],
-                  ),
-
-                  child: Padding(//! SE COLOCA ESTA PADIGN PORQUE EL POSTER OCUPA ALL THIS SPACE, ENTONCES LO ACORTAMOS CON PAADIGN
-                    padding: EdgeInsetsGeometry.all(0.5),
-                    child: ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(10),
-                      child: Image.network(
-                        movie.posterPath,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if(loadingProgress != null){
-                            return Center(child: CircularProgressIndicator(),);
-                          }
-                          return child;
-                        },
+      
+                    child: Padding(//! SE COLOCA ESTA PADIGN PORQUE EL POSTER OCUPA ALL THIS SPACE, ENTONCES LO ACORTAMOS CON PAADIGN
+                      padding: EdgeInsetsGeometry.all(0.5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadiusGeometry.circular(10),
+                        child: Image.network(
+                          movie.posterPath,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if(loadingProgress != null){
+                              return Center(child: CircularProgressIndicator(),);
+                            }
+                            return child;
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-                      
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
-                  
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: () {
-                      context.push('/movie/${movie.id}');
-                    },
-                    child: _CustomButton()
-                  ),
-                  
-                ),
-                      
-                SizedBox.expand(//* GRADIENTE
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
+                        
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
+                    
+                    child: InkWell(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,//* inicio
-                        end: Alignment.bottomCenter,//* final
-                        stops: [0.93, 1.2],
-                        colors: [
-                          Colors.transparent,
-                          Colors.black87
-                        ]
-                      )
-                    )
+                      onTap: () {
+                        context.push('/movie/${movie.id}');
+                      },
+                      child: _CustomButton()
+                    ),
+                    
                   ),
-                ),
-              ],
+                        
+                  SizedBox.expand(//* GRADIENTE
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,//* inicio
+                          end: Alignment.bottomCenter,//* final
+                          stops: [0.93, 1.2],
+                          colors: [
+                            Colors.transparent,
+                            Colors.black87
+                          ]
+                        )
+                      )
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
