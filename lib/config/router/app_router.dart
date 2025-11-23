@@ -11,9 +11,13 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/home/:page',//* esto indica en cual page quiere mostrar 0 home, 1 categories, 2 favorites
       builder: (context, state){
-        final pageIndex = state.pathParameters['page'] ?? 0;
+        final pageIndex = int.parse( state.pathParameters['page'] ?? 0.toString() );
 
-        return HomeScreen(pageIndex: int.parse(pageIndex.toString()),);
+        if(pageIndex > 2 || pageIndex < 0){//* Validacion de que si el usuario por la web pone menor que 0 o mayor a 2 por el url, pues le redireccione al home screen-
+          return HomeScreen(pageIndex: 0);
+        }
+
+        return HomeScreen(pageIndex: pageIndex);
       },
       routes: [//todo, para hacer deeplink
         GoRoute(
