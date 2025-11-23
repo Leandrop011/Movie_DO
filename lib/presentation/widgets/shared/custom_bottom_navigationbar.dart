@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/presentation/providers/bottom_navigation/bottom_navigation_provider.dart';
+import 'package:go_router/go_router.dart';
 
 
-class CustomBottomNavigationbar extends ConsumerWidget {
-  const CustomBottomNavigationbar({super.key});
+class CustomBottomNavigationbar extends StatelessWidget {
+
+  final int currentIndex;
+  const CustomBottomNavigationbar({
+    super.key, 
+    required this.currentIndex
+  });
+
+  void onItemTapped(BuildContext context, int index){
+    context.go('/home/$index');//! ES LA RUTA DEPENDIENDO EL INDEX QUE NOS DA 
+  }
+  
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) { 
-    final valueBottom = ref.watch(bottomNavigationProvider);
+  Widget build(BuildContext context) { 
 
     return BottomNavigationBar(//la barra de navegar inferior
-      currentIndex: valueBottom,//todo, valor actual(el provider le provee y actualiza)
-      onTap: (index) {//todo, nos va a proveer el index de el elemento seleccionado
-        ref.read(bottomNavigationProvider.notifier).state = index;
+      currentIndex: currentIndex,//todo, valor actual(segun la list de las view)
+      onTap: (index) {
+        onItemTapped(context, index);
       },
       elevation: 0,//todo, sin la linea de 'corte'
       items: [//todo, requiere por lo menos 2 hijos 

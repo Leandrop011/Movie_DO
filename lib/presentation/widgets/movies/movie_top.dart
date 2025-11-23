@@ -22,7 +22,7 @@ class MovieTop extends ConsumerWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
-        context.push('/movie/${movie.id}');
+        context.push('/home/0/movie/${movie.id}');
       },
       child: Padding(
         padding: const EdgeInsets.only(

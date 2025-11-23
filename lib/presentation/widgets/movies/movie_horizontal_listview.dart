@@ -124,7 +124,7 @@ class _Tittle extends StatelessWidget {
   }
 }
 
-//todo, la cajita de las peliculas
+//todo, la cajita de las peliculas //* diseno
 class _Slide extends StatelessWidget {
   final Movie movie;
 
@@ -141,9 +141,10 @@ class _Slide extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          context.push('/movie/${movie.id}');
-        },
+        //context.push('/movie/${movie.id}'); //! Esta ruta ya no existe porque se cambio el router
+        //! Antes solo era /movie/${movie.id} porque la direccion raiz era /, ahora es home
+        onTap: () => context.push('/home/0/movie/${movie.id}'),//* Por ser el hijo se une el home 0( la pagina 1), con el hijo movie id
+        
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -194,7 +195,7 @@ class _Slide extends StatelessWidget {
                   Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
                   const Spacer(),
                   //todo, solucionar problema de no transformacion correcta del numero
-                  Text('${HumanFormats.humanReadableNumber(movie.popularity)}k', style: textStyle.bodySmall,),
+                  Text(HumanFormats.humanReadableNumber(movie.popularity), style: textStyle.bodySmall,),
                   
                 ],
               ),

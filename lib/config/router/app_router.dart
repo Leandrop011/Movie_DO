@@ -3,13 +3,18 @@ import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/home/0',
   routes: [
+
+
     //todo, rutas
     GoRoute(
-      name: HomeScreen.name,
-      path: '/',
-      builder: (context, state) => HomeScreen(),
+      path: '/home/:page',//* esto indica en cual page quiere mostrar 0 home, 1 categories, 2 favorites
+      builder: (context, state){
+        final pageIndex = state.pathParameters['page'] ?? 0;
+
+        return HomeScreen(pageIndex: int.parse(pageIndex.toString()),);
+      },
       routes: [//todo, para hacer deeplink
         GoRoute(
           name: MovieScreen.name,
@@ -24,6 +29,14 @@ final appRouter = GoRouter(
         ),
       ]
     ),
+
+    //! Para redireccionar la direccion / a la nueva /home/0
+    GoRoute(
+      path: '/',
+      redirect: ( _ , __ ) {
+        return '/home/0';
+      },
+    )
 
   ]
 );
