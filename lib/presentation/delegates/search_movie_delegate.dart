@@ -32,7 +32,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     debounceMovies.close();
   }
 
-  //*DEBOUNCE MANUAL(CONTROLAR QUE SE HAGA UNA PETICION HTTP, LUEGO DE QUE EL USUARIO HAYA ESCRITO LA PELICULA)
+  //* DEBOUNCE MANUAL(CONTROLAR QUE SE HAGA UNA PETICION HTTP, LUEGO DE QUE EL USUARIO HAYA ESCRITO LA PELICULA)
   void _onQueryChanged(String query){//* ESTA ES LA FUNC PARA EMITIR CAMBIOS
     isLoadingStream.add(true);//! cambiamos el valor del stream y asi trabaja
 
@@ -140,13 +140,13 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     );
   }
 
-  //* LO QUE SALE CUANDO NO HAY RESULTADOS
+  //* LO QUE SALE CUANDO SE LE DA EN BUSCAR Y DA LAS MOVIES 
   @override
   Widget buildResults(BuildContext context) {
     return buildResultsAndSuggestions();
   }
 
-  //* LO QUE APARECE AL INGRESAR TEXTO
+  //* LO QUE APARECE AL INGRESAR TEXTO(MOVIES EN ESTA PARTE IMPLEMENTAMOS EL DEBOUNCE)
   @override
   Widget buildSuggestions(BuildContext context) {
    //* ESTA FUNCION SE MANDA A LLAMAR CADA QUE EL USUARIO PULSA O INGRESA ALGO
@@ -156,6 +156,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   }
   
 }
+
+
 
 //* DISENO DE CADA PELICULA QUE MUESTRA
 class _MovieItem extends ConsumerWidget {

@@ -316,7 +316,8 @@ class _MovieSimilarView extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
           onTap: () {
-            context.push('/movie/${movie.id}');
+            //! LA DIRECCION DE LA RUTA CAMBIO PORQUE AHORA ES /HOME, YA NO ES DE DIRECCION RAIZ /
+            context.push('/home/0/movie/${movie.id}');
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

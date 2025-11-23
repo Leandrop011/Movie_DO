@@ -48,8 +48,8 @@ class CustomAppbar extends ConsumerWidget {
                   )
                 ).then((movie) {//* SI EL USUARIO SELECCIONA ESO CAPTURA EL VALOR
                   if(movie == null) return;
-                  
-                  context.push('/movie/${movie.id}');
+                  //! CAMBIAMOS LA DIRECCION DEL ROUTER ENTONCES AQUI CAMBIAMOS
+                  context.push('/home/0/movie/${movie.id}');
                   
                 });
               }, 
