@@ -49,25 +49,29 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       return Scaffold(body: Center(child: CircularProgressIndicator(strokeWidth: 4,),));
     }
 
-    return Scaffold(
+    return FadeInDown(
+      //duration: Duration(milliseconds: 400),
+      curve: Curves.elasticOut,
+      child: Scaffold(
+        
+        body: CustomScrollView(
+          physics: ClampingScrollPhysics(),
+          slivers: [
       
-      body: CustomScrollView(
-        physics: ClampingScrollPhysics(),
-        slivers: [
-
-          _CustomSliverAppBar(movie: movie),
-
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => _MovieDetails(movie: movie,),
-              childCount: 1,
-            )
-          ),
-          
-        ],
+            _CustomSliverAppBar(movie: movie),
+      
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => _MovieDetails(movie: movie,),
+                childCount: 1,
+              )
+            ),
+            
+          ],
+        ),
+      
+        
       ),
-
-      
     );
   }
 }

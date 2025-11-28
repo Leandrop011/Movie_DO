@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 class FavoritesView extends StatelessWidget {
@@ -9,7 +10,9 @@ class FavoritesView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Favorites View'),
       ),
-      body: Center(child: Text('Favoritos'),),
+      body: FadeInRight(
+        child: Center(child: Text('Favoritos'),)
+      ),
     );
   }
 }

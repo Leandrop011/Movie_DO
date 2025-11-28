@@ -114,7 +114,9 @@ class _GenderView extends StatelessWidget {
       ),
       child: Text(
         gender,
-        style: style.titleSmall,
+        style: style.titleSmall?.copyWith(//*EL ? ES PORQUE AVECES NO LLEGA EL TITLLESMALL POR EL CONTEXTO
+          color: Colors.white
+        ),
         //maxLines: 1,
       ),
     );

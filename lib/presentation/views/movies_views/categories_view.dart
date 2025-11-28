@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesView extends StatelessWidget {
@@ -9,7 +10,9 @@ class CategoriesView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Categories View'),
       ),
-      body: Center(child: Text('Categorias'),)
+      body: FadeInRight(
+        child: Center(child: Text('Categorias'),)
+      )
     );
   }
 }
