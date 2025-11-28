@@ -26,7 +26,7 @@ class MovieTop extends ConsumerWidget {
       },
       child: Padding(
         padding: const EdgeInsets.only(
-          //top: 3, 
+          top: 10, 
           right: 10,
           left: 10, 
           bottom: 10,
@@ -39,41 +39,31 @@ class MovieTop extends ConsumerWidget {
             height: size.height * 0.6,
             child: Stack(
               alignment: Alignment.bottomCenter,
+              
               children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white, 
-                      width: 0.5,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black87,
-                        blurRadius: 5, 
-                        offset: Offset(3, 2)
+
+                //* IMAGE MOVIE AND STYLES
+                _MovieTopView(movie: movie),
+
+                //* GENEROS DE LA MOVIE
+                Padding(
+                  padding: EdgeInsetsGeometry.only(
+                    bottom: size.height * 0.097//!DISENO RESPONSIVO
+                  ),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    children: [
+                      ...movie.genreIds.map(
+                        (gender) => Container(
+                          margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                          child: _GenderView(gender: gender),
+                        )
                       )
                     ],
                   ),
-    
-                  child: Padding(//! SE COLOCA ESTA PADIGN PORQUE EL POSTER OCUPA ALL THIS SPACE, ENTONCES LO ACORTAMOS CON PAADIGN
-                    padding: EdgeInsetsGeometry.all(0.5),
-                    child: ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(10),
-                      child: Image.network(
-                        movie.posterPath,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if(loadingProgress != null){
-                            return Center(child: CircularProgressIndicator(),);
-                          }
-                          return child;
-                        },
-                      ),
-                    ),
-                  ),
                 ),
-                      
+
+                //*  BOTON DE LA MOVIE FOR VIEW MORE DETAILES  
                 Padding(
                   padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
                   
@@ -86,23 +76,10 @@ class MovieTop extends ConsumerWidget {
                   ),
                   
                 ),
-                      
-                SizedBox.expand(//* GRADIENTE
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,//* inicio
-                        end: Alignment.bottomCenter,//* final
-                        stops: [0.93, 1.2],
-                        colors: [
-                          Colors.transparent,
-                          Colors.black87
-                        ]
-                      )
-                    )
-                  ),
-                ),
+
+                //*  GRADIENT OF CONTAINER
+                _GradientView(),
+
               ],
             ),
           ),
@@ -112,6 +89,112 @@ class MovieTop extends ConsumerWidget {
   }
 }
 
+//*CAJA DE DISENO DE CADA GENERO 
+class _GenderView extends StatelessWidget {
+  final String gender;
+
+  const _GenderView({required this.gender});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final style = Theme.of(context).textTheme;
+
+    return Container(
+      alignment: Alignment.center,
+      width: size.width * 0.3,//!DISENO RESPONSIVO UN TAMANO DE CAJA DEPENDIENDO EL DISPOSITIVO
+      height: size.height * 0.04,
+      decoration: BoxDecoration(
+        color: Colors.black54, 
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(
+          width: 1, 
+          color: const Color.fromARGB(255, 162, 159, 159)
+        )
+      ),
+      child: Text(
+        gender,
+        style: style.titleSmall,
+        //maxLines: 1,
+      ),
+    );
+  }
+}
+
+//*IMAGEN DE LA MOVIE TOP Y SUS DECORACIONES
+class _MovieTopView extends StatelessWidget {
+  const _MovieTopView({
+    required this.movie,
+  });
+
+  final Movie movie;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.white, 
+          width: 0.5,
+        ),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black87,
+            blurRadius: 5, 
+            offset: Offset(3, 2)
+          )
+        ],
+      ),
+        
+      child: Padding(//! SE COLOCA ESTE PADIGN PARA EL BORDER ALL PORQUE EL POSTER OCUPA ALL THIS SPACE, ENTONCES LO ACORTAMOS CON PAADIGN
+        padding: EdgeInsetsGeometry.all(0.5),
+        child: ClipRRect(
+          borderRadius: BorderRadiusGeometry.circular(10),
+          child: Image.network(
+            width: size.width * 0.9,//! DISENO RESPONSIVO
+            height: size.height * 0.6,
+            movie.posterPath,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if(loadingProgress != null){
+                return Center(child: CircularProgressIndicator(),);
+              }
+              return child;
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//* GRADIENTE DE LA IMAGEN
+class _GradientView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(//* GRADIENTE
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,//* inicio
+            end: Alignment.bottomCenter,//* final
+            stops: [0.93, 1.2],
+            colors: [
+              Colors.transparent,
+              Colors.black87
+            ]
+          )
+        )
+      ),
+    );
+  }
+}
+
+
+//* BOTON PERSONALIZADO
 class _CustomButton extends StatelessWidget {
 
   @override

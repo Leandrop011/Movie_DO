@@ -63,6 +63,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
               childCount: 1,
             )
           ),
+          
         ],
       ),
 
@@ -196,7 +197,7 @@ class _ElementsInDetails extends StatelessWidget {
                     Text(
                       movie.overview, 
                       style: textStyle.titleSmall,
-                      maxLines: 8,
+                      maxLines: 9,
                       overflow: TextOverflow.ellipsis,
                     )
                   ],
@@ -209,6 +210,8 @@ class _ElementsInDetails extends StatelessWidget {
     );
   }
 }
+
+
 
 //* TITULO QUE DICE "SIMILARES" ANTES DE MOSTRAR LAS PELICULAS
 class _PreSimilarMoviesView extends ConsumerWidget {
@@ -259,8 +262,6 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     );
   }
 }
-
-
 //* WIDGET QUE NOS DA LISTA DE PELICULAS SIMILARES
 class _MoviesSimilars extends ConsumerWidget {
   final String movieId;
@@ -371,6 +372,8 @@ class _MovieSimilarView extends StatelessWidget {
   }
 }
 
+
+
 //* ACTORES DE LA PELICULA
 class _ActorsByMovie extends ConsumerWidget {
   
@@ -406,7 +409,7 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
-//* CAJA DE CADA ACTOR Y SU INFORMACION
+//* CAJA DE CADA ACTOR (DISENO) Y SU INFORMACION
 class _ActorView extends StatelessWidget {
 
   final Actor actor;
@@ -456,6 +459,7 @@ class _ActorView extends StatelessWidget {
 }
 
 
+
 //* APPBAR
 class _CustomSliverAppBar extends StatelessWidget {
 
@@ -488,7 +492,6 @@ class _CustomSliverAppBar extends StatelessWidget {
     );
   }
 }
-
 
 //* CONTENIDO DE LA APPBAR, MUESTRA LA PELICULA Y SU NOMBRE
 class _ContentSilverAppBar extends StatelessWidget {

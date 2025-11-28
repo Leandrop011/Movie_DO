@@ -9,7 +9,7 @@ Future <void> main()async{
 
   //todo, para usar el api key que colocamos en variables de entorno 
   await dotenv.load(fileName: '.env');
-
+  
   runApp(
   ProviderScope(child: const MyApp()),
   );

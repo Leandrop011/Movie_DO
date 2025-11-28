@@ -2,6 +2,31 @@ import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/infrastructure/models/moviedb/movie_details.dart';
 import 'package:movies_app/infrastructure/models/moviedb/movie_moviedb.dart';
 
+//* MAPA PARA TRANSFORMAR LOS GENEROS DE UNA MOVIE, POR EJEMPLO DE 28 -> A ACCION
+const Map<int, String> generos = {
+  28: "Acción",
+  12: "Aventura",
+  16: "Animación",
+  35: "Comedia",
+  80: "Crimen",
+  99: "Documental",
+  18: "Drama",
+  10751: "Familia",
+  14: "Fantasía",
+  36: "Historia",
+  27: "Terror",
+  10402: "Música",
+  9648: "Misterio",
+  10749: "Romance",
+  878: "Ciencia ficción",
+  10770: "Película de TV",
+  53: "Suspenso",
+  10752: "Guerra",
+  37: "Western",
+};
+
+
+
 //todo, para transformar el modelo que nos da y acoplarlo a una instancia de la 
 //todo, entidad(reglas del neogocio)
 
@@ -13,7 +38,9 @@ class MovieMapper {
     'https://image.tmdb.org/t/p/w500${moviedb.backdropPath}'
      : 
     'https://movienewsletters.net/photos/000000H1.jpg',
-    genreIds: moviedb.genreIds.map((e) => e.toString()).toList(),
+
+    //* ASI MAPEAMOS LOS "NUMEROS" QUE VIENEN DE LOS GENEROS HACIA PALABRAS, Y NOS DEVUELVE UNA LISTA DE STRINGS
+    genreIds: moviedb.genreIds.map((id) => generos[id] ?? "Desconocido").toList(),
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
     originalTitle: (moviedb.originalTitle.isNotEmpty) ? moviedb.originalTitle : "",
@@ -38,7 +65,10 @@ class MovieMapper {
     'https://image.tmdb.org/t/p/w500${moviedb.backdropPath}'
      : 
     'https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.jpg',
-    genreIds: moviedb.genres.map((e) => e.name).toList(),
+    
+    //* AQUI NO ES NECESARIO USAR EL MAP QUE CREAMOS PORQUE LA MISMA DATA QUE NOS DA 
+    //* YA NOS LA DA COMO UN STRING 
+    genreIds: moviedb.genres.map((genres) => genres.name).toList(),
     id: moviedb.id,
     originalLanguage: moviedb.originalLanguage,
     originalTitle: moviedb.originalTitle,
