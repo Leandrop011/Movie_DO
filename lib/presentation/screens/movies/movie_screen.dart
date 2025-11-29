@@ -1,7 +1,9 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 import 'package:movies_app/domain/entities/actor.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
@@ -46,7 +48,16 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
 
     if(movie == null ){
-      return Scaffold(body: Center(child: CircularProgressIndicator(strokeWidth: 4,),));
+      return Scaffold(
+        body: Center(
+          child: LoadingAnimationWidget.discreteCircle(
+            color: Colors.white,
+            secondRingColor: Colors.blue, 
+            thirdRingColor: Colors.grey,
+            size: 40
+          ),
+        )
+      );
     }
 
     return FadeInDown(
@@ -336,7 +347,12 @@ class _MovieSimilarView extends StatelessWidget {
                   movie.posterPath,
                   fit: BoxFit.cover,
                   loadingBuilder: (context, child, loadingProgress) {
-                    if(loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 4,),);
+                    if(loadingProgress != null){
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Center(child: LoadingAnimationWidget.hexagonDots(color: const Color.fromARGB(255, 201, 200, 200), size: 50,),),
+                      );
+                    }
               
                     return child;
                   },
@@ -435,6 +451,19 @@ class _ActorView extends StatelessWidget {
               child: Image.network(
                 actor.profilePath,
                 fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress != null){
+                    return Padding(
+                      padding: EdgeInsetsGeometry.only(top: 20),
+                      child: Center(
+                        child: LoadingAnimationWidget.hexagonDots(
+                          color: const Color.fromARGB(255, 194, 192, 192), 
+                          size: 40),
+                      ),
+                    );
+                  }
+                  return child;
+                },
               ),
             ),
           ),
@@ -536,53 +565,27 @@ class _ContentSilverAppBar extends StatelessWidget {
           ),
         ),
 
-        
-    
-        SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,//* inicio
-                end: Alignment.bottomCenter,//* final
-                stops: [0.7, 1.0],
-                colors: [
-                  Colors.transparent,
-                  Colors.black87
-                ]
-              )
-            )
-          ),
-        ),
-    
-        SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                stops: [0.0, 0.4],
-                colors: [
-                  Colors.black87,//* comienza con el color y luego la transparencia
-                  Colors.transparent,
-                ]
-              )
-            )
-          ),
+        //*GRADIENTE DE LA PARTE BAJA
+        _CustomGradient(
+          begin: Alignment.topCenter, 
+          end: Alignment.bottomCenter, 
+          x: 0.8, y: 1.0, 
+          colors: [Colors.transparent, Colors.black87]
         ),
 
-        SizedBox.expand(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                stops: [0.0, 0.2],
-                colors: [
-                  Colors.black87,//* comienza con el color y luego la transparencia
-                  Colors.transparent,
-                ]
-              )
-            )
-          ),
+        //*GRADIENTE DE LA FLECHA DE REGRESO
+        _CustomGradient(
+          begin: Alignment.topLeft, 
+          x: 0.0, y: 0.4, 
+          colors: [Colors.black87, Colors.transparent]
+        ),
+
+        //*GRADIENTE DE EL BOTON DE FAVORITOS
+        _CustomGradient(
+          begin: Alignment.topRight, 
+          end: Alignment.bottomCenter, 
+          x: 0.0, y: 0.2, 
+          colors: [Colors.black87, Colors.transparent]
         )
       ],
     );
@@ -592,9 +595,25 @@ class _ContentSilverAppBar extends StatelessWidget {
 
 
 
+//* COMO NECESITAMOS ALGUNOS GRADIENTES SIMILARES, HACEMOS UN METODO DE CUSTOMGRADIENT
+//* PARA NO REPETIR CODIGO
 class _CustomGradient extends StatelessWidget {
   
-  //begin 
+  final Alignment begin;
+  final Alignment? end;//*ES OPCIONAL
+  final double x;
+  final double y;
+  final List<Color> colors;
+
+  const _CustomGradient({
+    required this.begin, 
+    this.end, 
+    required this.x, 
+    required this.y, 
+    required this.colors
+  });
+
+  //begin  
   //end
   //stops []
   //colors []
@@ -605,13 +624,10 @@ class _CustomGradient extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topCenter,//* inicio
-                end: Alignment.bottomCenter,//* final
-                stops: [0.7, 1.0],
-                colors: [
-                  Colors.transparent,
-                  Colors.black87
-                ]
+                begin: begin,//* inicio
+                end: end ?? Alignment.center,//* final
+                stops: [x, y],
+                colors: colors
               )
             )
       ),

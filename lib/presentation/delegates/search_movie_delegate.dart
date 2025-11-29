@@ -1,12 +1,13 @@
-
-import 'dart:async';
-
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
+
 
 typedef SearchMoviesCallBack = Future<List<Movie>> Function(String query);
 
@@ -214,8 +215,14 @@ class _MovieItem extends ConsumerWidget {
                         movie.posterPath,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
-                          if(loadingProgress != null) return Center(child: CircularProgressIndicator(strokeWidth: 2, ));
-                      
+                          if(loadingProgress != null){
+                            return Center(
+                              child: LoadingAnimationWidget.hexagonDots(
+                                color: const Color.fromARGB(255, 187, 185, 185), 
+                                size: 40
+                              )
+                            );
+                          }
                           return FadeIn(child: child);
                         },
                       ),

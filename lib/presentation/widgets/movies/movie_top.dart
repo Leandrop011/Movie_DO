@@ -1,7 +1,9 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 import 'package:movies_app/domain/entities/movie.dart';
 
 class MovieTop extends ConsumerWidget {
@@ -16,7 +18,10 @@ class MovieTop extends ConsumerWidget {
     //final isDarck = ref.watch(isdarckProvider);//! watch porque tiene que estar pendientes de los cambios
 
     if(movie.posterPath.isEmpty){
-      return Center(child: CircularProgressIndicator(),);
+      return Center(child: LoadingAnimationWidget.inkDrop(
+        color: Colors.white, 
+        size: 40
+      ),);
     }
     
     return InkWell(
@@ -161,7 +166,10 @@ class _MovieTopView extends StatelessWidget {
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
               if(loadingProgress != null){
-                return Center(child: CircularProgressIndicator(),);
+                return Center(child: LoadingAnimationWidget.hexagonDots(
+                  color: Colors.white, 
+                  size: 50
+                ),);
               }
               return child;
             },

@@ -1,6 +1,8 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 
@@ -161,7 +163,13 @@ class _Slide extends StatelessWidget {
                   //todo, un loading
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {//todo, cuando ya es null mostrara la imagen, de lo contrario tiene algo en su sistema 
-                      return Center(child: CircularProgressIndicator(),);
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Center(child: LoadingAnimationWidget.hexagonDots(
+                          color: const Color.fromARGB(255, 194, 192, 192), 
+                          size: 40
+                        ),),
+                      );
                     }
                 
                     return FadeIn(child: child);
