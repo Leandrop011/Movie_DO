@@ -485,13 +485,19 @@ class _CustomSliverAppBar extends StatelessWidget {
         }, 
         icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)
       ),
+
+      actions: [
+        IconButton(
+          onPressed: (){}, 
+          //icon: Icon(Icons.favorite_outline_rounded)
+          icon: Icon(Icons.favorite_rounded, color: Colors.red,)
+        )
+      ],
       expandedHeight: size.height * 0.7,
+
       flexibleSpace: FlexibleSpaceBar(//*contenido
-
         //* contenido
-        background: _ContentSilverAppBar(movie: movie),
-
-        
+        background: _ContentSilverAppBar(movie: movie),  
       ),
     );
   }
@@ -529,6 +535,8 @@ class _ContentSilverAppBar extends StatelessWidget {
             ),
           ),
         ),
+
+        
     
         SizedBox.expand(
           child: DecoratedBox(
@@ -559,10 +567,55 @@ class _ContentSilverAppBar extends StatelessWidget {
               )
             )
           ),
+        ),
+
+        SizedBox.expand(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                stops: [0.0, 0.2],
+                colors: [
+                  Colors.black87,//* comienza con el color y luego la transparencia
+                  Colors.transparent,
+                ]
+              )
+            )
+          ),
         )
       ],
     );
   }
 }
 
+
+
+
+class _CustomGradient extends StatelessWidget {
+  
+  //begin 
+  //end
+  //stops []
+  //colors []
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,//* inicio
+                end: Alignment.bottomCenter,//* final
+                stops: [0.7, 1.0],
+                colors: [
+                  Colors.transparent,
+                  Colors.black87
+                ]
+              )
+            )
+      ),
+    );
+  }
+}
 

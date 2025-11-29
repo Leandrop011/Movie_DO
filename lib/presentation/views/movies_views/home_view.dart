@@ -92,8 +92,9 @@ class HomeViewState extends ConsumerState<HomeView> {
                   return Column(
         
                     children: [
+                      
+                          
                       //* CARTELERA GRANDE DE LA PELICULA MAS POPULAR
-                
                       MovieTop(movie: movieTop),
         
                       //* Peliculas en Cines
