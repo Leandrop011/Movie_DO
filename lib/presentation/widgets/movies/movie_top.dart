@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
 class MovieTop extends ConsumerWidget {
   
@@ -129,7 +130,7 @@ class _GenderView extends StatelessWidget {
 }
 
 //*IMAGEN DE LA MOVIE TOP Y SUS DECORACIONES
-class _MovieTopView extends StatelessWidget {
+class _MovieTopView extends ConsumerWidget {
   const _MovieTopView({
     required this.movie,
   });
@@ -137,7 +138,8 @@ class _MovieTopView extends StatelessWidget {
   final Movie movie;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarck = ref.read(isdarckProvider);
     final size = MediaQuery.of(context).size;
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -167,7 +169,10 @@ class _MovieTopView extends StatelessWidget {
             loadingBuilder: (context, child, loadingProgress) {
               if(loadingProgress != null){
                 return Center(child: LoadingAnimationWidget.hexagonDots(
-                  color: Colors.white, 
+                  color: isDarck?
+                   Colors.white
+                   :
+                   Colors.black, 
                   size: 50
                 ),);
               }

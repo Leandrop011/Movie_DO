@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
 
 class MovieHorizontalListview extends StatefulWidget {
@@ -127,7 +129,7 @@ class _Tittle extends StatelessWidget {
 }
 
 //todo, la cajita de las peliculas //* diseno
-class _Slide extends StatelessWidget {
+class _Slide extends ConsumerWidget {
   final Movie movie;
 
   const _Slide({
@@ -135,9 +137,10 @@ class _Slide extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     final textStyle = Theme.of(context).textTheme;
+    final isdarck = ref.read(isdarckProvider);
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
@@ -166,8 +169,11 @@ class _Slide extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.only(top: 15.0),
                         child: Center(child: LoadingAnimationWidget.hexagonDots(
-                          color: const Color.fromARGB(255, 194, 192, 192), 
-                          size: 40
+                          color: isdarck ?
+                          const Color.fromARGB(255, 194, 192, 192)
+                          :
+                          const Color.fromARGB(255, 60, 60, 60),
+                          size: 45
                         ),),
                       );
                     }
