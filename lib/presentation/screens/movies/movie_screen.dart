@@ -569,14 +569,14 @@ class _ContentSilverAppBar extends StatelessWidget {
         _CustomGradient(
           begin: Alignment.topCenter, 
           end: Alignment.bottomCenter, 
-          x: 0.8, y: 1.0, 
+          stops: [0.8, 1.0],
           colors: [Colors.transparent, Colors.black87]
         ),
 
         //*GRADIENTE DE LA FLECHA DE REGRESO
         _CustomGradient(
           begin: Alignment.topLeft, 
-          x: 0.0, y: 0.4, 
+          stops: [0.0, 0.4],
           colors: [Colors.black87, Colors.transparent]
         ),
 
@@ -584,7 +584,7 @@ class _ContentSilverAppBar extends StatelessWidget {
         _CustomGradient(
           begin: Alignment.topRight, 
           end: Alignment.bottomCenter, 
-          x: 0.0, y: 0.2, 
+          stops: [0.0, 0.2],
           colors: [Colors.black87, Colors.transparent]
         )
       ],
@@ -601,16 +601,14 @@ class _CustomGradient extends StatelessWidget {
   
   final Alignment begin;
   final Alignment? end;//*ES OPCIONAL
-  final double x;
-  final double y;
+  final List<double> stops;
   final List<Color> colors;
 
   const _CustomGradient({
     required this.begin, 
     this.end, 
-    required this.x, 
-    required this.y, 
-    required this.colors
+    required this.stops,
+    required this.colors, 
   });
 
   //begin  
@@ -626,7 +624,7 @@ class _CustomGradient extends StatelessWidget {
               gradient: LinearGradient(
                 begin: begin,//* inicio
                 end: end ?? Alignment.center,//* final
-                stops: [x, y],
+                stops: stops,
                 colors: colors
               )
             )
