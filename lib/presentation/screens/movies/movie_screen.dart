@@ -46,12 +46,16 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     
     //todo, le mandamos el id
     final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
+    final isDarck = ref.read(isdarckProvider);
 
     if(movie == null ){
       return Scaffold(
         body: Center(
           child: LoadingAnimationWidget.discreteCircle(
-            color: Colors.white,
+            color: isDarck ? 
+            Colors.white
+            :
+            Colors.black,
             secondRingColor: Colors.blue, 
             thirdRingColor: Colors.grey,
             size: 40
@@ -350,7 +354,10 @@ class _MovieSimilarView extends StatelessWidget {
                     if(loadingProgress != null){
                       return Padding(
                         padding: const EdgeInsets.only(top: 15.0),
-                        child: Center(child: LoadingAnimationWidget.hexagonDots(color: const Color.fromARGB(255, 201, 200, 200), size: 50,),),
+                        child: Padding(
+                          padding: EdgeInsetsGeometry.only(top: size.height * 0.1),
+                          child: Center(child: LoadingAnimationWidget.hexagonDots(color: const Color.fromARGB(255, 201, 200, 200), size: 50,),),
+                        ),
                       );
                     }
               
@@ -437,6 +444,7 @@ class _ActorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
 
     return Container(
       padding: EdgeInsets.all(8),
@@ -454,7 +462,7 @@ class _ActorView extends StatelessWidget {
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null){
                     return Padding(
-                      padding: EdgeInsetsGeometry.only(top: 20),
+                      padding: EdgeInsetsGeometry.only(top: size.height * 0.1),//!DISENO RESPONSIVO
                       child: Center(
                         child: LoadingAnimationWidget.hexagonDots(
                           color: const Color.fromARGB(255, 194, 192, 192), 

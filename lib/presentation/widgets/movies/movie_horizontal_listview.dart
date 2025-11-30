@@ -141,6 +141,7 @@ class _Slide extends ConsumerWidget {
 
     final textStyle = Theme.of(context).textTheme;
     final isdarck = ref.read(isdarckProvider);
+    final size = MediaQuery.of(context).size;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
@@ -167,7 +168,7 @@ class _Slide extends ConsumerWidget {
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {//todo, cuando ya es null mostrara la imagen, de lo contrario tiene algo en su sistema 
                       return Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
+                        padding: EdgeInsetsGeometry.only(top: size.height * 0.09),
                         child: Center(child: LoadingAnimationWidget.hexagonDots(
                           color: isdarck ?
                           const Color.fromARGB(255, 194, 192, 192)

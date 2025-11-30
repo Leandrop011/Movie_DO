@@ -219,7 +219,7 @@ class _MovieItem extends ConsumerWidget {
                             return Center(
                               child: LoadingAnimationWidget.hexagonDots(
                                 color: const Color.fromARGB(255, 187, 185, 185), 
-                                size: 40
+                                size: 50
                               )
                             );
                           }
