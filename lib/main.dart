@@ -5,7 +5,29 @@ import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
+//import 'package:movies_app/config/database/database.dart';
 Future <void> main()async{ 
+
+  //!ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // await db.into(db.favoritesMovies).insert(//!PARA HACER INCERSIONES DE ELEMENTOS EN LA BASE DE DATOS
+  //   FavoritesMoviesCompanion.insert(
+  //     movieId: 1, 
+  //     backdropPath: "backdropPath.png", 
+  //     originalTitle: "Mi first movie", 
+  //     posterPath: 'posterPath.png', 
+  //     title: 'Batman'
+  //   )
+  // );
+  //! PARA BORRAR LA BASE DE DATOS
+  // final deleteQuery = db.delete(db.favoritesMovies);
+  // await deleteQuery.go();
+
+  //!EJEMPLO DE LO QUE INSERTA
+  // final movies = await db.select(db.favoritesMovies).get();
+
+  // print('Movies: $movies');
 
   //todo, para usar el api key que colocamos en variables de entorno 
   await dotenv.load(fileName: '.env');
