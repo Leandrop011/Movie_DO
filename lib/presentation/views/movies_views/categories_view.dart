@@ -1,5 +1,6 @@
-import 'package:animate_do/animate_do.dart';
+//import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_categories_masonry.dart';
 
 class CategoriesView extends StatelessWidget {
   const CategoriesView({super.key});
@@ -10,9 +11,7 @@ class CategoriesView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Categories View'),
       ),
-      body: FadeInRight(
-        child: Center(child: Text('Categorias'),)
-      )
+      body: CustomCategoriesMasonry()
     );
   }
 }
