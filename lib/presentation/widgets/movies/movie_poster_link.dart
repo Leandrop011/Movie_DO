@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/movie.dart';
@@ -10,11 +11,13 @@ class MoviePosterLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => context.push('/home/0/movie/${movie.id}'),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Image.network(
-          movie.posterPath,
-          //fit: BoxFit.cover,
+      child: BounceInDown(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            movie.posterPath,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

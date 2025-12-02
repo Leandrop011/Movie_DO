@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:movies_app/presentation/widgets/movies/movies_masonry.dart';
 
@@ -19,6 +20,26 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     
   }
 
+  //* SHOW DIALOG PARA DAR INFORMACION DE LA PANTALLA FAVORITAS MOVIES
+  void infoMake(BuildContext context){
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Informacion'),
+          content: Text('En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.'),
+          actions: [
+            FilledButton(
+              onPressed: (){
+                context.pop();
+              }, 
+              child: Text('OK')
+            )
+          ],
+        );
+      },
+    );
+  }
 
 
   @override
@@ -28,6 +49,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     final myMovieList = movies.values.toList();//TRANFORMAR A LISTA LAS MOVIES QUE VIENEN COMO MAPA
     final colors = Theme.of(context).colorScheme;
     final style = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
 
     if(myMovieList.isEmpty){
       return Scaffold(
@@ -45,11 +67,27 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.add_box, color: colors.primary,),
+        title: Text('FAVORITES', style: style.titleLarge),
+        centerTitle: false,
+        titleSpacing: 0,
+        actions: [
+          IconButton(
+            onPressed: (){
+              infoMake(context);
+            }, 
+            icon: Icon(Icons.info_outline)
+          )
+        ],
+      ),
+
 
       body: MoviesMasonry(
         movies: myMovieList, 
         loadNextPage: () => ref.read(favoriteMoviesProvider.notifier).loadNextPage(), //* el () => es porque espera una funcion
-      )
+      ),
+      
     );
   }
 }

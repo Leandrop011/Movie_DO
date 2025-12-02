@@ -38,7 +38,7 @@ class CustomBottomNavigationbar extends StatelessWidget {
 
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite_border_outlined),
-          label: 'Favorities',
+          label: 'Favorites',
           activeIcon: Icon(Icons.favorite)
         ),
       ],
