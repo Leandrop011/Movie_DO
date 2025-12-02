@@ -26,7 +26,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
       context: context, 
       builder: (context) {
         return AlertDialog(
-          title: Text('Informacion'),
+          title: Text('Favoritas'),
           content: Text('En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.'),
           actions: [
             FilledButton(
@@ -83,7 +83,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
       ),
 
 
-      body: MoviesMasonry(
+      body: MoviesMasonry( 
         movies: myMovieList, 
         loadNextPage: () => ref.read(favoriteMoviesProvider.notifier).loadNextPage(), //* el () => es porque espera una funcion
       ),

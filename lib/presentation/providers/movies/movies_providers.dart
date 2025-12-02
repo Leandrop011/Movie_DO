@@ -75,17 +75,18 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
   ): super([]);
 
   //todo, este metodo carga mas peliculas
-  Future<void> loadNextPage() async{
-    if(isLoading == true) return;//todo, para que no haga demasiadas peticiones simultaneas
+  Future<List<Movie>> loadNextPage() async{
+
+    if(isLoading == true) isLoading = false;//todo, para que no haga demasiadas peticiones simultaneas
 
     isLoading = true;
-    
+     
     currentPage++;
     final List<Movie> movies = await fetchMoreMovies(page: currentPage);
     state = [...state, ...movies];
     
     isLoading = false;
-
+    return movies;
   }
 
   

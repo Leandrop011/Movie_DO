@@ -27,7 +27,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     super.initState();
     //todo, aqui simplemente se dice que cargue peliculas para comenzar
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    //ref.read(popularMoviesProvider.notifier).loadNextPage();
     ref.read(upComingMoviesProvider.notifier).loadNextPage();
     ref.read(topRatedMoviesProvider.notifier).loadNextPage();
     
@@ -51,7 +51,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     //todo, es un provider que me da solo 6 de las peliculas que hay en esa lista de movies
     final slideShowMovies = ref.read(moviesSlideshowProvider);
     //todo, provider que da las peliculas populares
-    final popularMovies = ref.watch(popularMoviesProvider);
+    //final popularMovies = ref.watch(popularMoviesProvider);
     //todo, provider que da las peliculas up coming
     final upcomingMovies = ref.watch(upComingMoviesProvider);
     //todo, provider que da las peliculas top rated
@@ -111,17 +111,17 @@ class HomeViewState extends ConsumerState<HomeView> {
                        //todo, widget que dibuja un carrucel de peliculas
                       MoviesSlideshow(movies: slideShowMovies),
         
-                      //* Peliculas Populares
+                      // //* Peliculas Populares
         
-                      MovieHorizontalListview(
-                        movies: popularMovies,
-                        title: 'Populares',
-                        //subTitle: 'En este mes', 
-                        loadNextPage: () {
-                          //todo, le pedimos que nos carge mas peliculas(infity scroll)
-                          ref.read(popularMoviesProvider.notifier).loadNextPage();
-                        },
-                      ),
+                      // MovieHorizontalListview(
+                      //   movies: popularMovies,
+                      //   title: 'Populares',
+                      //   //subTitle: 'En este mes', 
+                      //   loadNextPage: () {
+                      //     //todo, le pedimos que nos carge mas peliculas(infity scroll)
+                      //     ref.read(popularMoviesProvider.notifier).loadNextPage();
+                      //   },
+                      // ),
       
                       
         

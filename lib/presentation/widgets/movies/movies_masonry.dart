@@ -70,7 +70,7 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
           if(index == 1){//! SEGUN EL INDEX(ELEMENTO POR ELEMENTO Y SE RECORRE POR FILA), SI ESTA EN EL INDEX 1, HACEMOS LO QUE DICE
             return Column(
               children: [
-                SizedBox(height: 40,),
+                SizedBox(height: 50,),
                 MoviePosterLink(movie: widget.movies[index])
               ],
             );
