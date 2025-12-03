@@ -168,7 +168,7 @@ class _Slide extends ConsumerWidget {
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {//todo, cuando ya es null mostrara la imagen, de lo contrario tiene algo en su sistema 
                       return Padding(
-                        padding: EdgeInsetsGeometry.only(top: size.height * 0.09),
+                        padding: EdgeInsetsGeometry.only(top: size.height * 0.1, bottom: size.height * 0.1),
                         child: Center(child: LoadingAnimationWidget.hexagonDots(
                           color: isdarck ?
                           const Color.fromARGB(255, 194, 192, 192)

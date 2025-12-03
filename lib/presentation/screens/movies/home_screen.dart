@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 
 import 'package:movies_app/presentation/providers/providers.dart';
+import 'package:movies_app/presentation/views/movies_views/settings_view.dart';
 import 'package:movies_app/presentation/views/views.dart';
-import '../../views/movies_views/home_view.dart';
+//import '../../views/movies_views/home_view.dart';
 
 //todo, dotenv es para mover archivos de entorno hacia la app
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -20,9 +21,10 @@ class HomeScreen extends StatelessWidget {
   });
 
   final viewRoutes = const <Widget>[
-    HomeView(),
+    HomeView(), // <---- Home
     CategoriesView(),  // <--- Categories
     FavoritesView(),  // <--- Favorites
+    SettingsView(), // <---- Settings
   ];
 
   @override
@@ -32,7 +34,7 @@ class HomeScreen extends StatelessWidget {
       
         body: IndexedStack(//! Para preservar el estado y no volver a crear el widget MUY UTIL
           index: pageIndex, //* Esto es lo que define cual mostrar con el index(es el que escoge en el children)
-          children: viewRoutes//* Todas las View
+          children: viewRoutes//* Todas las View y segun el index decide que view mostrar
         ),
       
         bottomNavigationBar: CustomBottomNavigationbar(currentIndex: pageIndex,),

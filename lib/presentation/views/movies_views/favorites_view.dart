@@ -49,7 +49,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     final myMovieList = movies.values.toList();//TRANFORMAR A LISTA LAS MOVIES QUE VIENEN COMO MAPA
     final colors = Theme.of(context).colorScheme;
     final style = Theme.of(context).textTheme;
-    final size = MediaQuery.of(context).size;
+    //final size = MediaQuery.of(context).size;
 
     if(myMovieList.isEmpty){
       return Scaffold(
@@ -58,8 +58,16 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.favorite_border, size: 100, color: colors.primary,),
-              SizedBox(height: 10,),
-              Text('Sin peliculas Favoritas', style: style.titleMedium,)
+              Text('Ohhhh no!!!', style: style.titleLarge!.copyWith(color: colors.primary),),
+              SizedBox(height: 15,),
+              Text('Sin peliculas Favoritas', style: style.titleMedium,),
+              
+              SizedBox(height: 20,),
+              
+              FilledButton(
+                onPressed: (){}, 
+                child: Text('Empezar a Buscar')
+              )
             ],
           ),
         ),

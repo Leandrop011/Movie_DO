@@ -274,7 +274,7 @@ class _PreSimilarMoviesView extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Text(
-              'Similares', 
+              'Recomendadas', 
               style: textStyle.titleLarge,
             ),
           ),

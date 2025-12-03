@@ -32,39 +32,41 @@ class CustomAppbar extends ConsumerWidget {
             Spacer(),//todo, que tome todo el espacio disponibleentre esos widgets
             //todo, por ende lo mueve hasta el final
             
-            IconButton(
-
-              onPressed: () {
-                final searchedMovies = ref.read(searchedMoviesProvider);
-                final searchQuery = ref.read(searchQueryProvider);
-                
-
-                showSearch<Movie?>(//* esto nos puede devolver una pelicula
-                  query: searchQuery,
-                  context: context, 
-                  delegate: SearchMovieDelegate(
-                    initialMovies: searchedMovies,
-                    searchMovie: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery,
-                  )
-                ).then((movie) {//* SI EL USUARIO SELECCIONA ESO CAPTURA EL VALOR
-                  if(movie == null) return;
-                  //! CAMBIAMOS LA DIRECCION DEL ROUTER ENTONCES AQUI CAMBIAMOS
-                  context.push('/home/0/movie/${movie.id}');
+            Padding(
+              padding: const EdgeInsets.only(right: 5.0),
+              child: IconButton(
+                onPressed: () {
+                  final searchedMovies = ref.read(searchedMoviesProvider);
+                  final searchQuery = ref.read(searchQueryProvider);
                   
-                });
-              }, 
-              icon: Icon(Icons.search)
+              
+                  showSearch<Movie?>(//* esto nos puede devolver una pelicula
+                    query: searchQuery,
+                    context: context, 
+                    delegate: SearchMovieDelegate(
+                      initialMovies: searchedMovies,
+                      searchMovie: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery,
+                    )
+                  ).then((movie) {//* SI EL USUARIO SELECCIONA ESO CAPTURA EL VALOR
+                    if(movie == null) return;
+                    //! CAMBIAMOS LA DIRECCION DEL ROUTER ENTONCES AQUI CAMBIAMOS
+                    context.push('/home/0/movie/${movie.id}');
+                    
+                  });
+                }, 
+                icon: Icon(Icons.search)
+              ),
             ),
             
-            IconButton(
-              onPressed: (){
-                ref.read(isdarckProvider.notifier).update((value) => !value);
-              }, 
-              icon: isdarck? 
-                    Icon(Icons.light_mode_outlined)
-                    :
-                    Icon(Icons.dark_mode)
-            )
+            // IconButton(
+            //   onPressed: (){
+            //     ref.read(isdarckProvider.notifier).update((value) => !value);
+            //   }, 
+            //   icon: isdarck? 
+            //         Icon(Icons.light_mode_outlined)
+            //         :
+            //         Icon(Icons.dark_mode)
+            // )
           ],
         ),
       ),

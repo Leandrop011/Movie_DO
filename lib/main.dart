@@ -5,7 +5,7 @@ import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
-//import 'package:movies_app/config/database/database.dart';
+import 'package:movies_app/config/database/database.dart';
 Future <void> main()async{ 
 
   //!ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
@@ -20,9 +20,9 @@ Future <void> main()async{
   //     title: 'Batman'
   //   )
   // );
-  //! PARA BORRAR LA BASE DE DATOS
-  // final deleteQuery = db.delete(db.favoritesMovies);
-  // await deleteQuery.go();
+  //! PARA BORRAR LOS RECURSOS DE LA BASE DE DATOS
+  final deleteQuery = db.delete(db.favoritesMovies);
+  await deleteQuery.go();
 
   //!EJEMPLO DE LO QUE INSERTA
   // final movies = await db.select(db.favoritesMovies).get();

@@ -10,7 +10,7 @@ class AppTheme {
 
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,
-    colorSchemeSeed: const Color.fromARGB(255, 2, 69, 177),
+    colorSchemeSeed: const Color.fromARGB(255, 122, 192, 196),
 
     brightness: isdarck ? 
                 Brightness.dark
