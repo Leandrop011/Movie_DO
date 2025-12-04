@@ -29,6 +29,8 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final style = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Ajustes', style: style.titleLarge,),
@@ -45,16 +47,38 @@ class SettingsView extends StatelessWidget {
           )
         ],
       ),
-      body: ListView.builder(
-        physics: AlwaysScrollableScrollPhysics(),
-        itemCount: types.length,
-        itemBuilder: (context, index) {
-          final String type = types[index];
-          final IconData icon = icons[index];
-          final String link = links[index];
 
-          return CustomSettingsCards(type: type, icon: icon, link: link,);
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              right: size.width * 0.04, 
+              left: size.width * 0.04,
+              top: size.height * 0.01, 
+              bottom: size.height * 0.025
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(20),
+              child: Image.asset(
+                'assets/settings/image_01.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: types.length,
+              itemBuilder: (context, index) {
+                final String type = types[index];
+                final IconData icon = icons[index];
+                final String link = links[index];
+            
+                return CustomSettingsCards(type: type, icon: icon, link: link,);
+              },
+            ),
+          ),
+        ],
       )
     );
   }

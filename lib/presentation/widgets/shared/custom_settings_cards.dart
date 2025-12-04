@@ -18,9 +18,14 @@ class CustomSettingsCards extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final colors = Theme.of(context).colorScheme;
+    final size = MediaQuery.of(context).size;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 3.0, left: 3, right: 8, top: 10),
+      padding: EdgeInsets.only(
+        right: size.width * 0.04, 
+        left: size.width * 0.04, 
+        bottom: size.height * 0.02
+      ),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(

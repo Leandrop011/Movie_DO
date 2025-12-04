@@ -46,7 +46,7 @@ class _ThemeChangerView extends ConsumerWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(width: 1, color: Colors.white)
+                border: Border.all(width: 1, color: color)
               ),
               child: RadioListTile(
                 
