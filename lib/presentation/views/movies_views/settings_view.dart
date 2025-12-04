@@ -1,22 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/widgets/shared/custom_settings_cards.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
 
+  //* Metodo que construye un AlertDialog
+  void infoMake(BuildContext context){
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Ajustes'),
+          content: Text('En esta sección puedes personalizar la apariencia de la app. Aquí encontrarás opciones para cambiar el tema, modificar la fuente y ajustar detalles visuales para que la experiencia se adapte a ti.'),
+          actions: [
+            FilledButton(
+              onPressed: (){
+                context.pop();
+              }, 
+              child: Text('Ok'),
+            )
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final style = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings View'),
+        title: Text('Ajustes', style: style.titleLarge,),
+        centerTitle: false,
+        leading: Icon(Icons.settings_outlined, color: colors.primary,),
+        titleSpacing: 0,
+
+        actions: [
+          IconButton(
+            onPressed: (){
+              infoMake(context);
+            }, 
+            icon: Icon(Icons.info_outline)
+          )
+        ],
       ),
       body: ListView.builder(
+        physics: AlwaysScrollableScrollPhysics(),
         itemCount: types.length,
         itemBuilder: (context, index) {
           final String type = types[index];
-          final Icon icon = icons[index];
+          final IconData icon = icons[index];
+          final String link = links[index];
 
-          return CustomSettingsCards(type: type, icon: icon,);
+          return CustomSettingsCards(type: type, icon: icon, link: link,);
         },
       )
     );
@@ -25,10 +62,17 @@ class SettingsView extends StatelessWidget {
 
 //* LISTADO DE LOS TIPOS DE SETTINGS
 final List<String> types = [
-  'Cambiar Tema',
-  'Cambiar Fondo'
+  'Cambio de Tema',
+  'Cambio de Fondo'
 ];
-final List<Icon> icons =[
-  Icon(Icons.palette_outlined),
-  Icon(Icons.light_mode_outlined)
+final List<IconData> icons =[
+  Icons.palette_outlined,
+  Icons.light_mode_outlined
 ];
+
+final List<String> links = [
+  'theme',
+  'fount'
+];
+
+

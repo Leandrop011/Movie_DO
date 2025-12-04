@@ -1,13 +1,15 @@
 
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/screens/screens.dart';
+import 'package:movies_app/presentation/screens/settings/change_fount_screen.dart';
+import 'package:movies_app/presentation/screens/settings/change_theme_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/home/0',
   routes: [
 
 
-    //todo, rutas
+    //todo, ruta de el home(donde esta el bottom navigationBar) y rutas hijas
     GoRoute(
       path: '/home/:page',//* esto indica en cual page quiere mostrar 0 home, 1 categories, 2 favorites
       builder: (context, state){
@@ -34,6 +36,19 @@ final appRouter = GoRouter(
           },
         ),
       ]
+    ),
+
+    //todo, RUTAS GLOBALES DONDE MANDA A OTRA SCREENS
+    GoRoute(
+      name: ChangeThemeScreen.name,
+      path: '/theme',
+      builder: (context, state) => ChangeThemeScreen(),
+    ),
+
+    GoRoute(
+      name: ChangeFountScreen.name,
+      path: '/fount',
+      builder: (context, state) => ChangeFountScreen(),
     ),
 
     //! Para redireccionar la direccion / a la nueva /home/0

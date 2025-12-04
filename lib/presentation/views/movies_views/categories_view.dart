@@ -45,10 +45,14 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
 
     final movies = ref.watch(popularMoviesProvider);
     final style = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('POPULARS', style: style.titleLarge,),
+        title: Text('POPULARES', style: style.titleLarge,),
+        leading: Icon(Icons.thumb_up_alt_outlined, color: colors.primary,),
+        centerTitle: false,
+        titleSpacing: 0,//* el espacio de separacion del title y el leading
         actions: [
           IconButton(
             onPressed: (){

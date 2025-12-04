@@ -76,7 +76,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.add_box, color: colors.primary,),
+        leading: Icon(Icons.add_box_outlined, color: colors.primary,),
         title: Text('FAVORITAS', style: style.titleLarge),
         centerTitle: false,
         titleSpacing: 0,
