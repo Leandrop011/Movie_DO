@@ -31,6 +31,9 @@ class FavoritesMovies extends Table{
   //* EL WITHDEFAULT ES UN VALOR POR DEFECTO
 }
 
+//TODO, IMPLEMENTAR UNA BASE DE DATOS QUE GUARDE LOCALMENTE EL FOUNT AND THEME
+
+
 
 @DriftDatabase(tables: [FavoritesMovies])
 class AppDatabase extends _$AppDatabase {
