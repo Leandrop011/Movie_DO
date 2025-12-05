@@ -49,6 +49,7 @@ flutter_launcher_icons:
   min_sdk_android: 21
 
 dev_dependencies:
+  animated_theme_switcher: ^2.0.10
   build_runner: ^2.10.4
   drift_dev: ^2.29.0
   flutter_lints: ^5.0.0
