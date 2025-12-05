@@ -46,7 +46,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
   Widget build(BuildContext context) {
 
     final movies = ref.watch(favoriteMoviesProvider);
-    final myMovieList = movies.values.toList();//TRANFORMAR A LISTA LAS MOVIES QUE VIENEN COMO MAPA
+    final myMovieList = movies.values.toList();//!TRANFORMAR A LISTA LAS MOVIES QUE VIENEN COMO MAPA
     final colors = Theme.of(context).colorScheme;
     final style = Theme.of(context).textTheme;
     //final size = MediaQuery.of(context).size;
@@ -65,7 +65,9 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
               SizedBox(height: 20,),
               
               FilledButton(
-                onPressed: (){}, 
+                onPressed: (){
+                  context.go('/home/0');
+                }, 
                 child: Text('Empezar a Buscar')
               )
             ],
@@ -95,6 +97,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
         movies: myMovieList, 
         loadNextPage: () => ref.read(favoriteMoviesProvider.notifier).loadNextPage(), //* el () => es porque espera una funcion
       ),
+      
       
     );
   }

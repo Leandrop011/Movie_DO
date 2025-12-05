@@ -515,9 +515,13 @@ class _CustomSliverAppBar extends ConsumerWidget {
 
     final size = MediaQuery.of(context).size;//* para saber las dimensiones del dispositivo
     final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
-
+    
+    //! toma el color blacno o negro dependiendo del contexto del theme
+    final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    
     return SliverAppBar(
       backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
       leading: IconButton(
         onPressed: (){
           //* Es distinto de como apilar y desapilar con el push y pop, este coloca y ya no apila
@@ -556,7 +560,20 @@ class _CustomSliverAppBar extends ConsumerWidget {
 
       flexibleSpace: FlexibleSpaceBar(//*contenido
         //* contenido
-        background: _ContentSilverAppBar(movie: movie),  
+        background: _ContentSilverAppBar(movie: movie),
+
+        //! ESTO ES PARA QEU EL GRADIENTE PARA QUE SE VEA EL TITULO EN PELICUALS CON FONDO BLANCO
+        //! SE MUEVA INCLUSO SI BAJO LA PANTALLA  
+        titlePadding: const EdgeInsets.only(bottom: 0),
+        title:  _CustomGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: const [0.8, 1],
+          colors: [
+            Colors.transparent,
+            scaffoldBackgroundColor
+          ]
+        ),
       ),
     );
   }
@@ -574,6 +591,7 @@ class _ContentSilverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     return Stack(//* el fondo
       children: [
 
@@ -595,13 +613,13 @@ class _ContentSilverAppBar extends StatelessWidget {
           ),
         ),
 
-        //*GRADIENTE DE LA PARTE BAJA
-        _CustomGradient(
-          begin: Alignment.topCenter, 
-          end: Alignment.bottomCenter, 
-          stops: [0.8, 1.0],
-          colors: [Colors.transparent, Colors.black87]
-        ),
+        // //*GRADIENTE DE LA PARTE BAJA
+        // _CustomGradient(
+        //   begin: Alignment.topCenter, 
+        //   end: Alignment.bottomCenter, 
+        //   stops: [0.8, 1.0],
+        //   colors: [Colors.transparent, scaffoldBackgroundColor]
+        // ),
 
         //*GRADIENTE DE LA FLECHA DE REGRESO
         _CustomGradient(
