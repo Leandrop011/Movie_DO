@@ -27,15 +27,16 @@ final List<String> colorsThemeNames = [
 
 class AppTheme {
   final bool isdarck;
-
+  final int indexColor;
   AppTheme({
-    required this.isdarck
+    required this.isdarck, 
+    required this.indexColor
   });
 
 
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,
-    colorSchemeSeed: const Color.fromARGB(255, 122, 192, 196),
+    colorSchemeSeed: colorsTheme[indexColor],
 
     brightness: isdarck ? 
                 Brightness.dark

@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
+import 'package:movies_app/presentation/providers/config/index_theme_provider.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
 //import 'package:movies_app/config/database/database.dart';
@@ -45,11 +46,12 @@ class MyApp extends ConsumerWidget {
 
     //* Va a estar pendiente de cualquier cambio, si existe algun cambio pues redibuja
     final isdarck = ref.watch(isdarckProvider);
+    final indexColor = ref.watch(indexThemeProvider);
 
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme(isdarck: isdarck).getTheme(),
+      theme: AppTheme(isdarck: isdarck, indexColor: indexColor).getTheme(),
     );
   }
 }

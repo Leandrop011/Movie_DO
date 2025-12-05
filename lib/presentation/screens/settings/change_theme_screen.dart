@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
+import 'package:movies_app/presentation/providers/config/index_theme_provider.dart';
 import 'package:movies_app/presentation/providers/config/value_theme_provider.dart';
 
 class ChangeThemeScreen extends StatelessWidget {
@@ -29,6 +30,7 @@ class _ThemeChangerView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final value = ref.watch(valueThemeProvider);
+    //final size = MediaQuery.of(context).size;
     return ListView.builder(
       itemCount: colorsTheme.length,
       itemBuilder: (context, index) {
@@ -46,7 +48,7 @@ class _ThemeChangerView extends ConsumerWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(width: 1, color: color)
+                border: Border.all(width: 2, color: color)
               ),
               child: RadioListTile(
                 
@@ -57,6 +59,7 @@ class _ThemeChangerView extends ConsumerWidget {
                 groupValue: value,//! EL QUE LE DA CHECK AL RADIO
                 onChanged: (value) {//! EL QUE ACTUALIZA EL DATO
                   ref.read(valueThemeProvider.notifier).update((cb) => index);
+                  ref.read(indexThemeProvider.notifier).update((cb) => index);
                 },
               ),
             ),

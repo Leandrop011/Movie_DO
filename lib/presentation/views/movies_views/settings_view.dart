@@ -60,6 +60,8 @@ class SettingsView extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadiusGeometry.circular(20),
               child: Image.asset(
+                width: size.width * 0.8,
+                height: size.height * 0.4,
                 'assets/settings/image_01.png',
                 fit: BoxFit.cover,
               ),
