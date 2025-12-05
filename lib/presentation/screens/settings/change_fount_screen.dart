@@ -69,7 +69,7 @@ class _ViewButtonFountState extends ConsumerState<_ViewButtonFount> {
       child: GestureDetector(
         onTap: () {
           changeInfo();
-          ref.read(isdarckProvider.notifier).update((value) => !value);
+          ref.read(isdarckProvider.notifier).setDark(!isDarck);
         },
         child: AnimatedContainer(
           duration: Duration(milliseconds: 400),

@@ -252,9 +252,9 @@ class ConfigAppCompanion extends UpdateCompanion<ConfigAppData> {
   }
 }
 
-abstract class _$AppDatabase extends GeneratedDatabase {
-  _$AppDatabase(QueryExecutor e) : super(e);
-  $AppDatabaseManager get managers => $AppDatabaseManager(this);
+abstract class _$AppConfigDatabase extends GeneratedDatabase {
+  _$AppConfigDatabase(QueryExecutor e) : super(e);
+  $AppConfigDatabaseManager get managers => $AppConfigDatabaseManager(this);
   late final $ConfigAppTable configApp = $ConfigAppTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -277,7 +277,7 @@ typedef $$ConfigAppTableUpdateCompanionBuilder =
     });
 
 class $$ConfigAppTableFilterComposer
-    extends Composer<_$AppDatabase, $ConfigAppTable> {
+    extends Composer<_$AppConfigDatabase, $ConfigAppTable> {
   $$ConfigAppTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -302,7 +302,7 @@ class $$ConfigAppTableFilterComposer
 }
 
 class $$ConfigAppTableOrderingComposer
-    extends Composer<_$AppDatabase, $ConfigAppTable> {
+    extends Composer<_$AppConfigDatabase, $ConfigAppTable> {
   $$ConfigAppTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -327,7 +327,7 @@ class $$ConfigAppTableOrderingComposer
 }
 
 class $$ConfigAppTableAnnotationComposer
-    extends Composer<_$AppDatabase, $ConfigAppTable> {
+    extends Composer<_$AppConfigDatabase, $ConfigAppTable> {
   $$ConfigAppTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -348,7 +348,7 @@ class $$ConfigAppTableAnnotationComposer
 class $$ConfigAppTableTableManager
     extends
         RootTableManager<
-          _$AppDatabase,
+          _$AppConfigDatabase,
           $ConfigAppTable,
           ConfigAppData,
           $$ConfigAppTableFilterComposer,
@@ -358,12 +358,12 @@ class $$ConfigAppTableTableManager
           $$ConfigAppTableUpdateCompanionBuilder,
           (
             ConfigAppData,
-            BaseReferences<_$AppDatabase, $ConfigAppTable, ConfigAppData>,
+            BaseReferences<_$AppConfigDatabase, $ConfigAppTable, ConfigAppData>,
           ),
           ConfigAppData,
           PrefetchHooks Function()
         > {
-  $$ConfigAppTableTableManager(_$AppDatabase db, $ConfigAppTable table)
+  $$ConfigAppTableTableManager(_$AppConfigDatabase db, $ConfigAppTable table)
     : super(
         TableManagerState(
           db: db,
@@ -397,7 +397,7 @@ class $$ConfigAppTableTableManager
 
 typedef $$ConfigAppTableProcessedTableManager =
     ProcessedTableManager<
-      _$AppDatabase,
+      _$AppConfigDatabase,
       $ConfigAppTable,
       ConfigAppData,
       $$ConfigAppTableFilterComposer,
@@ -407,15 +407,15 @@ typedef $$ConfigAppTableProcessedTableManager =
       $$ConfigAppTableUpdateCompanionBuilder,
       (
         ConfigAppData,
-        BaseReferences<_$AppDatabase, $ConfigAppTable, ConfigAppData>,
+        BaseReferences<_$AppConfigDatabase, $ConfigAppTable, ConfigAppData>,
       ),
       ConfigAppData,
       PrefetchHooks Function()
     >;
 
-class $AppDatabaseManager {
-  final _$AppDatabase _db;
-  $AppDatabaseManager(this._db);
+class $AppConfigDatabaseManager {
+  final _$AppConfigDatabase _db;
+  $AppConfigDatabaseManager(this._db);
   $$ConfigAppTableTableManager get configApp =>
       $$ConfigAppTableTableManager(_db, _db.configApp);
 }

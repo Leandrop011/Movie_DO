@@ -19,18 +19,18 @@ class ConfigApp extends Table {
 } 
 
 @DriftDatabase(tables: [ConfigApp])
-class AppDatabase extends _$AppDatabase {
+class AppConfigDatabase  extends _$AppConfigDatabase  {
   // After generating code, this class needs to define a `schemaVersion` getter
   // and a constructor telling drift where the database should be stored.
   // These are described in the getting started guide: https://drift.simonbinder.eu/setup/
-  AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
+  AppConfigDatabase ([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
-      name: 'my_database',
+      name: 'config_db.sqlite',
       native: const DriftNativeOptions(
         // By default, `driftDatabase` from `package:drift_flutter` stores the
         // database files in `getApplicationDocumentsDirectory()`.
@@ -40,3 +40,5 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 }
+
+final dbConfi = AppConfigDatabase();

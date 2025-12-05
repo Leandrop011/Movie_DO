@@ -47,7 +47,7 @@ class AppDatabase extends _$AppDatabase {
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
-      name: 'my_database',
+      name: 'favorites_db.sqlite',//! esto hay que cmabiarlo si hay muchas base de datos
       native: const DriftNativeOptions(
         // By default, `driftDatabase` from `package:drift_flutter` stores the
         // database files in `getApplicationDocumentsDirectory()`.

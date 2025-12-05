@@ -59,7 +59,7 @@ class _ThemeChangerView extends ConsumerWidget {
                 groupValue: value,//! EL QUE LE DA CHECK AL RADIO
                 onChanged: (value) {//! EL QUE ACTUALIZA EL DATO
                   ref.read(valueThemeProvider.notifier).update((cb) => index);
-                  ref.read(indexThemeProvider.notifier).update((cb) => index);
+                  ref.read(indexThemeProvider.notifier).setTheme(index);
                 },
               ),
             ),
