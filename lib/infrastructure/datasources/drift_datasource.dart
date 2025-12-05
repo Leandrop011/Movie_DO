@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart' as drift;
-import 'package:movies_app/config/database/database.dart';
+import 'package:movies_app/config/database/favorites/database.dart';
 import 'package:movies_app/domain/data_sources/local_storage_datasource.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 
