@@ -4,6 +4,7 @@
 
 import 'package:movies_app/domain/data_sources/movies_datasource.dart';
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/domain/entities/video.dart';
 import 'package:movies_app/domain/repositories/movies_repositorie.dart';
 
 class MovieMovieDbRepositoryImplementation extends MoviesRepositorie{
@@ -52,6 +53,11 @@ class MovieMovieDbRepositoryImplementation extends MoviesRepositorie{
   @override
   Future<List<Movie>> getMoviesSimilar(String id) {
     return datasource.getMoviesSimilar(id);
+  }
+
+  @override
+  Future<List<Video>> getYoutubeVideosById(int moviId) {
+    return datasource.getYoutubeVideosById(moviId);
   }
   
 }

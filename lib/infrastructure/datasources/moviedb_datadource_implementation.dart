@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:movies_app/config/constants/environment.dart';
 import 'package:movies_app/domain/data_sources/movies_datasource.dart';
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/domain/entities/video.dart';
 import 'package:movies_app/infrastructure/mappers/movie_mapper.dart';
+import 'package:movies_app/infrastructure/mappers/video_mapper.dart';
 import 'package:movies_app/infrastructure/models/moviedb/movie_details.dart';
 import 'package:movies_app/infrastructure/models/moviedb/moviedb_response.dart';
+import 'package:movies_app/infrastructure/models/moviedb/moviedb_videos.dart';
 
 //todo, aqui es la implementacion, si o si debo hacer una implementacion
 class MoviedbDatadourceImplementation extends MoviesDatasource{
@@ -129,5 +131,21 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
     final response = await dio.get('/movie/$id/similar');
 
     return _jsonToMovies(response.data /*as Map<String, dynamic>*/);
+  }
+
+  @override
+  Future<List<Video>> getYoutubeVideosById(int moviId) async{
+    final response = await dio.get('/movie/$moviId/videos');//* RESPUESTA HTTP
+    final moviedbVideoResponse = MoviedbVideosResponse.fromJson(response.data);//* MAPPEAR LA DATA
+    final videos = <Video>[];//* CREAR UNA LIST DE VIDEO VACIA
+
+    //* CONTROLAR QUE SEAN SOLO DE YOUTUBE, SI NO ES NO DEVUELVE 
+    for (final moviedbVideo in moviedbVideoResponse.results){
+      if ( moviedbVideo.site == 'YouTube' ) {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);//* LLENAR LA LIST DE VIDEO
+      }
+    }
+    return videos;//* retornarla
   }  
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
-class CustomSettingsCards extends StatelessWidget {
+class CustomSettingsCards extends ConsumerWidget {
 
   final String type;
   final IconData icon;
@@ -15,10 +17,11 @@ class CustomSettingsCards extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     final colors = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
+    final isDarck = ref.watch(isdarckProvider);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -30,7 +33,10 @@ class CustomSettingsCards extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             width: 0.5, 
-            color: Colors.white70
+            color: isDarck ?
+            Colors.white70
+            :
+            Colors.black54
           ),
           borderRadius: BorderRadius.circular(10)
         ),

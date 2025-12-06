@@ -10,6 +10,7 @@ import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
 import 'package:movies_app/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:movies_app/presentation/providers/storage/is_favorite_movie_provider.dart';
+import 'package:movies_app/presentation/widgets/videos/videos_from_movie.dart';
 
 //todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
 class MovieScreen extends ConsumerStatefulWidget {
@@ -133,6 +134,9 @@ class _MovieDetails extends ConsumerWidget {
         //* WIDGET QUE HARA TODA LAS LISTVIEW DE LOS ACTORES, DEPENDIENDO DEL ID
         _ActorsByMovie(movieId: movie.id.toString()),
 
+        //* WIDGET QUE NOS DA EL VIDEO DE LA PELICULA
+        VideosFromMovie(movieId: movie.id),
+
         //* TITULO ANTES DE PELICULAS SIMILARES
         _PreSimilarMoviesView(size: size, textStyle: textStyle),
 
@@ -140,7 +144,7 @@ class _MovieDetails extends ConsumerWidget {
         _MoviesSimilars(movieId: movie.id.toString()),
 
 
-        SizedBox(height: 20,)
+        SizedBox(height: 20,),
         
       ],
     );
@@ -250,7 +254,7 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     final isDarck = ref.read(isdarckProvider);
 
     return Padding(
-      padding: EdgeInsetsGeometry.only(bottom: 15, left: 8, right: 8),
+      padding: EdgeInsetsGeometry.only(bottom: 15, left: 8, right: 8, top: 10),
       child: SizedBox(
         width: size.width * 1,
         height: size.height * 0.06,
@@ -517,7 +521,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
     final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
     
     //! toma el color blacno o negro dependiendo del contexto del theme
-    final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     
     return SliverAppBar(
       backgroundColor: Colors.black,
@@ -571,7 +575,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
           stops: const [0.8, 1],
           colors: [
             Colors.transparent,
-            scaffoldBackgroundColor
+            Colors.black87
           ]
         ),
       ),
@@ -680,4 +684,6 @@ class _CustomGradient extends StatelessWidget {
     );
   }
 }
+
+
 
