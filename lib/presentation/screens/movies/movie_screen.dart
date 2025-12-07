@@ -10,6 +10,7 @@ import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
 import 'package:movies_app/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:movies_app/presentation/providers/storage/is_favorite_movie_provider.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_bottom_favorites.dart';
 import 'package:movies_app/presentation/widgets/videos/videos_from_movie.dart';
 
 //todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
@@ -108,10 +109,16 @@ class _MovieDetails extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
+        
+        //* INFORMACION DE LA MOVIE
         _ElementsInDetails(isDarck: isDarck, size: size, movie: movie, textStyle: textStyle),
 
-        Padding(
+        RepaintBoundary(//* VIDEO
+          key: ValueKey('video_boundary_${movie.id}'),
+          child: VideosFromMovie(movieId: movie.id),
+        ),
+
+        Padding(//* GENEROS DE LA MOVIE
           padding: const EdgeInsets.all(8),
           child: Wrap(
             children: [
@@ -126,15 +133,13 @@ class _MovieDetails extends ConsumerWidget {
           ),
         ),
 
+        //* ACTORES DE LA MOVIE
         _ActorsByMovie(movieId: movie.id.toString()),
 
-        RepaintBoundary(
-          key: ValueKey('video_boundary_${movie.id}'),
-          child: VideosFromMovie(movieId: movie.id),
-        ),
-
+        //* TITULO DE SIMILARES
         _PreSimilarMoviesView(size: size, textStyle: textStyle),
 
+        //* PELICULAS SIMILARES
         _MoviesSimilars(movieId: movie.id.toString()),
 
         const SizedBox(height: 20),
@@ -203,6 +208,7 @@ class _ElementsInDetails extends StatelessWidget {
                   ),
 
                   //todo, IMPLEMENTAR UN WIDGET PERSONALIZADO QUE FUNCIONE COMO BOTON
+                  CustomBottomFavorites(movie: movie,)
                 ],
               ),
               
@@ -517,7 +523,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final size = MediaQuery.of(context).size;//* para saber las dimensiones del dispositivo
-    final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
+    //final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
     
     //! toma el color blacno o negro dependiendo del contexto del theme
     //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
@@ -533,31 +539,31 @@ class _CustomSliverAppBar extends ConsumerWidget {
         icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)
       ),
 
-      actions: [//! PARA QUE FUNCIONE LA PARTE DE FAVORITOS, USA LA BASE DE DATOS LOCAL
-        IconButton(
-          //!SOLO SI SE PRESIONA ESE BOTON SE HACEN LOS CAMBIOS EN EL PROVIDER
-          onPressed: () async{//!ESTE ASYN ES MUY IMPORTANTA PARA EL AWAIT 
-            //* AQUI LEEMOS Y PODEMOS ACTUALIZAR AGREGAR O REMOVER DE FAVORITOS A UNA MOVIE Y TAMBIEN LOS CAMBIOS EN LA BASE DE DATOS
-            //* LE MANDAMOS ESA PELICULA Y AHI HACE LA CONSULTA CON LA BASE DE DATOS Y DECICE SI REMOVER O AGREGAR
-            await ref.read(favoriteMoviesProvider.notifier).toggleFavoriteMovie(movie);
-            ref.invalidate(isFavoriteMovieProvider(movie.id));//* ESTO ES PARA INVALIDAR AL PROVIDER Y ASI CAMBIE EL ICONO(ASI CONSULTA A LA BASE DE DATOS OTRA VEZ)
-          },
-          //* EL FUTURE DEL PROVIDERFUTURE NOS AYUDA MUCHO PORQUE NOS DEJA TENER LOS 3 ESTADOS
-          icon: isFavoriteFuture.when(
-            data: (isFavorite) => isFavorite == true ?
-            Icon(Icons.favorite, color: Colors.red,)
-            :
-            Icon(Icons.favorite_outline_rounded),
-            error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
-            loading: () => Center(
-              child: LoadingAnimationWidget.hexagonDots(
-                color: Colors.white, 
-                size: 40
-              ),
-            )
-          ), 
-        )
-      ],
+      // actions: [//! PARA QUE FUNCIONE LA PARTE DE FAVORITOS, USA LA BASE DE DATOS LOCAL
+      //   IconButton(
+      //     //!SOLO SI SE PRESIONA ESE BOTON SE HACEN LOS CAMBIOS EN EL PROVIDER
+      //     onPressed: () async{//!ESTE ASYN ES MUY IMPORTANTA PARA EL AWAIT 
+      //       //* AQUI LEEMOS Y PODEMOS ACTUALIZAR AGREGAR O REMOVER DE FAVORITOS A UNA MOVIE Y TAMBIEN LOS CAMBIOS EN LA BASE DE DATOS
+      //       //* LE MANDAMOS ESA PELICULA Y AHI HACE LA CONSULTA CON LA BASE DE DATOS Y DECICE SI REMOVER O AGREGAR
+      //       await ref.read(favoriteMoviesProvider.notifier).toggleFavoriteMovie(movie);
+      //       ref.invalidate(isFavoriteMovieProvider(movie.id));//* ESTO ES PARA INVALIDAR AL PROVIDER Y ASI CAMBIE EL ICONO(ASI CONSULTA A LA BASE DE DATOS OTRA VEZ)
+      //     },
+      //     //* EL FUTURE DEL PROVIDERFUTURE NOS AYUDA MUCHO PORQUE NOS DEJA TENER LOS 3 ESTADOS
+      //     icon: isFavoriteFuture.when(
+      //       data: (isFavorite) => isFavorite == true ?
+      //       Icon(Icons.favorite, color: Colors.red,)
+      //       :
+      //       Icon(Icons.favorite_outline_rounded),
+      //       error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
+      //       loading: () => Center(
+      //         child: LoadingAnimationWidget.hexagonDots(
+      //           color: Colors.white, 
+      //           size: 40
+      //         ),
+      //       )
+      //     ), 
+      //   )
+      // ],
 
       expandedHeight: size.height * 0.7,
 
@@ -594,7 +600,7 @@ class _ContentSilverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     return Stack(//* el fondo
       children: [
 

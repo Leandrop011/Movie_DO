@@ -57,7 +57,7 @@ class _VideosList extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              'Trailer', 
+              'VIDEO', 
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
             ),
           ),
