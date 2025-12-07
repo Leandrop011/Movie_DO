@@ -101,7 +101,6 @@ class _MovieDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //* para saber el tamano del dispositivo y asi aplicar un tamanao bueno pa todos
     final size = MediaQuery.of(context).size;
     final textStyle = Theme.of(context).textTheme;
     final isDarck = ref.read(isdarckProvider);
@@ -110,41 +109,35 @@ class _MovieDetails extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        //* CAJA DE PELICULA E INFO DE PELICULA
         _ElementsInDetails(isDarck: isDarck, size: size, movie: movie, textStyle: textStyle),
 
-        //* GENEROS DE LA PELICULA
         Padding(
-          padding: EdgeInsetsGeometry.all(8),
+          padding: const EdgeInsets.all(8),
           child: Wrap(
             children: [
-              //* obtengo los generos disponibles y para eso hago un mapeo, porque son algunos
-              //* generos como accion, suspenso y asi 
               ...movie.genreIds.map((gender) => Container(
-                margin: EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(right: 10),
                 child: Chip(
                   label: Text(gender),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(20)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                 ),
               ))
             ],
           ),
         ),
 
-        //* WIDGET QUE HARA TODA LAS LISTVIEW DE LOS ACTORES, DEPENDIENDO DEL ID
         _ActorsByMovie(movieId: movie.id.toString()),
 
-        //* WIDGET QUE NOS DA EL VIDEO DE LA PELICULA
-        VideosFromMovie(movieId: movie.id),
+        RepaintBoundary(
+          key: ValueKey('video_boundary_${movie.id}'),
+          child: VideosFromMovie(movieId: movie.id),
+        ),
 
-        //* TITULO ANTES DE PELICULAS SIMILARES
         _PreSimilarMoviesView(size: size, textStyle: textStyle),
 
-        //* WIDGET QUE DA LA LISTA DE PELICULAS SIMILARES A LA SELECCIONADA
         _MoviesSimilars(movieId: movie.id.toString()),
 
-
-        SizedBox(height: 20,),
+        const SizedBox(height: 20),
         
       ],
     );
@@ -192,19 +185,25 @@ class _ElementsInDetails extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(10),
-                child: Image.network(
-                  width: size.width * 0.3,
-                  movie.posterPath,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if(loadingProgress != null){
-                      return Center(child: CircularProgressIndicator(),);
-                    }
-                    return child;
-                  },
-                ),
+              Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(10),
+                    child: Image.network(
+                      width: size.width * 0.3,
+                      movie.posterPath,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if(loadingProgress != null){
+                          return Center(child: CircularProgressIndicator(),);
+                        }
+                        return child;
+                      },
+                    ),
+                  ),
+
+                  //todo, IMPLEMENTAR UN WIDGET PERSONALIZADO QUE FUNCIONE COMO BOTON
+                ],
               ),
               
               SizedBox(width: 10,),

@@ -1,6 +1,10 @@
 
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:movies_app/presentation/providers/config/index_theme_provider.dart';
 
 final valueThemeProvider = StateProvider<int>(
-  (ref) => 0
+  (ref) {
+    final index = ref.watch(indexThemeProvider);
+    return index;
+  }
 );

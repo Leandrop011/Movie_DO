@@ -25,7 +25,7 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
     super.initState();
     
     scrollController.addListener((){
-      if(scrollController.position.pixels + 200 >= scrollController.position.maxScrollExtent){
+      if(scrollController.position.pixels + 100 >= scrollController.position.maxScrollExtent){
         loadNextPageMovies();
       }
     });
@@ -60,24 +60,23 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10 ),
       child: MasonryGridView.count(
-        physics: AlwaysScrollableScrollPhysics(),
+        //physics: AlwaysScrollableScrollPhysics(),
         controller: scrollController,
         crossAxisCount: 3, //* Numero de Columnas
-        mainAxisSpacing: 10,//* separacion en x
-        crossAxisSpacing: 10,//* separacion en y
+        mainAxisSpacing: 10,//* separacion en y
+        crossAxisSpacing: 10,//* separacion en x
         itemCount: widget.movies.length,
         itemBuilder: (context, index) {
-          if(index == 1){//! SEGUN EL INDEX(ELEMENTO POR ELEMENTO Y SE RECORRE POR FILA), SI ESTA EN EL INDEX 1, HACEMOS LO QUE DICE
+          if(index %2 == 0){//! SEGUN EL INDEX(SI ES PAR EJECUTA LA LOGICA)
             return Column(
               children: [
-                SizedBox(height: 50,),
-                MoviePosterLink(movie: widget.movies[index])
+                MoviePosterLink(movie: widget.movies[index], index: false,)
               ],
             );
           }
 
       
-          return MoviePosterLink(movie: widget.movies[index]);
+          return MoviePosterLink(movie: widget.movies[index], index: true,);
         },
       ),
     );
