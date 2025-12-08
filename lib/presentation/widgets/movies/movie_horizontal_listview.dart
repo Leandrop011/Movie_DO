@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
+import 'package:movies_app/presentation/providers/movies/movie_top_provider.dart';
 
 
 class MovieHorizontalListview extends StatefulWidget {
@@ -83,7 +84,11 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
               itemBuilder: (context, index) {
                 final movie = widget.movies[index];
 
-                return FadeInRight(child: _Slide(movie: movie, heightN: widget.heightN ?? false, widthN: widget.widthN ?? false,));
+                //* AQUI CREA A CADA ELEMENTO
+                return FadeInRight(
+                  from: random.nextInt(100) + 80,
+                  child: _Slide(movie: movie, heightN: widget.heightN ?? false, widthN: widget.widthN ?? false,)
+                );
               },
             )
           )
@@ -229,7 +234,10 @@ class _Slide extends ConsumerWidget {
             //* Rating
         
             SizedBox(//todo, para que tenga un limite 
-              width: 150,
+              width: widthN ?
+              185
+              : 
+              150,
               child: Row(
               
                 children: [

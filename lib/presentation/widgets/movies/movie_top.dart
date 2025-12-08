@@ -139,20 +139,23 @@ class _MovieTopView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarck = ref.read(isdarckProvider);
+    final isDarck = ref.watch(isdarckProvider);//* WATCH PORQUE NECESITO QUE ESTE PENDIENTE DE LOS CAMBIOS
     final size = MediaQuery.of(context).size;
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.white, 
-          width: 0.5,
-        ),
+        // border: Border.all(
+        //   color: Colors.white, 
+        //   width: 0.5,
+        // ),
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: [//*gradient
           BoxShadow(
-            color: Colors.black87,
+            color: isDarck ?
+            Colors.white12
+            :
+            Colors.black87,
             blurRadius: 5, 
-            offset: Offset(3, 2)
+            offset: Offset(3, 3)
           )
         ],
       ),

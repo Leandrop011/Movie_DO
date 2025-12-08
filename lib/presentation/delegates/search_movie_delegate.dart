@@ -7,6 +7,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
+import 'package:movies_app/presentation/providers/movies/movie_top_provider.dart';
 
 
 typedef SearchMoviesCallBack = Future<List<Movie>> Function(String query);
@@ -175,6 +176,7 @@ class _MovieItem extends ConsumerWidget {
     final isDarck = ref.read(isdarckProvider);
 
     return FadeInRight(
+      from: random.nextInt(100) + 80,//! PARA QUE EN UNOS PIXELES YA CARGUE LA ANIMACION 
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
@@ -184,12 +186,14 @@ class _MovieItem extends ConsumerWidget {
           padding: EdgeInsets.symmetric( horizontal: 10, vertical: 10,),
         
           child: SizedBox(
+            //* MAXIMOS
             height: size.height * 0.23,
+            width: size.width * 0.5,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: isDarck ? 
-                const Color.fromARGB(255, 68, 66, 66)
+                const Color.fromARGB(255, 66, 67, 67)
                 :
                 const Color.fromARGB(255, 251, 251, 251),
                   
@@ -228,20 +232,22 @@ class _MovieItem extends ConsumerWidget {
                       ),
                     ),
                   ),
+
                   SizedBox(width: 10,),
               
                   //* Descripcion
                   SizedBox(
-                    width: size.width * 0.6,
+                    //! AQUI ES EL TAMANO MAXIMO DE EL OVERVIEW(LO REDUCIMOS TENEMOS MAS ESPACIO)
+                    width: size.width * 0.55,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(movie.title, style: textStyle.titleMedium,),
+                        Text(movie.title, style: textStyle.titleMedium, maxLines: 2,),
                         SizedBox(height: 5,),
                         
                         (movie.overview != '') ?
-                        Text(movie.overview, maxLines: 3, overflow: TextOverflow.ellipsis,)
+                        Text(movie.overview, maxLines: 4, overflow: TextOverflow.ellipsis,)
                         :
                         Text('No Description'),
               
