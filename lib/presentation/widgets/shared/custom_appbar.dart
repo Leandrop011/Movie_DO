@@ -17,8 +17,10 @@ class CustomAppbar extends ConsumerWidget {
     final titleStyle = Theme.of(context).textTheme.titleLarge;
 
     return SafeArea(//todo para que ocupe todo menos esa parte del notch
+      
       child: SizedBox( 
         width: double.infinity,
+        
         child: Row(
           children: [
             Padding(
@@ -26,7 +28,10 @@ class CustomAppbar extends ConsumerWidget {
               child: Icon(Icons.movie_creation_outlined, color: colors.primary,)
             ),
             SizedBox(width: 5,),
-            Text('MovieDo', style: titleStyle,),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text('MovieDo', style: titleStyle,),
+            ),
             
       
             Spacer(),//todo, que tome todo el espacio disponibleentre esos widgets

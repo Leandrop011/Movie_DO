@@ -76,7 +76,7 @@ class HomeViewState extends ConsumerState<HomeView> {
             SliverAppBar(//todo, appbar de un sliver(constrolara que si subimos un poco aparece)
               floating: true,//* para que aparezca cuando se sube un poco
               flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar
-                
+              
                 title: Padding(
                   padding: EdgeInsetsGeometry.only(right:5, top: 5),
                   child: CustomAppbar()
