@@ -64,10 +64,13 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
     final size = MediaQuery.of(context).size;
 
     return SizedBox(//todo, para que no se desborde
+      //! AQUI ES DONDE DEFINO EL TAMANO MAXIMO DE LOS ELEMENTOS DE ESE SCROLL HORIZONTAL
+      //! SI LE DOY MAS, PUES PUEDO AUMENTAR SU TAMANO, DISENO RESPONSIVO
+      //! OJO HAY QUE PRIORIZAR QUE FUNCIONE EN OTROS DISPOSITIVOS QUE AL DISENO
       height: widget.heightN! ? 
-      size.height * 0.55
+      size.height * 0.591
       :
-      size.height * 0.45,
+      size.height * 0.52,
       child: Column(
         children: [
 
@@ -93,8 +96,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
                 );
               },
             )
-          )
-
+          ),
 
         ],
       ),
@@ -178,6 +180,10 @@ class _Slide extends ConsumerWidget {
               // 300
               // :
               // 150,
+              // height: heightN ? 
+              // size.height * 0.4
+              // : 
+              // size.height * 0.2,
               child: ClipRRect(
                 borderRadius: BorderRadiusGeometry.circular(
                   heightN ?
@@ -197,7 +203,7 @@ class _Slide extends ConsumerWidget {
                   height: heightN ?
                   size.height * 0.38
                   :
-                  size.height * 0.28
+                  size.height * 0.3
                   ,
                   fit: BoxFit.cover,
                 
@@ -256,8 +262,9 @@ class _Slide extends ConsumerWidget {
                   
                 ],
               ),
-            )
+            ),
             
+            //SizedBox(height: 30,)
           ],
         ),
       ),
