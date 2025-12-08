@@ -72,8 +72,8 @@ class _ViewButtonFountState extends ConsumerState<_ViewButtonFount> {
           ref.read(isdarckProvider.notifier).setDark(!isDarck);
         },
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 400),
-          curve: Curves.elasticOut,
+          duration: Duration(milliseconds: 700),
+          curve: Curves.bounceIn,
           width: widthV,
           height: heigthV,
           decoration: BoxDecoration(

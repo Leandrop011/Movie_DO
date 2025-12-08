@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/widgets/shared/custom_settings_cards.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
 
   //* Metodo que construye un AlertDialog
@@ -25,11 +27,13 @@ class SettingsView extends StatelessWidget {
       },
     );
   }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
     final style = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
+    final isDarck = ref.watch(isdarckProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -50,6 +54,8 @@ class SettingsView extends StatelessWidget {
 
       body: Column(
         children: [
+          
+
           Padding(
             padding: EdgeInsets.only(
               right: size.width * 0.04, 
@@ -67,6 +73,34 @@ class SettingsView extends StatelessWidget {
               ),
             ),
           ),
+
+          Padding(
+            padding: EdgeInsets.only(
+              right: size.width * 0.04, 
+              left: size.width * 0.04, 
+              bottom: size.height * 0.02
+            ),
+            child: Container (
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 2,
+                  color: isDarck ?
+                  Colors.white70
+                  :
+                  Colors.black54
+                ),
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: SwitchListTile (
+                title: Text('Cambiar Fondo'),
+                value: isDarck, 
+                onChanged: (value) async {
+                  await ref.read(isdarckProvider.notifier).setDark(value);
+                }
+              ),
+            ),
+          ),
+
           Expanded(
             child: ListView.builder(
               physics: AlwaysScrollableScrollPhysics(),
@@ -80,6 +114,8 @@ class SettingsView extends StatelessWidget {
               },
             ),
           ),
+
+          
         ],
       )
     );
