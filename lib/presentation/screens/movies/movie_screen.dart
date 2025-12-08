@@ -208,7 +208,7 @@ class _ElementsInDetails extends StatelessWidget {
                   ),
 
                   //* BOTON PERSONALIZADO
-                  CustomBottomFavorites(movie: movie,)
+                  CustomBottomFavorites(movie: movie, isDarck: isDarck,)
                 ],
               ),
               

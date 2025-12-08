@@ -9,7 +9,9 @@ import 'package:audioplayers/audioplayers.dart';
 
 class CustomBottomFavorites extends ConsumerStatefulWidget {
   final Movie movie;
-  const CustomBottomFavorites({super.key, required this.movie});
+  final bool isDarck;
+
+  const CustomBottomFavorites({super.key, required this.movie, required this.isDarck});
 
   @override
   ConsumerState<CustomBottomFavorites> createState() => _CustomBottomFavoritesState();
@@ -38,7 +40,10 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
     final snackBar = SnackBar(//* crea el nuevo
       content: Text(message),
       behavior: SnackBarBehavior.floating,//* efecto de estar flotando en la pantalla
-      backgroundColor: const Color.fromARGB(255, 198, 197, 197),
+      backgroundColor: widget.isDarck?
+      Colors.white70
+      :
+      Colors.black87,
       // action: SnackBarAction(
       //   label: 'Ok', 
       //   onPressed: (){}
@@ -89,7 +94,7 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
               :
               Colors.transparent,
               border: Border.all(
-                width: 2, 
+                width: 3, 
                 color: Colors.white
               )
             ),
@@ -97,9 +102,9 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
             height: size.height * 0.05,
             child: isFavoriteFuture.when(
               data: (isFavorite) => isFavorite == true ?
-              Icon(Icons.check, size: 27,)
+              Icon(Icons.check, size: 29,)
               :
-              Icon(Icons.add), 
+              Icon(Icons.add, size: 29,), 
               error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
               loading: () => Center(
                 child: LoadingAnimationWidget.hexagonDots(

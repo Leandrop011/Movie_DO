@@ -32,7 +32,7 @@ class CustomSettingsCards extends ConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            width: 0.5, 
+            width: 1.9, 
             color: isDarck ?
             Colors.white70
             :
