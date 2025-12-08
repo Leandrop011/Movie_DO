@@ -52,77 +52,71 @@ class SettingsView extends ConsumerWidget {
         ],
       ),
 
-      body: Column(
-        children: [
-          
-
-          Padding(
-            padding: EdgeInsets.only(
-              right: size.width * 0.04, 
-              left: size.width * 0.04,
-              top: size.height * 0.01, 
-              bottom: size.height * 0.025
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(20),
-              child: Image.asset(
-                width: size.width * 0.8,
-                height: size.height * 0.4,
-                'assets/settings/image_01.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: EdgeInsets.only(
-              right: size.width * 0.04, 
-              left: size.width * 0.04, 
-              bottom: size.height * 0.02
-            ),
-            child: Container (
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: isDarck ?
-                  Colors.white70
-                  :
-                  Colors.black54
-                ),
-                borderRadius: BorderRadius.circular(10)
-              ),
-              child: SwitchListTile (
-                title: Text('Cambiar Fondo'),
-                value: isDarck, 
-                onChanged: (value) async {
-                  await ref.read(isdarckProvider.notifier).setDark(value);
-                }
-              ),
-            ),
-          ),
-
-          Expanded(
-            child: ListView.builder(
-              physics: AlwaysScrollableScrollPhysics(),
-              itemCount: types.length,
-              itemBuilder: (context, index) {
-                final String type = types[index];
-                final IconData icon = icons[index];
-                final String link = links[index];
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
             
-                return CustomSettingsCards(type: type, icon: icon, link: link,);
-              },
+        
+            Padding(
+              padding: EdgeInsets.only(
+                right: size.width * 0.04, 
+                left: size.width * 0.04,
+                top: size.height * 0.01, 
+                bottom: size.height * 0.025
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(20),
+                child: Image.asset(
+                  width: size.width * 0.8,
+                  height: size.height * 0.4,
+                  'assets/settings/image_01.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
+        
+            Padding(
+              padding: EdgeInsets.only(
+                right: size.width * 0.04, 
+                left: size.width * 0.04, 
+                bottom: size.height * 0.02
+              ),
+              child: Container (
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                    color: isDarck ?
+                    Colors.white70
+                    :
+                    Colors.black54
+                  ),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: SwitchListTile (
+                  title: Text('Cambiar Fondo'),
+                  value: isDarck, 
+                  onChanged: (value) async {
+                    await ref.read(isdarckProvider.notifier).setDark(value);
+                  }
+                ),
+              ),
+            ),
 
-          
-        ],
+            //* CARD DE CHANGE THEME
+            CustomSettingsCards(type: types[0], icon: icons[0], link: links[0],),
+            
+            //* CARD DE CHANGE FOUNT
+            CustomSettingsCards(type: types[1], icon: icons[1], link: links[1],),
+      
+          ],
+        ),
       )
     );
   }
 }
 
-//* LISTADO DE LOS TIPOS DE SETTINGS
+//* LISTADOS PARA CADA CARD
 final List<String> types = [
   'Cambio de Tema',
   'Cambio de Fondo'

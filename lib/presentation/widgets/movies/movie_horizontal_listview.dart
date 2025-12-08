@@ -14,6 +14,8 @@ class MovieHorizontalListview extends StatefulWidget {
   final List<Movie> movies;
   final String? title;
   final String? subTitle;
+  final bool? widthN;
+  final bool? heightN;
 
   final VoidCallback? loadNextPage;//* para hacer scroll infinito
 
@@ -22,7 +24,9 @@ class MovieHorizontalListview extends StatefulWidget {
     required this.movies, 
     this.title, 
     this.subTitle, 
-    this.loadNextPage
+    this.loadNextPage, 
+    this.widthN, 
+    this.heightN = false
   });
 
   @override
@@ -57,7 +61,10 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(//todo, para que no se desborde
-      height: 380,
+      height: widget.heightN! ? 
+      450
+      :
+      390,
       child: Column(
         children: [
 
@@ -76,7 +83,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
               itemBuilder: (context, index) {
                 final movie = widget.movies[index];
 
-                return FadeInRight(child: _Slide(movie: movie));
+                return FadeInRight(child: _Slide(movie: movie, heightN: widget.heightN ?? false, widthN: widget.widthN ?? false,));
               },
             )
           )
@@ -131,9 +138,13 @@ class _Tittle extends StatelessWidget {
 //todo, la cajita de las peliculas //* diseno
 class _Slide extends ConsumerWidget {
   final Movie movie;
+  final bool widthN;
+  final bool heightN;
 
   const _Slide({
-    required this.movie
+    required this.movie, 
+    required this.widthN, 
+    required this.heightN
   });
 
   @override
@@ -156,12 +167,29 @@ class _Slide extends ConsumerWidget {
           children: [
             //* Imagen
             SizedBox(
-              width: 150,
+              // width: widthN ? //! ESTO ES PARA CONTROLAR EL TAMANO Y NO SE DESBORDE
+              // 300
+              // :
+              // 150,
               child: ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(20),
+                borderRadius: BorderRadiusGeometry.circular(
+                  heightN ?
+                  5
+                  :
+                  20
+                ),
                 child: Image.network(
                   movie.posterPath,
-                  width: 150,
+                  width: widthN ?
+                  200
+                  :
+                  150
+                  ,
+                  height: heightN ?
+                  310
+                  :
+                  250
+                  ,
                   fit: BoxFit.cover,
                 
                   //todo, un loading
