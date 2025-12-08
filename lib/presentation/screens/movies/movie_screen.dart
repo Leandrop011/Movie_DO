@@ -149,7 +149,7 @@ class _MovieDetails extends ConsumerWidget {
   }
 }
 
-//* ELEMENTOS QUE ESTARAN DENTRO DE LA CAJA DE PELICULA, TITLE, DETAILS
+//* ELEMENTOS QUE ESTARAN DENTRO DE LA CAJA DE PELICULA(like overview), TITLE, DETAILS
 class _ElementsInDetails extends StatelessWidget {
   const _ElementsInDetails({
     required this.isDarck,
@@ -243,7 +243,7 @@ class _ElementsInDetails extends StatelessWidget {
 
 
 
-//* TITULO QUE DICE "SIMILARES" ANTES DE MOSTRAR LAS PELICULAS
+//* TITULO QUE DICE "Recomendadas" ANTES DE MOSTRAR LAS PELICULAS
 class _PreSimilarMoviesView extends ConsumerWidget {
   const _PreSimilarMoviesView({
     required this.size,
@@ -259,10 +259,10 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     final isDarck = ref.read(isdarckProvider);
 
     return Padding(
-      padding: EdgeInsetsGeometry.only(bottom: 15, left: 8, right: 8, top: 10),
+      padding: EdgeInsetsGeometry.only(bottom: 15, left: 10, right: 10, top: 10),
       child: SizedBox(
         width: size.width * 1,
-        height: size.height * 0.06,
+        height: size.height * 0.065,
         child: Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(

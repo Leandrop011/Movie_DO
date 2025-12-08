@@ -61,11 +61,13 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return SizedBox(//todo, para que no se desborde
       height: widget.heightN! ? 
-      450
+      size.height * 0.55
       :
-      390,
+      size.height * 0.45,
       child: Column(
         children: [
 
@@ -84,7 +86,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
               itemBuilder: (context, index) {
                 final movie = widget.movies[index];
 
-                //* AQUI CREA A CADA ELEMENTO
+                //! AQUI CREA A CADA ELEMENTO
                 return FadeInRight(
                   from: random.nextInt(100) + 80,
                   child: _Slide(movie: movie, heightN: widget.heightN ?? false, widthN: widget.widthN ?? false,)
@@ -186,14 +188,16 @@ class _Slide extends ConsumerWidget {
                 child: Image.network(
                   movie.posterPath,
                   width: widthN ?
-                  200
+                  //200
+                  size.width * 0.49//* DISENO RESPONSIVO
                   :
-                  150
+                  //150
+                  size.width * 0.4
                   ,
                   height: heightN ?
-                  310
+                  size.height * 0.38
                   :
-                  250
+                  size.height * 0.28
                   ,
                   fit: BoxFit.cover,
                 
@@ -235,9 +239,11 @@ class _Slide extends ConsumerWidget {
         
             SizedBox(//todo, para que tenga un limite 
               width: widthN ?
-              185
+              //185
+              size.width * 0.45
               : 
-              150,
+              //150,
+              size.width * 0.37,
               child: Row(
               
                 children: [
