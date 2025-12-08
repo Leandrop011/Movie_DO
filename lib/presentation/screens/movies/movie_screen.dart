@@ -207,7 +207,7 @@ class _ElementsInDetails extends StatelessWidget {
                     ),
                   ),
 
-                  //todo, IMPLEMENTAR UN WIDGET PERSONALIZADO QUE FUNCIONE COMO BOTON
+                  //* BOTON PERSONALIZADO
                   CustomBottomFavorites(movie: movie,)
                 ],
               ),

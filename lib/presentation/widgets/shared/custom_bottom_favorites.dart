@@ -22,8 +22,8 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
   //! UNA FUNCION FUTURA Y TERMINAR EL VALOR CON EL DISPOSE 
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> reproducirSonido() async{
-    await _audioPlayer.setVolume(0.15);//* REGULAR EL VOLUMEN 1 MAXIMO
-    await _audioPlayer.play(AssetSource('sounds/bambu_1.mp3'));
+    await _audioPlayer.setVolume(0.2);//* REGULAR EL VOLUMEN 1 MAXIMO
+    await _audioPlayer.play(AssetSource('sounds/mixkit-select-click-1109.mp3'));
   }
 
   @override

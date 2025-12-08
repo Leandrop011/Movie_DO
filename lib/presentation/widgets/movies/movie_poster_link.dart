@@ -9,11 +9,13 @@ class MoviePosterLink extends StatelessWidget {
   final bool index;
   const MoviePosterLink({super.key, required this.movie, required this.index});
 
+  //*TAMANO DEL ELEMENTOS DE MASONRY, Y EL LOADING 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push('/home/0/movie/${movie.id}'),
+      onTap: () => context.push('/home/0/movie/${movie.id}'), 
       child: FadeInUp(
+        //! ESTO ES LA distancia en píxeles desde donde comienza la animación
         from: random.nextInt(100) + 80,//! ESTO CONTROLA MEJOR LA PAGINACION EL CATEGORIES
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
@@ -23,7 +25,9 @@ class MoviePosterLink extends StatelessWidget {
             :
             300,
             image: NetworkImage(movie.posterPath),
-            placeholder: AssetImage('assets/loaders/bottle-loader.gif'),
+            //! PARA QUE NO DE ESE SALTO FEO POR QUE NO HAY COMO UN LOADING
+            //!SOLO PERMITE IMAGENES
+            placeholder: AssetImage('assets/loaders/loader_04.gif'),
             fit: BoxFit.cover,
           ),
         ),

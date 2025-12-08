@@ -41,10 +41,9 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
     if(isLoading || isLastPage)return;
     if(widget.loadNextPage == null)return;
 
-    setState(() {
-      isLoading = true;
+    isLoading = true;
       
-    });
+  
     final movies = await widget.loadNextPage!();
     
     

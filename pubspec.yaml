@@ -77,6 +77,10 @@ flutter:
     - assets/speedometer.webp
     - assets/loaders/bottle-loader.gif
     - assets/sounds/bambu_1.mp3
+    - assets/sounds/mixkit-select-click-1109.mp3
+    - assets/loaders/loader_02.gif
+    - assets/loaders/loader_03.gif
+    - assets/loaders/loader_04.gif
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/to/resolution-aware-images
     # For details regarding adding assets from package dependencies, see
