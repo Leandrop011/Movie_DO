@@ -187,7 +187,7 @@ class _MovieItem extends ConsumerWidget {
         
           child: SizedBox(
             //* MAXIMOS
-            height: size.height * 0.28,
+            height: size.height * 0.26,
             width: size.width * 0.5,
             child: Container(
               decoration: BoxDecoration(
