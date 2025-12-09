@@ -108,7 +108,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
               infinite: true,
               child: IconButton(
                 onPressed: (){
-                  query = '';
+                  //query = '';
                 }, 
                 icon: Icon(Icons.refresh),
               ),
@@ -187,7 +187,7 @@ class _MovieItem extends ConsumerWidget {
         
           child: SizedBox(
             //* MAXIMOS
-            height: size.height * 0.23,
+            height: size.height * 0.28,
             width: size.width * 0.5,
             child: Container(
               decoration: BoxDecoration(
