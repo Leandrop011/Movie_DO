@@ -51,6 +51,12 @@ class CustomBottomNavigationbar extends StatelessWidget {
           label: 'Ajustes',
           activeIcon: Icon(Icons.settings)
         ),
+
+        BottomNavigationBarItem(
+          icon: Icon(Icons. notifications_outlined),
+          label: 'Notificaciones',
+          activeIcon: Icon(Icons.notifications_active)
+        ),
       ],
     );
   }
