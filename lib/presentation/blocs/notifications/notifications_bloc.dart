@@ -9,12 +9,22 @@ import 'package:movies_app/firebase_options.dart';
 part 'notifications_event.dart';
 part 'notifications_state.dart';
 //!PRIMERO VINCULAR LA APP CON UN PROYECTO DE FIREBASE
+/*
+  1. Primero crear un Proyecto en Firebase
+  2. Cambiar Id de la App a uno personalizado exmp 'com.pozo.movies'
+  3. Instalar el paquete firebaseCore (Documentation)
+  4. Instalar el Firebase CLI
+  5. Instalar dart pub global activate flutterfire_cli
+  6. Instalar flutterfire configure, y escojer el proyecto
+*/
 
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsBloc() : super(NotificationsState()) {
+    //* Handler que pide permisos
     on<NotificationsStatusChanged>(_notificationsStatusChanged);
 
 
+    //* Metodo que le pregunta al proyecto de firebase y le dice si ese user ya acepto o no las notificaciones
     _initialStatusCheck();
   }
 
