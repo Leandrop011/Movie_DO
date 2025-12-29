@@ -25,6 +25,7 @@ class HomeScreen extends StatelessWidget {
     CategoriesView(),  // <--- Categories
     FavoritesView(),  // <--- Favorites
     SettingsView(), // <---- Settings
+    NotificationsView(), // <---- Notifications
   ];
 
   @override

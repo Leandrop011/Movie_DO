@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
+import 'package:movies_app/presentation/blocs/notifications/notifications_bloc.dart';
 import 'package:movies_app/presentation/providers/config/index_theme_provider.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
@@ -32,9 +34,15 @@ Future <void> main()async{
 
   //todo, para usar el api key que colocamos en variables de entorno 
   await dotenv.load(fileName: '.env');
-  
+  await NotificationsBloc.initializeFCM();
   runApp(
-  ProviderScope(child: const MyApp()),
+
+  MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (_) => NotificationsBloc())
+    ],
+    child: ProviderScope(child: const MyApp())
+  ),
   );
 }
 
