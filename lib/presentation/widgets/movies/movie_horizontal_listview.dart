@@ -68,9 +68,9 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
       //! SI LE DOY MAS, PUES PUEDO AUMENTAR SU TAMANO, DISENO RESPONSIVO
       //! OJO HAY QUE PRIORIZAR QUE FUNCIONE EN OTROS DISPOSITIVOS QUE AL DISENO
       height: widget.heightN! ? 
-      size.height * 0.591
+      size.height * 0.57
       :
-      size.height * 0.52,
+      size.height * 0.49,
       child: Column(
         children: [
 
@@ -163,6 +163,8 @@ class _Slide extends ConsumerWidget {
     final isdarck = ref.read(isdarckProvider);
     final size = MediaQuery.of(context).size;
 
+
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
       child: InkWell(
@@ -236,7 +238,8 @@ class _Slide extends ConsumerWidget {
               width: 150,
               child: Text(
                 movie.title,
-                maxLines: 2,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: textStyle.titleSmall,
               ),
             ),

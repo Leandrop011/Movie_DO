@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class MovieTop extends ConsumerWidget {
   
@@ -19,10 +20,15 @@ class MovieTop extends ConsumerWidget {
     //final isDarck = ref.watch(isdarckProvider);//! watch porque tiene que estar pendientes de los cambios
 
     if(movie.posterPath.isEmpty){
-      return Center(child: LoadingAnimationWidget.inkDrop(
-        color: Colors.white, 
-        size: 40
-      ),);
+      return Shimmer(
+        duration: Duration(seconds: 2),
+        color: Colors.white,
+        colorOpacity: 1,
+        enabled: true,
+        direction: ShimmerDirection.fromLBRT(),
+
+        child: SizedBox()
+      );
     }
     
     return InkWell(
@@ -171,13 +177,15 @@ class _MovieTopView extends ConsumerWidget {
             fit: BoxFit.cover,
             loadingBuilder: (context, child, loadingProgress) {
               if(loadingProgress != null){
-                return Center(child: LoadingAnimationWidget.hexagonDots(
-                  color: isDarck?
-                   Colors.white
-                   :
-                   Colors.black, 
-                  size: 50
-                ),);
+                return Shimmer(
+                  duration: Duration(seconds: 2),
+                  color: Colors.white60,
+                  colorOpacity: 0.2,
+                  direction: ShimmerDirection.fromLBRT(),
+                  enabled: true,
+                
+                  child: Center()
+                );
               }
               return child;
             },

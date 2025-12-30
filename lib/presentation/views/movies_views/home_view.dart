@@ -72,7 +72,8 @@ class HomeViewState extends ConsumerState<HomeView> {
         
           physics: BouncingScrollPhysics(),
           slivers: [
-        
+            
+            //! MANANA IMPLEMENTAR UNA APPBAR CON DESENFOQUE Y CON DISENO TRANSPARENTE
             SliverAppBar(//todo, appbar de un sliver(constrolara que si subimos un poco aparece)
               floating: true,//* para que aparezca cuando se sube un poco
               flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar

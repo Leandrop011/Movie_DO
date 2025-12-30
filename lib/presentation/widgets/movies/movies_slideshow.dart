@@ -19,10 +19,10 @@ class MoviesSlideshow extends StatelessWidget {
     return Column(
       children: [
         SizedBox(//todo,  porque quiero un ancho para cada elemento
-          height: 250,
+          height: 300,
           width: double.infinity,
           child: Swiper(
-            viewportFraction: 0.8,//todo, para ver como el pre visualizer del slide anteriori y el sigueinte
+            viewportFraction: 0.81,//todo, para ver como el pre visualizer del slide anteriori y el sigueinte
             scale: 0.85,//todo, es para que en el actual sea mas grande y los de adelante y atras sean mas pequenos
             autoplay: true,//todo, es para que se mueva solo 
             pagination: SwiperPagination(//todo, para que coloque esos puntitos de cuantas movies hay
@@ -62,9 +62,10 @@ class _Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    
+    //* Hasta que cargue
     final decoration = BoxDecoration(
-      borderRadius: BorderRadius.circular(30),
+      borderRadius: BorderRadius.circular(15),
       boxShadow: [//todo, para como sobreado
         BoxShadow(
           color: Colors.black45,
@@ -87,7 +88,7 @@ class _Slide extends StatelessWidget {
             decoration: decoration,
               
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 movie.backdropPath,//todo, consultamos a esa cierta pelicula, segune el index
                 fit: BoxFit.cover,
@@ -114,7 +115,7 @@ class _Slide extends StatelessWidget {
           SizedBox.expand(
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(10),
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,//* inicio
                     end: Alignment.bottomCenter,//* final
@@ -130,13 +131,13 @@ class _Slide extends StatelessWidget {
       
           //* TITULO DE LA PELICULA
           Padding(
-            padding: EdgeInsetsGeometry.only(left: 17, bottom: 10),
+            padding: EdgeInsetsGeometry.only(left: 10, bottom: 10),
             child: Text(
-              movie.title, 
+              movie.title,
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.w300,
-                fontSize: 17
+                fontWeight: FontWeight.bold,
+                fontSize: 16
               )
             ),
       

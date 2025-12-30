@@ -137,7 +137,7 @@ class _MovieDetails extends ConsumerWidget {
         _ActorsByMovie(movieId: movie.id.toString()),
 
         //* TITULO DE SIMILARES
-        _PreSimilarMoviesView(size: size, textStyle: textStyle),
+        _PreSimilarMoviesView(size: size, textStyle: textStyle, movieId: movie.id.toString(),),
 
         //* PELICULAS SIMILARES
         _MoviesSimilars(movieId: movie.id.toString()),
@@ -247,17 +247,25 @@ class _ElementsInDetails extends StatelessWidget {
 class _PreSimilarMoviesView extends ConsumerWidget {
   const _PreSimilarMoviesView({
     required this.size,
-    required this.textStyle,
+    required this.textStyle, 
+    required this.movieId,
   });
 
   final Size size;
   final TextTheme textStyle;
+  final String movieId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
     final isDarck = ref.read(isdarckProvider);
-
+    final moviesById = ref.watch(similarMoviesProvider);
+    final movies = moviesById[movieId] ?? [];
+    
+    if (movies.isEmpty){
+      return SizedBox();
+    }
+    
     return Padding(
       padding: EdgeInsetsGeometry.only(bottom: 15, left: 10, right: 10, top: 10),
       child: SizedBox(
