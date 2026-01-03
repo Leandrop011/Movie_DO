@@ -37,9 +37,12 @@ class SettingsView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ajustes', style: style.titleLarge,),
+        title: Text('AJUSTES', style: style.titleLarge,),
         centerTitle: false,
-        leading: Icon(Icons.settings_outlined, color: colors.primary,),
+        leading: Padding(
+          padding: const EdgeInsets.only(bottom: 7.0),
+          child: Icon(Icons.settings_suggest, color: colors.primary, size: 33,),
+        ),
         titleSpacing: 0,
 
         actions: [
@@ -106,8 +109,8 @@ class SettingsView extends ConsumerWidget {
             //* CARD DE CHANGE THEME
             CustomSettingsCards(type: types[0], icon: icons[0], link: links[0],),
             
-            //* CARD DE CHANGE FOUNT
-            CustomSettingsCards(type: types[1], icon: icons[1], link: links[1],),
+            // //* CARD DE CHANGE FOUNT
+            // CustomSettingsCards(type: types[1], icon: icons[1], link: links[1],),
       
           ],
         ),

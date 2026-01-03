@@ -1,8 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 //todo, usaremos un SWIPER, para el carrucel => card_swiper
 class MoviesSlideshow extends StatelessWidget {
 
@@ -19,7 +21,7 @@ class MoviesSlideshow extends StatelessWidget {
     return Column(
       children: [
         SizedBox(//todo,  porque quiero un ancho para cada elemento
-          height: 300,
+          height: 330,
           width: double.infinity,
           child: Swiper(
             viewportFraction: 0.81,//todo, para ver como el pre visualizer del slide anteriori y el sigueinte
@@ -55,13 +57,13 @@ class MoviesSlideshow extends StatelessWidget {
 }
 
 //todo, diseno de cada elemento del carrucel
-class _Slide extends StatelessWidget {
+class _Slide extends ConsumerWidget {
 
   final Movie movie;
   const _Slide({required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     
     //* Hasta que cargue
     final decoration = BoxDecoration(
@@ -72,41 +74,54 @@ class _Slide extends StatelessWidget {
           blurRadius: 10,
           offset: Offset(0, 8)
         )
-      ]
+      ],
     );
+    final isDarck = ref.watch(isdarckProvider);
 
     return Padding(
       padding: EdgeInsets.only(
         bottom: 30,
       ),
-      child: Stack( 
+      child: Stack(
         alignment: Alignment.bottomLeft,
         children: [
       
           //* FOTO DE LA PELICULA
           DecoratedBox(
             decoration: decoration,
-              
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                movie.backdropPath,//todo, consultamos a esa cierta pelicula, segune el index
-                fit: BoxFit.cover,
-                height: double.infinity,
-                //todo, esto es como para que mientras carga se coloque algo
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress != null) {
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.black12
-                      )
-                    );
-                  }
             
-                  //todo, para hacerla la animacion de cuadno la imagen entre, entre con suavidad
-                  return FadeIn(child: child);
-                },
-              )
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1, 
+                  color: isDarck ? 
+                  Colors.white38
+                  :
+                  Colors.black26
+                ),
+                borderRadius: BorderRadius.circular(17)
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  movie.backdropPath,//todo, consultamos a esa cierta pelicula, segune el index
+                  fit: BoxFit.cover,
+                  height: double.infinity,
+                  //todo, esto es como para que mientras carga se coloque algo
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress != null) {
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.black12
+                        )
+                      );
+                    }
+              
+                    //todo, para hacerla la animacion de cuadno la imagen entre, entre con suavidad
+                    return FadeIn(child: child);
+                  },
+                )
+              ),
             ),
               
           ),

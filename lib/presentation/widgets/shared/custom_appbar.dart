@@ -12,7 +12,7 @@ class CustomAppbar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final isdarck = ref.watch(isdarckProvider);
+    //final isdarck = ref.watch(isdarckProvider);
     final colors = Theme.of(context).colorScheme;
     final titleStyle = Theme.of(context).textTheme.titleLarge;
 
@@ -25,12 +25,12 @@ class CustomAppbar extends ConsumerWidget {
           children: [
             Padding(
               padding: EdgeInsetsGeometry.only(left: 15),
-              child: Icon(Icons.movie_creation_outlined, color: colors.primary,)
+              child: Icon(Icons.movie_creation_outlined, color: colors.primary, size: 30,)
             ),
             SizedBox(width: 5,),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: Text('MovieDo', style: titleStyle,),
+              child: Text('Movie Do', style: titleStyle,),
             ),
             
       
@@ -59,7 +59,7 @@ class CustomAppbar extends ConsumerWidget {
                     
                   });
                 }, 
-                icon: Icon(Icons.search)
+                icon: Icon(Icons.search, size: 25)
               ),
             ),
             

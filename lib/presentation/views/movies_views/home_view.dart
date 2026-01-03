@@ -44,7 +44,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     //todo, provider que determina si los provider ya  tienen data y asi hacer lo que se dice
     final initialLoading = ref.watch(initialLoadingProvider);
 
-    if(initialLoading == true ) return CustomFullscreenLoading();
+    if(initialLoading == true ) return CustomFullscreenLoading(); 
 
     //todo, renderizar la data, llamamos al repository
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);

@@ -35,7 +35,7 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
   }
   
   //* CONSTRUCCION DEL SNACKBAR SI AGREGA O QUITA DE FAVORITOS
-  void snackBar(BuildContext context, String message){
+  void _snackBar(BuildContext context, String message){
     ScaffoldMessenger.of(context).clearSnackBars();//* Cierra el anterior
     final snackBar = SnackBar(//* crea el nuevo
       content: Text(message),
@@ -76,10 +76,10 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
           
           if(isFav == true){//* Significa que es un favorito, si lo pulsa de debe mostrar mensaje de se quito
             // ignore: use_build_context_synchronously
-            snackBar(context, 'Se quito de tus favoritos');
+            _snackBar(context, 'Se quito de tus favoritos');
           }else{
             // ignore: use_build_context_synchronously
-            snackBar(context, 'Se agrego a tus favoritos');
+            _snackBar(context, 'Se agrego a tus favoritos');
           }
 
           reproducirSonido();

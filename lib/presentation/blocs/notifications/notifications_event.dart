@@ -11,3 +11,10 @@ class NotificationsStatusChanged extends NotificationsEvent {
   NotificationsStatusChanged( this.status );
 
 }
+
+//! 2. Segundo Evento de Recivir los datos de la Notificacion
+class NotificationReceived extends NotificationsEvent {
+  final PushMessages message;
+
+  NotificationReceived( this.message );
+}

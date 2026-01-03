@@ -1,6 +1,9 @@
+
+import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/config/local_notifications/local_notifications.dart';
 import 'package:movies_app/domain/entities/push_messages.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:movies_app/firebase_options.dart';
@@ -8,6 +11,9 @@ import 'package:movies_app/firebase_options.dart';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
+
+//! PUSH NOTIFICATIONS 
+
 //!PRIMERO VINCULAR LA APP CON UN PROYECTO DE FIREBASE
 /*
   1. Primero crear un Proyecto en Firebase
@@ -19,13 +25,36 @@ part 'notifications_state.dart';
 */
 
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
-  NotificationsBloc() : super(NotificationsState()) {
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  //* Es una funcion que no pied ningun argumento y regresa un future
+  final Future<void> Function()? requestLocalNotificationPermissions;
+  //* funcion para mostrar las local notifications para el show
+  final void Function({
+    required int id,
+    String? title,
+    String? body,
+    String? data,
+  })? showLocalNotification;
+
+  NotificationsBloc(
+    {this.requestLocalNotificationPermissions, this.showLocalNotification}
+  ) : super(NotificationsState()) {
     //* Handler que pide permisos
     on<NotificationsStatusChanged>(_notificationsStatusChanged);
-
+    //* Handler que recibe la data 
+    on<NotificationReceived>(_onPushMessageReceived);
 
     //* Metodo que le pregunta al proyecto de firebase y le dice si ese user ya acepto o no las notificaciones
+    //* Verificar estado de las notificaciones
     _initialStatusCheck();
+    //* Colocamos el Stream de las notifications Foreground desde el inicio de la app
+    //* Listener para notificaciones en Foreground
+    _onForegroundMessage();
+
+
+    requestPermission();
   }
 
   //! METODOS PARA MANEJAR LOS HANDLRES
@@ -39,9 +68,16 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     );
     _getFCMToken();
   }
+  void _onPushMessageReceived(NotificationReceived event, Emitter<NotificationsState> emit){
+    emit(
+      state.copyWith(
+        //! agregar un nuevo message a la lista y conservar el estado anterior
+        notifications: [event.message ,...state.notifications]
+      )
+    );
+  }
 
   //! 1. Primer Paso, pedir permisos al usuario
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
   void requestPermission() async{
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
@@ -51,7 +87,13 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       criticalAlert: true,
       provisional: false,
       sound: true
-    );  
+    ); 
+
+    //! PARA PEDIR PERMISO PARA LAS LOCAL NOTIFICATIONS
+    if(requestLocalNotificationPermissions != null){
+      await requestLocalNotificationPermissions!();
+      //await LocalNotifications.requestPermissionLocalNotifications(); 
+    }
 
     //! AQUI LE DAMOS EL VALOR AL BLOC
     add(NotificationsStatusChanged(settings.authorizationStatus));
@@ -71,14 +113,68 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     
   }
 
-  //! 4 Cuarto paso Obtener el token de la instalacion en el dispositivo del usuario
+  //! 4. Cuarto paso Obtener el token de la instalacion en el dispositivo del usuario
   void _getFCMToken() async{
     final settings = await messaging.getNotificationSettings();
     if(settings.authorizationStatus != AuthorizationStatus.authorized) return;
 
     final token = await messaging.getToken();
-    print('token: $token');
+    print('$token');
   }
 
+  //! 5. Quinto Paso recibir Foreground y Background notifications
+  void handleRemoteMessage( RemoteMessage message ){
+    if (message.notification == null) return;
+
+    final notification = PushMessages(
+      //! se quita el : y el % porque pueden romper el go router 
+      messageId: message.messageId?.replaceAll(':', '').replaceAll('%', '') ?? '', 
+      tittle: message.notification!.title?? '', 
+      body: message.notification!.body ?? '', 
+      sentData: message.sentTime ?? DateTime.now(),
+      data: message.data,
+      imageUrl: Platform.isAndroid ?
+                message.notification!.android?.imageUrl ?? ''
+                :
+                message.notification!.apple?.imageUrl ?? ''
+    );
+
+    //? Local notification cuando ya recibi la data de la push, se la mando a la local
+    //? para su construccion
+    //? esto esta ed alguna forma conectado con las push asi que usamos esa misma data
+     if(showLocalNotification != null){
+      showLocalNotification!(
+        id: 1,
+        body: notification.body,
+        data: notification.messageId,
+        title: notification.tittle
+      );
+     }
+
+    //* Agregar el evento de recibir la notification (data) y se lo agrega al handler
+    add(NotificationReceived(notification));
+  }
+  //! 6. Sexto Paso escuchar el mesnaje que vendra para el Foreground notification
+  void _onForegroundMessage(){
+    FirebaseMessaging.onMessage.listen(handleRemoteMessage);
+  }
+
+  //! 8. Octavo Paso Obtener una notificacion push segun su id 
+  PushMessages? getMessageById(String pushMessageId){
+    //! Para saber si existe alguna notificacion con ese ID
+    final exist = state.notifications.any((element) => element.messageId == pushMessageId);
+
+    if(!exist) return null;
+    
+    //* regresa el elemento primero que cumpla esa condicion
+    return state.notifications.firstWhere((element) => element.messageId == pushMessageId);
+  }
   
+}
+
+//! 7. Septimo Paso Recibir notifications Terminated y Background(esto ira en el main)
+Future<void> firebaseMessagingTerminatedHandler( RemoteMessage message ) async{
+
+  await Firebase.initializeApp();
+
 }

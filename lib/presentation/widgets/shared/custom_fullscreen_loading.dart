@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 
 //todo, WIDGET QUE SE MUESTRA MIENTRAS LA DATA SE ESTA RENDERIZANDO(UN SIMBOLO DE CARGA)
 
@@ -14,6 +14,7 @@ class CustomFullscreenLoading extends StatelessWidget {
       'Cargando populares',
       'Ya casi...',
       'Esto esta tardando mas de lo esperado :(',
+      'Estamos trabajando en ello...',
     ];
     
     return Stream.periodic(Duration(seconds: 2), (step){

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/providers/movies/movies_providers.dart';
+import 'package:movies_app/presentation/providers/providers.dart';
 import 'package:movies_app/presentation/widgets/movies/movies_masonry.dart';
 
 class CategoriesView extends ConsumerStatefulWidget {
@@ -17,7 +18,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
   @override
   void initState() {
     super.initState();
-    ref.read(popularMoviesProvider.notifier).loadNextPage();//*INIVIALIZAMOS LA DATA
+    ref.read(popularMoviesProvider.notifier).loadNextPage();//*INICIALIZAMOS LA DATA
   }
 
   void infoMake(BuildContext context){
@@ -47,10 +48,12 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
     final style = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
 
+    if(movies.isEmpty) return CustomFullscreenLoading();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('POPULARES', style: style.titleLarge,),
-        leading: Icon(Icons.thumb_up_alt_outlined, color: colors.primary,),
+        leading: Icon(Icons.thumb_up_alt_outlined, color: colors.primary, size: 30,),
         centerTitle: false,
         titleSpacing: 0,//* el espacio de separacion del title y el leading
         actions: [
