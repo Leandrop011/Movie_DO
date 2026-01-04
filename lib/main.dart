@@ -4,13 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies_app/config/database/notifications/database_notifications.dart';
 import 'package:movies_app/config/local_notifications/local_notifications.dart';
 import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
 import 'package:movies_app/presentation/blocs/notifications/notifications_bloc.dart';
 import 'package:movies_app/presentation/providers/config/index_theme_provider.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
-
+import 'package:movies_app/presentation/providers/notifications/notifications_repository_provider.dart';
 //import 'package:movies_app/config/database/database.dart';
 Future <void> main()async{ 
 
@@ -43,18 +44,29 @@ Future <void> main()async{
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
   ]);
+  //! Inicializar base de datos de notificaciones
+  // Esto asegura que la BD esté lista antes de usarla
+  await dbNotifications.select(dbNotifications.notifications).get();
   
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingTerminatedHandler);
   runApp(
   MultiBlocProvider(
     providers: [
-      BlocProvider(create: (_) => NotificationsBloc(
+      BlocProvider(create: (context) {
+        //! le pasamos el repo que nos provee del datasource la data de la database 
+        final container = ProviderContainer();
+        final repository = container.read(repositoryNotificationProvider);
+        
+        return NotificationsBloc(
         //* caso de uso para pedir el permiso de las local notifications
         requestLocalNotificationPermissions: LocalNotifications.requestPermissionLocalNotifications,
         //* para el show local notification
-        showLocalNotification: LocalNotifications.showLocalNotifications
-      )
-      )
+        showLocalNotification: LocalNotifications.showLocalNotifications,
+        notificationsRepository: repository
+      );
+     }
+    )
+
     ],
     child: ProviderScope(child: const MyApp())
   ),

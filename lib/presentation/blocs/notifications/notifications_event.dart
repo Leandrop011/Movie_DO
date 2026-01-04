@@ -18,3 +18,8 @@ class NotificationReceived extends NotificationsEvent {
 
   NotificationReceived( this.message );
 }
+
+//! 3. Tercer Evento de cargar las notificaciones guardadas en la base de datos
+class LoadSavedNotifications extends NotificationsEvent {
+  LoadSavedNotifications();
+}

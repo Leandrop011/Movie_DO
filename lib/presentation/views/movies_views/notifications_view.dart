@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movies_app/domain/entities/push_messages.dart';
 import 'package:movies_app/presentation/blocs/notifications/notifications_bloc.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 
 class NotificationsView extends ConsumerWidget {
-  const NotificationsView({super.key});
-
+  const NotificationsView({super.key}); 
 
   void _infoMake(BuildContext context){
     showDialog(
@@ -47,14 +47,14 @@ class NotificationsView extends ConsumerWidget {
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final status = context.watch<NotificationsBloc>().state.status;
     final colors = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
     final isDarck = ref.watch(isdarckProvider);
-
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('NOTIFICACIONES'),
@@ -124,11 +124,12 @@ class _NotPermissionNotificationsView extends StatelessWidget {
 
 class _NotificationsView extends StatelessWidget {
 
+  const _NotificationsView(); 
   @override
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
-    final notifications = context.watch<NotificationsBloc>().state.notifications;
+    final List<PushMessages> notifications = context.watch<NotificationsBloc>().state.notifications;
+    //final size = MediaQuery.of(context).size;
     final textStyle = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
 

@@ -5,7 +5,8 @@ import 'package:movies_app/domain/repositories/local_storage_repository.dart';
 import 'package:movies_app/presentation/providers/storage/local_storage_provider.dart';
 
 //! ESTE PROVIDER PROVEE LA INFO A LA APP Y TAMBIEN POR PARTE DEL BOTON HACE CAMBIOS EN LA BASE DE DATOS Y EN LA APP
-final favoriteMoviesProvider = StateNotifierProvider((ref){
+final favoriteMoviesProvider = StateNotifierProvider(
+  (ref){
   final localStorageRepository =  ref.watch(localStorageRepositoryProvider);
 
   return StorageMoviesNotifier(localStorageRepository: localStorageRepository);
@@ -22,7 +23,7 @@ class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>>{
   StorageMoviesNotifier({required this.localStorageRepository}): super({});
 
   //* TAMBIEN PODEMOS CREAR UNA FUNCION QUE DEVUELVA EL BOOL PARA EL ICONO DE FAVORITOS
-
+ 
   Future<List<Movie>> loadNextPage() async{
     final movies = await localStorageRepository.loadFavoriteMovies(
       limit: 13,//*SIEMPPRE INICIALRE DESDE EL 13 PARA ESTE CASO, PARA LA PAGINACION

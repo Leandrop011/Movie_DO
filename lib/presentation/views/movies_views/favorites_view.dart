@@ -82,7 +82,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
         title: Text('FAVORITAS', style: style.titleLarge),
         centerTitle: false,
         titleSpacing: 0,
-        actions: [
+        actions: [ 
           IconButton(
             onPressed: (){
               infoMake(context);

@@ -3,14 +3,16 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/config/local_notifications/local_notifications.dart';
 import 'package:movies_app/domain/entities/push_messages.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:movies_app/domain/repositories/local_notifications_repository.dart';
 import 'package:movies_app/firebase_options.dart';
 
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
+
+//! LA PARTE DE GUARDARLAS LOCALMENTE TAMBIEN LA IMPLEMENTAMOS AQUI 
 
 //! PUSH NOTIFICATIONS 
 
@@ -37,15 +39,19 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     String? body,
     String? data,
   })? showLocalNotification;
+  
+  //! para cargar y guardar las notificaciones localmente
+  final LocalNotificationsRepository? notificationsRepository;
 
   NotificationsBloc(
-    {this.requestLocalNotificationPermissions, this.showLocalNotification}
+    {this.requestLocalNotificationPermissions, this.showLocalNotification, this.notificationsRepository}
   ) : super(NotificationsState()) {
     //* Handler que pide permisos
     on<NotificationsStatusChanged>(_notificationsStatusChanged);
     //* Handler que recibe la data 
     on<NotificationReceived>(_onPushMessageReceived);
-
+    //* Handler para cargar las notificaciones guardadas(SI ES QUE HAY LAS CARGA)
+    on<LoadSavedNotifications>(_onLoadSavedNotifications);
     //* Metodo que le pregunta al proyecto de firebase y le dice si ese user ya acepto o no las notificaciones
     //* Verificar estado de las notificaciones
     _initialStatusCheck();
@@ -55,7 +61,11 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
 
     requestPermission();
+
+    //* desde el inicio cargarlas
+    add(LoadSavedNotifications());
   }
+
 
   //! METODOS PARA MANEJAR LOS HANDLRES
   //* Para cambiar el estado cuando se permitan las notifications o no 
@@ -68,6 +78,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     );
     _getFCMToken();
   }
+
   void _onPushMessageReceived(NotificationReceived event, Emitter<NotificationsState> emit){
     emit(
       state.copyWith(
@@ -75,6 +86,20 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         notifications: [event.message ,...state.notifications]
       )
     );
+  }
+
+  void _onLoadSavedNotifications(LoadSavedNotifications event, Emitter<NotificationsState> emit) async {
+    if (notificationsRepository == null) return;
+    
+    // Vamos a la base de datos
+    final savedNotifications = await notificationsRepository!.getAllNotifications();
+    
+    if (savedNotifications.isEmpty) return;
+
+    // Actualizamos el estado con lo que había guardado
+    emit(state.copyWith(
+      notifications: savedNotifications
+    ));
   }
 
   //! 1. Primer Paso, pedir permisos al usuario
@@ -123,7 +148,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   }
 
   //! 5. Quinto Paso recibir Foreground y Background notifications
-  void handleRemoteMessage( RemoteMessage message ){
+  void handleRemoteMessage( RemoteMessage message ) async{
     if (message.notification == null) return;
 
     final notification = PushMessages(
@@ -138,6 +163,10 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
                 :
                 message.notification!.apple?.imageUrl ?? ''
     );
+    
+    if (notificationsRepository != null) {
+      await notificationsRepository!.saveNotification(notification);
+    }
 
     //? Local notification cuando ya recibi la data de la push, se la mando a la local
     //? para su construccion

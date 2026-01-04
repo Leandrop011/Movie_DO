@@ -16,7 +16,7 @@ part 'database.g.dart';
 //!BASE DE DATOS SQLITE QUE GUARDARA LA INFORMACION LOCALMENTE DE LAS MOVIES FAVORITAS
 //!OJO QUERES HACER CAMBIOS DE ESTA BASE DE DATOS EN CALIENTE REQUIERE MIGRACION
 //!O REINSTALAR LA APLICACION
-class FavoritesMovies extends Table{
+class FavoritesMovies extends Table{ 
   //* el named es para renombrarlo
   //* Intcolumn numeros entero
   //* TextColumn texto(la imagen tambien por su url)

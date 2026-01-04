@@ -7,4 +7,4 @@ final localStorageRepositoryProvider = Provider(
   (ref){
     return LocalStorageRepositoryImpl(DriftDatasource());
   }
-);
+); 
