@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/delegates/search_movie_delegate.dart';
 
 import 'package:movies_app/presentation/providers/providers.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_sliver_app_bar.dart';
 import '../../providers/movies/movie_top_provider.dart';
 import '../../widgets/movies/movie_top.dart';
 /*
@@ -41,6 +45,12 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    //! VARIABLE PARA OBTENER EL TAMANO DEL DISPOSITIVO
+    final size = MediaQuery.of(context).size;
+    //! Para obtener el color del tema
+    final colors = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     //todo, provider que determina si los provider ya  tienen data y asi hacer lo que se dice
     final initialLoading = ref.watch(initialLoadingProvider);
 
@@ -74,16 +84,58 @@ class HomeViewState extends ConsumerState<HomeView> {
           slivers: [
             
             //! MANANA IMPLEMENTAR UNA APPBAR CON DESENFOQUE Y CON DISENO TRANSPARENTE
-            SliverAppBar(//todo, appbar de un sliver(constrolara que si subimos un poco aparece)
-              floating: true,//* para que aparezca cuando se sube un poco
-              flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar
+            // SliverAppBar (//todo, appbar de un sliver(constrolara que si subimos un poco aparece)
+            //   floating: true,//* para que aparezca cuando se sube un poco
+            //   flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar
               
-                title: Padding(
-                  padding: EdgeInsetsGeometry.only(right:5, top: 5),
-                  child: CustomAppbar()
+            //     title: Padding(
+            //       padding: EdgeInsetsGeometry.only(right:5, top: 5),
+            //       child: CustomAppbar()
+            //     ),
+            //     centerTitle: true,
+              
+            //   ),
+            // ),
+            GlassSliverAppBar(
+              expandedHeight: 70, 
+              title: 'Movie DO',
+              actions: [
+                IconButton(
+                  onPressed: (){
+                    final searchedMovies = ref.read(searchedMoviesProvider);
+                    final searchQuery = ref.read(searchQueryProvider);
+
+                    showSearch<Movie?>(
+                      context: context, 
+                      query: searchQuery,
+
+                      delegate: SearchMovieDelegate(
+                        initialMovies: searchedMovies, 
+                        searchMovie: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery,
+                      ),
+                    ).then((movie){
+                      if(movie == null) return;
+                      context.push('/home/0/movie/${movie.id}');
+                    });
+                  }, 
+                  icon: Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Icon(
+                      Icons.search, 
+                      size: size.width * 0.1,
+                      color: colors.primary,
+                    ),
+                  ),
                 ),
-                centerTitle: true,
               
+              ],
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Icon(
+                  Icons.movie_outlined,
+                  size: size.width*0.1,
+                  color: colors.primary,
+                ),
               ),
             ),
         

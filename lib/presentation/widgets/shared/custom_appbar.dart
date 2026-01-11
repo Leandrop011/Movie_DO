@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/delegates/search_movie_delegate.dart';
-import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
 
 class CustomAppbar extends ConsumerWidget {
@@ -41,23 +40,24 @@ class CustomAppbar extends ConsumerWidget {
               padding: const EdgeInsets.only(right: 5.0),
               child: IconButton(
                 onPressed: () {
-                  final searchedMovies = ref.read(searchedMoviesProvider);
-                  final searchQuery = ref.read(searchQueryProvider);
+                  // final searchedMovies = ref.read(searchedMoviesProvider);
+                  // final searchQuery = ref.read(searchQueryProvider);
                   
               
-                  showSearch<Movie?>(//* esto nos puede devolver una pelicula
-                    query: searchQuery,
-                    context: context, 
-                    delegate: SearchMovieDelegate(
-                      initialMovies: searchedMovies,
-                      searchMovie: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery,
-                    )
-                  ).then((movie) {//* SI EL USUARIO SELECCIONA ESO CAPTURA EL VALOR
-                    if(movie == null) return;
-                    //! CAMBIAMOS LA DIRECCION DEL ROUTER ENTONCES AQUI CAMBIAMOS
-                    context.push('/home/0/movie/${movie.id}');
+                  // showSearch<Movie?>(//* esto nos puede devolver una pelicula
+                  //   query: searchQuery,
+                  //   context: context, 
+                  //   delegate: SearchMovieDelegate(
+                  //     initialMovies: searchedMovies,
+                  //     searchMovie: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery,
+                  //     
+                  //   )
+                  // ).then((movie) {//* SI EL USUARIO SELECCIONA ESO CAPTURA EL VALOR
+                  //   if(movie == null) return;
+                  //   //! CAMBIAMOS LA DIRECCION DEL ROUTER ENTONCES AQUI CAMBIAMOS
+                  //   context.push('/home/0/movie/${movie.id}');
                     
-                  });
+                  // });
                 }, 
                 icon: Icon(Icons.search, size: 25)
               ),

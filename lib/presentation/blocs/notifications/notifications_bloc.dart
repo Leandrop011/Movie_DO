@@ -136,7 +136,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     final settings = await messaging.getNotificationSettings();
     add(NotificationsStatusChanged(settings.authorizationStatus));
     
-  }
+  } 
 
   //! 4. Cuarto paso Obtener el token de la instalacion en el dispositivo del usuario
   void _getFCMToken() async{

@@ -30,12 +30,17 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     textInputAction: TextInputAction.done
   );
 
-  void clearStreams(){
-    debounceMovies.close();
+  // void clearStreams(){
+  //   debounceMovies.close();
+  // }
+  //todo, estudiar esto
+  void cleanup(){
+    _debounceTimer?.cancel();
   }
 
   //* DEBOUNCE MANUAL(CONTROLAR QUE SE HAGA UNA PETICION HTTP, LUEGO DE QUE EL USUARIO HAYA ESCRITO LA PELICULA)
   void _onQueryChanged(String query){//* ESTA ES LA FUNC PARA EMITIR CAMBIOS
+    if (isLoadingStream.isClosed) return;
     isLoadingStream.add(true);//! cambiamos el valor del stream y asi trabaja
 
     if(_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
@@ -49,8 +54,13 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
         // }
         final movies = await searchMovie(query);//LAS MOVIES QUE NOS DA
         initialMovies = movies;
-        debounceMovies.add(movies);
-        isLoadingStream.add(false);
+
+        if (!debounceMovies.isClosed) {
+          debounceMovies.add(movies);
+        }
+        if (!isLoadingStream.isClosed) {
+          isLoadingStream.add(false);
+        }
       },
     );
   }
@@ -71,7 +81,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
             final movie = movies[index];
             return _MovieItem(
               onMovieSelected: (context, movie){
-                clearStreams();
+                cleanup();
                 close(context, movie);
               }, 
               movie: movie
@@ -135,7 +145,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     return IconButton(
       onPressed: (){
         //* Cerrar
-        clearStreams();
+        cleanup();
         close(context, null);
       }, 
       icon: Icon(Icons.arrow_back_ios_new)
