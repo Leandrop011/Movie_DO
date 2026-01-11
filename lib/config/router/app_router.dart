@@ -18,7 +18,7 @@ final appRouter = GoRouter(
 
         //* el pageindex tanto en movil como en web se aumenta si aumentan lso elementos del bottom
         //? PORQUE SI AHORA TENEMOS 4 ELEMENTOS(3) SI ES MAYOR TE DEVUELVE A HOMEVIEW
-        if(pageIndex > 4 || pageIndex < 0){//* Validacion de que si el usuario por la web pone menor que 0 o mayor a 2 por el url, pues le redireccione al home screen-
+        if(pageIndex > 3 || pageIndex < 0){//* Validacion de que si el usuario por la web pone menor que 0 o mayor a 2 por el url, pues le redireccione al home screen-
           return HomeScreen(pageIndex: 0);
         }
 

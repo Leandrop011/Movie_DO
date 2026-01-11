@@ -8,8 +8,6 @@ import 'package:movies_app/domain/entities/actor.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
-import 'package:movies_app/presentation/providers/storage/favorite_movies_provider.dart';
-import 'package:movies_app/presentation/providers/storage/is_favorite_movie_provider.dart';
 import 'package:movies_app/presentation/widgets/shared/custom_bottom_favorites.dart';
 import 'package:movies_app/presentation/widgets/videos/videos_from_movie.dart';
 
@@ -113,10 +111,7 @@ class _MovieDetails extends ConsumerWidget {
         //* INFORMACION DE LA MOVIE
         _ElementsInDetails(isDarck: isDarck, size: size, movie: movie, textStyle: textStyle),
 
-        RepaintBoundary(//* VIDEO
-          key: ValueKey('video_boundary_${movie.id}'),
-          child: VideosFromMovie(movieId: movie.id),
-        ),
+        VideosFromMovie(movieId: movie.id),
 
         Padding(//* GENEROS DE LA MOVIE
           padding: const EdgeInsets.all(8),

@@ -52,11 +52,11 @@ class CustomBottomNavigationbar extends StatelessWidget {
           activeIcon: Icon(Icons.settings)
         ),
 
-        BottomNavigationBarItem(
-          icon: Icon(Icons. notifications_outlined),
-          label: 'Notificaciones',
-          activeIcon: Icon(Icons.notifications_active)
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons. notifications_outlined),
+        //   label: 'Notificaciones',
+        //   activeIcon: Icon(Icons.notifications_active)
+        // ),
       ],
     );
   }
