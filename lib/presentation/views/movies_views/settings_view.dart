@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_appbar_transparent.dart';
 import 'package:movies_app/presentation/widgets/shared/custom_settings_cards.dart';
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
 
   //* Metodo que construye un AlertDialog
-  void infoMake(BuildContext context){
+  void _infoMake(BuildContext context){
     showDialog(
       context: context, 
       builder: (context) {
@@ -36,24 +37,39 @@ class SettingsView extends ConsumerWidget {
     final isDarck = ref.watch(isdarckProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('AJUSTES', style: style.titleLarge,),
-        centerTitle: false,
-        leading: Padding(
-          padding: const EdgeInsets.only(bottom: 7.0),
-          child: Icon(Icons.settings_suggest, color: colors.primary, size: 33,),
-        ),
-        titleSpacing: 0,
-
+      appBar: CustomAppbarTransparent(
+        tittle: 'AJUSTES',  
+        leadingIcon: Icons.settings_suggest, 
         actions: [
           IconButton(
             onPressed: (){
-              infoMake(context);
+              _infoMake(context);
             }, 
-            icon: Icon(Icons.info_outline)
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(Icons.info_outline, size: 30,),
+            )
           )
-        ],
+        ]
       ),
+      // appBar: AppBar(
+      //   title: Text('AJUSTES', style: style.titleLarge,),
+      //   centerTitle: false,
+      //   leading: Padding(
+      //     padding: const EdgeInsets.only(bottom: 7.0),
+      //     child: Icon(Icons.settings_suggest, color: colors.primary, size: 33,),
+      //   ),
+      //   titleSpacing: 0,
+
+      //   actions: [
+      //     IconButton(
+      //       onPressed: (){
+      //         infoMake(context);
+      //       }, 
+      //       icon: Icon(Icons.info_outline)
+      //     )
+      //   ],
+      // ),
 
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),

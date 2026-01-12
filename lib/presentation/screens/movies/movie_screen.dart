@@ -111,6 +111,7 @@ class _MovieDetails extends ConsumerWidget {
         //* INFORMACION DE LA MOVIE
         _ElementsInDetails(isDarck: isDarck, size: size, movie: movie, textStyle: textStyle),
 
+        //* VIDEO DE LA MOVIE
         VideosFromMovie(movieId: movie.id),
 
         Padding(//* GENEROS DE LA MOVIE

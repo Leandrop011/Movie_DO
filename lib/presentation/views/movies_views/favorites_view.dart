@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:movies_app/presentation/widgets/movies/movies_masonry.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_appbar_transparent.dart';
 
 class FavoritesView extends ConsumerStatefulWidget {
   const FavoritesView({super.key});
@@ -21,7 +22,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
   }
 
   //* SHOW DIALOG PARA DAR INFORMACION DE LA PANTALLA FAVORITAS MOVIES
-  void infoMake(BuildContext context){
+  void _infoMake(BuildContext context){
     showDialog(
       context: context, 
       builder: (context) {
@@ -75,22 +76,37 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
         ),
       );
     }
-
+ 
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.add_box_outlined, color: colors.primary, size: 30,),
-        title: Text('FAVORITAS', style: style.titleLarge),
-        centerTitle: false,
-        titleSpacing: 0,
-        actions: [ 
+      appBar: CustomAppbarTransparent(
+        tittle: 'FAVORITAS', 
+        leadingIcon: Icons.add_box_outlined, 
+        actions: [
           IconButton(
             onPressed: (){
-              infoMake(context);
+              _infoMake(context);
             }, 
-            icon: Icon(Icons.info_outline)
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(Icons.info_outline, size: 30,),
+            )
           )
-        ],
+        ]
       ),
+      // appBar: AppBar(
+      //   leading: Icon(Icons.add_box_outlined, color: colors.primary, size: 30,),
+      //   title: Text('FAVORITAS', style: style.titleLarge),
+      //   centerTitle: false,
+      //   titleSpacing: 0,
+      //   actions: [ 
+      //     IconButton(
+      //       onPressed: (){
+      //         infoMake(context);
+      //       }, 
+      //       icon: Icon(Icons.info_outline)
+      //     )
+      //   ],
+      // ),
 
 
       body: MoviesMasonry( 

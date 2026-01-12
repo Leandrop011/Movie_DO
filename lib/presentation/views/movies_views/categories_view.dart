@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/providers/movies/movies_providers.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
 import 'package:movies_app/presentation/widgets/movies/movies_masonry.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_appbar_transparent.dart';
 
 class CategoriesView extends ConsumerStatefulWidget {
   const CategoriesView({super.key});
@@ -21,7 +22,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
     ref.read(popularMoviesProvider.notifier).loadNextPage();//*INICIALIZAMOS LA DATA
   }
 
-  void infoMake(BuildContext context){
+  void _infoMake(BuildContext context){
     showDialog(
       context: context, 
       builder: (context) {
@@ -51,20 +52,36 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
     if(movies.isEmpty) return CustomFullscreenLoading();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('POPULARES', style: style.titleLarge,),
-        leading: Icon(Icons.thumb_up_alt_outlined, color: colors.primary, size: 30,),
-        centerTitle: false,
-        titleSpacing: 0,//* el espacio de separacion del title y el leading
+      appBar: CustomAppbarTransparent( 
+        tittle: 'POPULARES', 
+        leadingIcon: Icons.thumb_up_alt_outlined, 
         actions: [
           IconButton(
             onPressed: (){
-              infoMake(context);
+              _infoMake(context);
             }, 
-            icon: Icon(Icons.info_outline)
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(Icons.info_outline, size: 30,),
+            )
           )
         ],
+        blurIntensity: 10, 
       ),
+      // appBar: AppBar(
+      //   title: Text('POPULARES', style: style.titleLarge,),
+      //   leading: Icon(Icons.thumb_up_alt_outlined, color: colors.primary, size: 30,),
+      //   centerTitle: false,
+      //   titleSpacing: 0,//* el espacio de separacion del title y el leading
+      //   actions: [
+      //     IconButton(
+      //       onPressed: (){
+      //         infoMake(context);
+      //       }, 
+      //       icon: Icon(Icons.info_outline)
+      //     )
+      //   ],
+      // ),
       body: MoviesMasonry(
         movies: movies, 
         loadNextPage: () => ref.read(popularMoviesProvider.notifier).loadNextPage(),

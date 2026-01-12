@@ -36,6 +36,9 @@ class GlassSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       flexibleSpace: ClipRRect(
+        // borderRadius: BorderRadiusGeometry.only(
+        //   bottomLeft: Radius.circular(20),
+        // ),
         child: BackdropFilter(
           filter: ImageFilter.blur(
             sigmaX: blurIntensity,
@@ -51,12 +54,12 @@ class GlassSliverAppBar extends StatelessWidget {
                   glassColor.withOpacity(glassOpacity * 0.5),
                 ],
               ),
-              border: Border(
-                bottom: BorderSide(
-                  //color: Colors.white.withOpacity(0.2),
-                  width: 0.5
-                ),
-              ),
+              // border: Border(
+              //   bottom: BorderSide(
+              //     //color: Colors.white.withOpacity(0.2),
+              //     width: 0.5
+              //   ),
+              // ),
             ),
             child: FlexibleSpaceBar(
               title: Padding(

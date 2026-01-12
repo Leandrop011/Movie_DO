@@ -164,7 +164,12 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
    //* ESTA FUNCION SE MANDA A LLAMAR CADA QUE EL USUARIO PULSA O INGRESA ALGO
     _onQueryChanged(query);//! EL DEBOUNCER
 
-    return buildResultsAndSuggestions();
+    return GestureDetector(
+      //? se ecuta cuando el dedo toca la pantalla
+      //? y pierde el foco el teclado
+      onTapDown: (_) => FocusScope.of(context).unfocus(),
+      child: buildResultsAndSuggestions()
+    );
   }
   
 }
@@ -190,6 +195,7 @@ class _MovieItem extends ConsumerWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
           onMovieSelected(context, movie);
         },
         child: Padding(

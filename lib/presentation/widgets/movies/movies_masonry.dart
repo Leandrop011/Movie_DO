@@ -57,7 +57,7 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10 ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
       child: MasonryGridView.count(
         physics: BouncingScrollPhysics(),
         controller: scrollController,
@@ -69,13 +69,19 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
           if(index %2 == 0){//! SEGUN EL INDEX(SI ES PAR EJECUTA LA LOGICA)
             return Column(
               children: [
+                SizedBox(height: 5,),
                 MoviePosterLink(movie: widget.movies[index], index: false,)
               ],
             );
           }
 
-      
-          return MoviePosterLink(movie: widget.movies[index], index: true,);
+          
+          return Column(
+            children: [
+              SizedBox(height: 5,),
+              MoviePosterLink(movie: widget.movies[index], index: true,),
+            ],
+          );
         },
       ),
     );
