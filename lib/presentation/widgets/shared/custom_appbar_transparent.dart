@@ -10,7 +10,6 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
   final List<Widget> actions;
   // final VoidCallback? onIconPressed;
   final double blurIntensity;
-  final Color glassColor;
   final double glassOpacity;
 
   const CustomAppbarTransparent({
@@ -19,7 +18,6 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
     required this.leadingIcon, 
     required this.actions,
     this.blurIntensity = 10, 
-    this.glassColor = Colors.white,
     this.glassOpacity = 0.1, 
     // required this.onIconPressed
   });
@@ -68,14 +66,15 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  glassColor.withOpacity(glassOpacity),
-                  glassColor.withOpacity(glassOpacity * 0.6),
+                  colors.primary.withOpacity(glassOpacity),
+                  colors.primary.withOpacity(glassOpacity * 0.6),
                 ],
+                
               ),
               // border: Border(
               //   bottom: BorderSide(
-              //     color: Colors.white.withOpacity(0.6),
-              //     width: 0.5
+              //     // color: Colors.white.withOpacity(0.6),
+              //     width: 1
               //   ),
               // ),
             ),

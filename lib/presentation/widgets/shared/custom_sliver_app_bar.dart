@@ -54,12 +54,12 @@ class GlassSliverAppBar extends StatelessWidget {
                   glassColor.withOpacity(glassOpacity * 0.5),
                 ],
               ),
-              // border: Border(
-              //   bottom: BorderSide(
-              //     //color: Colors.white.withOpacity(0.2),
-              //     width: 0.5
-              //   ),
-              // ),
+              border: Border(
+                bottom: BorderSide(
+                  //color: Colors.white.withOpacity(0.2),
+                  width: 1
+                ),
+              ),
             ),
             child: FlexibleSpaceBar(
               title: Padding(
