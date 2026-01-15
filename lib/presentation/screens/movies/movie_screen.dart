@@ -49,7 +49,8 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     //todo, le mandamos el id
     final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
     final isDarck = ref.read(isdarckProvider);
-
+    
+    
     if(movie == null ){
       return Scaffold(
         body: Center(
@@ -66,8 +67,8 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       );
     }
 
-    return FadeInDown(
-      //duration: Duration(milliseconds: 400),
+    return FadeInDown (
+      // duration: Duration(milliseconds: 400),
       curve: Curves.elasticOut,
       child: Scaffold(
         

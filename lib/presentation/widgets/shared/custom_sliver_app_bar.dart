@@ -39,7 +39,7 @@ class GlassSliverAppBar extends StatelessWidget {
         // borderRadius: BorderRadiusGeometry.only(
         //   bottomLeft: Radius.circular(20),
         // ),
-        child: BackdropFilter(
+        child: BackdropFilter( 
           filter: ImageFilter.blur(
             sigmaX: blurIntensity,
             sigmaY: blurIntensity

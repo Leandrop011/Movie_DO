@@ -1,9 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/providers/storage/favorite_movies_provider.dart';
 import 'package:movies_app/presentation/widgets/movies/movies_masonry.dart';
 import 'package:movies_app/presentation/widgets/shared/custom_appbar_transparent.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_infomake_showdialog.dart';
 
 class FavoritesView extends ConsumerStatefulWidget {
   const FavoritesView({super.key});
@@ -22,25 +25,31 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
   }
 
   //* SHOW DIALOG PARA DAR INFORMACION DE LA PANTALLA FAVORITAS MOVIES
-  void _infoMake(BuildContext context){
-    showDialog(
-      context: context, 
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Favoritas'),
-          content: Text('En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.'),
-          actions: [
-            FilledButton(
-              onPressed: (){
-                context.pop();
-              }, 
-              child: Text('OK')
-            )
-          ],
-        );
-      },
-    );
-  }
+  // void _infoMake(BuildContext context){
+  //   showDialog(
+  //     context: context, 
+  //     barrierColor: Colors.black.withOpacity(0.5),
+      
+  //     builder: (context) {
+  //       return BackdropFilter(
+  //         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+  //         child: AlertDialog(
+  //           title: Text('Favoritas'),
+  //           content: Text('En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.'),
+  //           actions: [
+  //             FilledButton(
+  //               onPressed: (){
+  //                 context.pop();
+  //               }, 
+  //               child: Text('OK')
+  //             )
+  //           ],
+            
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
 
   @override
@@ -84,7 +93,15 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
         actions: [
           IconButton(
             onPressed: (){
-              _infoMake(context);
+              CustomInfomakeShowdialog.infoMake(
+                context, 
+                'Favoritas', 
+                'En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.', 
+                [
+                  FilledButton(onPressed: (){
+                    context.pop();
+                  }, child: Text('Ok')),
+                ]);
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),

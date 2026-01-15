@@ -36,7 +36,7 @@ class CustomSettingsCards extends ConsumerWidget {
             color: isDarck ?
             Colors.white70
             :
-            Colors.black54
+            Colors.black
           ),
           borderRadius: BorderRadius.circular(10)
         ),

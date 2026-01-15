@@ -3,31 +3,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/widgets/shared/custom_appbar_transparent.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_infomake_showdialog.dart';
 import 'package:movies_app/presentation/widgets/shared/custom_settings_cards.dart';
 
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
 
   //* Metodo que construye un AlertDialog
-  void _infoMake(BuildContext context){
-    showDialog(
-      context: context, 
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Ajustes'),
-          content: Text('En esta sección puedes personalizar la apariencia de la app. Aquí encontrarás opciones para cambiar el tema, modificar la fuente y ajustar detalles visuales para que la experiencia se adapte a ti.'),
-          actions: [
-            FilledButton(
-              onPressed: (){
-                context.pop();
-              }, 
-              child: Text('Ok'),
-            )
-          ],
-        );
-      },
-    );
-  }
+  // void _infoMake(BuildContext context){
+  //   showDialog(
+  //     context: context, 
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         title: Text('Ajustes'),
+  //         content: Text('En esta sección puedes personalizar la apariencia de la app. Aquí encontrarás opciones para cambiar el tema, modificar la fuente y ajustar detalles visuales para que la experiencia se adapte a ti.'),
+  //         actions: [
+  //           FilledButton(
+  //             onPressed: (){
+  //               context.pop();
+  //             }, 
+  //             child: Text('Ok'),
+  //           )
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,7 +44,19 @@ class SettingsView extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: (){
-              _infoMake(context);
+              CustomInfomakeShowdialog.infoMake(
+                context, 
+                'Ajustes', 
+                'En esta sección puedes personalizar la apariencia de la app. Aquí encontrarás opciones para cambiar el tema, modificar la fuente y ajustar detalles visuales para que la experiencia se adapte a ti.', 
+                [
+                  FilledButton(
+                    onPressed: (){
+                      context.pop();
+                    }, 
+                    child: Text('Ok')
+                  )
+                ]
+              );
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),
@@ -108,7 +121,7 @@ class SettingsView extends ConsumerWidget {
                     color: isDarck ?
                     Colors.white70
                     :
-                    Colors.black54
+                    Colors.black
                   ),
                   borderRadius: BorderRadius.circular(10)
                 ),
