@@ -125,7 +125,7 @@ class HomeViewState extends ConsumerState<HomeView> {
                   padding: const EdgeInsets.only(top: 5.0),
                   child: Icon(
                     Icons.search, 
-                    size: size.width * 0.1,
+                    size: size.width * 0.07,
                     color: isDarck?
                     Colors.white
                     :
@@ -139,7 +139,7 @@ class HomeViewState extends ConsumerState<HomeView> {
               padding: const EdgeInsets.only(top: 8.0),
               child: Icon(
                 Icons.movie_outlined,
-                size: size.width*0.1,
+                size: size.width * 0.08,
                 color: colors.primary,
               ),
             ),

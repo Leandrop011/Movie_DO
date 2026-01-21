@@ -27,16 +27,19 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
     final colors = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
     return AppBar(
-      title: Text(
-        tittle,
-        style: TextStyle(
-          color: colors.primary,
-          fontWeight: FontWeight.w400,
-          fontSize: 23
+      title: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Text(
+          tittle,
+          style: TextStyle(
+            color: colors.primary,
+            fontWeight: FontWeight.w400,
+            fontSize: 23
+          ),
         ),
       ),
       leading: Padding(
-        padding: const EdgeInsets.only(left: 20.0),
+        padding: const EdgeInsets.only(left: 15.0,),
         child: Icon(
           leadingIcon,
           color: colors.primary,

@@ -228,7 +228,7 @@ class _MovieItem extends ConsumerWidget {
                 children: [
                   //* Image
                   SizedBox(
-                    width: size.width * 0.3,
+                    width: size.width * 0.265,
                     child: ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(20),
                       child: Image.network(
