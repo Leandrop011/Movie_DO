@@ -171,7 +171,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       child: buildResultsAndSuggestions()
     );
   }
-  
+   
 }
 
 

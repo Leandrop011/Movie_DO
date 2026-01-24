@@ -231,6 +231,7 @@ class _Slide extends ConsumerWidget {
             ),  
         
             SizedBox(height: 5,),
+            // Spacer(),
         
             //* Titulo
         
@@ -245,14 +246,12 @@ class _Slide extends ConsumerWidget {
             ),
         
             //* Rating
-        
+
             SizedBox(//todo, para que tenga un limite 
               width: widthN ?
-              //185
-              size.width * 0.45
-              : 
-              //150,
-              size.width * 0.37,
+               size.width * 0.465
+               :
+               size.width * 0.38,
               child: Row(
               
                 children: [
@@ -261,7 +260,8 @@ class _Slide extends ConsumerWidget {
                   Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
                   const Spacer(),
                   //todo, solucionar problema de no transformacion correcta del numero
-                  Text(HumanFormats.humanReadableNumber(movie.popularity), style: textStyle.bodySmall,),
+                  // ? concatenamos el valor con una M,
+                  Text('${HumanFormats.humanReadableNumber(movie.popularity)} M', style: textStyle.bodySmall,),
                   
                 ],
               ),
