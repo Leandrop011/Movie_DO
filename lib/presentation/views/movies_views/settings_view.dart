@@ -60,7 +60,7 @@ class SettingsView extends ConsumerWidget {
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.info_outline, size: 30,),
+              child: Icon(Icons.info_outline, size: size.width * 0.04,),
             )
           )
         ]

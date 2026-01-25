@@ -43,10 +43,11 @@ Future <void> main()async{
   await dotenv.load(fileName: '.env');
   await NotificationsBloc.initializeFCM();
   await LocalNotifications.initializeLocalNotifications();
-  await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-  ]);
+  // ? PARA COLOCAR LA HORIENTACION DEL TELEFONO 
+  // await SystemChrome.setPreferredOrientations([
+  //       DeviceOrientation.portraitUp,
+  //       DeviceOrientation.portraitDown,
+  // ]);
   //! Inicializar base de datos de notificaciones
   // Esto asegura que la BD esté lista antes de usarla
   await dbNotifications.select(dbNotifications.notifications).get();

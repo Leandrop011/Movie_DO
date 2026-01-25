@@ -21,7 +21,7 @@ class MoviesSlideshow extends StatelessWidget {
     return Column(
       children: [
         SizedBox(//todo,  porque quiero un ancho para cada elemento
-          height: 330,
+          height: 310,//? AQUI ES DONDE SE LE DA TAMANO DE ALTO
           width: double.infinity,
           child: Swiper(
             viewportFraction: 0.81,//todo, para ver como el pre visualizer del slide anteriori y el sigueinte
@@ -91,6 +91,12 @@ class _Slide extends ConsumerWidget {
             decoration: decoration,
             
             child: Container(
+              // * lo que faltaba es esto para que ocupe todo
+              // * porque no le habia definido las dimensiones a usar
+              // ! Siempre colocar simensiones por buena practica
+              // * porque el fixt boxfitCover no funciona aqui
+              // * PARA QUE LA IMAGEN OCUPE TODO1 EL ESPACIO DE LA CAJA
+              width: double.infinity,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1, 
@@ -106,7 +112,7 @@ class _Slide extends ConsumerWidget {
                 child: Image.network(
                   movie.backdropPath,//todo, consultamos a esa cierta pelicula, segune el index
                   fit: BoxFit.cover,
-                  height: double.infinity,
+                  // height: double.infinity,
                   //todo, esto es como para que mientras carga se coloque algo
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {

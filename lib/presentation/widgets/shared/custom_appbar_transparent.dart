@@ -43,7 +43,7 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
         child: Icon(
           leadingIcon,
           color: colors.primary,
-          size: size.width * 0.09,
+          size: size.width * 0.055,
         ),
       ),
       actions: actions,

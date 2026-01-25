@@ -24,6 +24,7 @@ class MoviePosterLink extends StatelessWidget {
             200
             :
             300,
+            width: double.infinity,
             image: NetworkImage(movie.posterPath),
             //! PARA QUE NO DE ESE SALTO FEO POR QUE NO HAY COMO UN LOADING
             //!SOLO PERMITE IMAGENES

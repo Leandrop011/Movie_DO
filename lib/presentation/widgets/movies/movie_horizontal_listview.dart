@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:movies_app/config/helpers/human_formats.dart';
@@ -15,8 +14,8 @@ class MovieHorizontalListview extends StatefulWidget {
   final List<Movie> movies;
   final String? title;
   final String? subTitle;
-  final bool? widthN;
-  final bool? heightN;
+  // final bool? widthN;
+  // final bool? heightN;
 
   final VoidCallback? loadNextPage;//* para hacer scroll infinito
 
@@ -26,8 +25,8 @@ class MovieHorizontalListview extends StatefulWidget {
     this.title, 
     this.subTitle, 
     this.loadNextPage, 
-    this.widthN, 
-    this.heightN = false
+    // this.widthN, 
+    // this.heightN = false
   });
 
   @override
@@ -61,16 +60,17 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return SizedBox(//todo, para que no se desborde
       //! AQUI ES DONDE DEFINO EL TAMANO MAXIMO DE LOS ELEMENTOS DE ESE SCROLL HORIZONTAL
       //! SI LE DOY MAS, PUES PUEDO AUMENTAR SU TAMANO, DISENO RESPONSIVO
       //! OJO HAY QUE PRIORIZAR QUE FUNCIONE EN OTROS DISPOSITIVOS QUE AL DISENO
-      height: widget.heightN! ? 
-      size.height * 0.57
-      :
-      size.height * 0.49,
+      height: 380,
+      // widget.heightN! ? 
+      // size.height * 0.57
+      // :
+      // size.height * 0.49,
       child: Column(
         children: [
 
@@ -92,7 +92,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
                 //! AQUI CREA A CADA ELEMENTO
                 return FadeInRight(
                   from: random.nextInt(100) + 80,
-                  child: _Slide(movie: movie, heightN: widget.heightN ?? false, widthN: widget.widthN ?? false,)
+                  child: _Slide(movie: movie,)
                 );
               },
             )
@@ -147,21 +147,17 @@ class _Tittle extends StatelessWidget {
 //todo, la cajita de las peliculas //* diseno
 class _Slide extends ConsumerWidget {
   final Movie movie;
-  final bool widthN;
-  final bool heightN;
 
   const _Slide({
     required this.movie, 
-    required this.widthN, 
-    required this.heightN
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
     final textStyle = Theme.of(context).textTheme;
-    final isdarck = ref.read(isdarckProvider);
-    final size = MediaQuery.of(context).size;
+    // final isdarck = ref.read(isdarckProvider);
+    // final size = MediaQuery.of(context).size;
 
 
 
@@ -178,55 +174,19 @@ class _Slide extends ConsumerWidget {
           children: [
             //* Imagen
             SizedBox(
-              // width: widthN ? //! ESTO ES PARA CONTROLAR EL TAMANO Y NO SE DESBORDE
-              // 300
-              // :
-              // 150,
-              // height: heightN ? 
-              // size.height * 0.4
-              // : 
-              // size.height * 0.2,
+              width: 140,
               child: ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(
-                  heightN ?
-                  5
-                  :
-                  20
-                ),
-                child: Image.network(
-                  movie.posterPath,
-                  width: widthN ?
-                  //200
-                  size.width * 0.49//* DISENO RESPONSIVO
-                  :
-                  //150
-                  size.width * 0.4
-                  ,
-                  height: heightN ?
-                  size.height * 0.38
-                  :
-                  size.height * 0.3
-                  ,
+                borderRadius: BorderRadiusGeometry.circular(20),
+                child: FadeInImage(
+                  height: 200,
+                  
                   fit: BoxFit.cover,
-                
-                  //todo, un loading
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress != null) {//todo, cuando ya es null mostrara la imagen, de lo contrario tiene algo en su sistema 
-                      return Padding(
-                        padding: EdgeInsetsGeometry.only(top: size.height * 0.1, bottom: size.height * 0.1, left: size.width * 0.12),
-                        child: Center(child: LoadingAnimationWidget.hexagonDots(
-                          color: isdarck ?
-                          const Color.fromARGB(255, 194, 192, 192)
-                          :
-                          const Color.fromARGB(255, 60, 60, 60),
-                          size: 45
-                        ),),
-                      );
-                    }
-                
-                    return FadeIn(child: child);
-                  },
-                ),
+                  placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+                  
+                  image: NetworkImage(
+                  movie.posterPath,
+                  ),
+                )
               ),
             ),  
         
@@ -245,13 +205,10 @@ class _Slide extends ConsumerWidget {
               ),
             ),
         
-            //* Ratingini
+            //* Rating
 
             SizedBox(//todo, para que tenga un limite 
-              width: widthN ?
-               size.width * 0.465
-               :
-               size.width * 0.38,
+              width: 150,
               child: Row(
               
                 children: [
@@ -267,7 +224,6 @@ class _Slide extends ConsumerWidget {
               ),
             ),
             
-            //SizedBox(height: 30,)
           ],
         ),
       ),

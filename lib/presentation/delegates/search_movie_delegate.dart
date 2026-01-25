@@ -203,7 +203,7 @@ class _MovieItem extends ConsumerWidget {
         
           child: SizedBox(
             //* MAXIMOS
-            height: size.height * 0.26,
+            height: size.height * 0.3,
             width: size.width * 0.5,
             child: Container(
               decoration: BoxDecoration(
@@ -231,21 +231,20 @@ class _MovieItem extends ConsumerWidget {
                     width: size.width * 0.265,
                     child: ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(20),
-                      child: Image.network(
-                        movie.posterPath,
+                      child: FadeInImage(
+                        
+                        width: double.infinity,
+                        height: double.infinity,
+
+                        placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+
                         fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if(loadingProgress != null){
-                            return Center(
-                              child: LoadingAnimationWidget.hexagonDots(
-                                color: const Color.fromARGB(255, 187, 185, 185), 
-                                size: 50
-                              )
-                            );
-                          }
-                          return FadeIn(child: child);
-                        },
+
+                        image: NetworkImage(
+                        movie.posterPath,
                       ),
+                      ) 
+                      
                     ),
                   ),
 

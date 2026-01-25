@@ -66,6 +66,8 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
         crossAxisSpacing: 10,//* separacion en x
         itemCount: widget.movies.length,
         itemBuilder: (context, index) {
+          
+          // ?SI EL INDEX ES PAR
           if(index %2 == 0){//! SEGUN EL INDEX(SI ES PAR EJECUTA LA LOGICA)
             return Column(
               children: [
@@ -75,7 +77,7 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
             );
           }
 
-          
+          //? SI EL INDEX ES IMPAR
           return Column(
             children: [
               SizedBox(height: 5,),

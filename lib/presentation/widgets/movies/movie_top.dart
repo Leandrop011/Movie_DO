@@ -170,26 +170,18 @@ class _MovieTopView extends ConsumerWidget {
         padding: EdgeInsetsGeometry.all(0.5),
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(10),
-          child: Image.network(
-            width: size.width * 0.9,//! DISENO RESPONSIVO
-            height: size.height * 0.6,
-            movie.posterPath,
+          child: FadeInImage(
+            width: double.infinity,//! DISENO RESPONSIVO
+            height: double.infinity,
+            
+            placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+            
             fit: BoxFit.cover,
-            loadingBuilder: (context, child, loadingProgress) {
-              if(loadingProgress != null){
-                return Shimmer(
-                  duration: Duration(seconds: 2),
-                  color: Colors.white60,
-                  colorOpacity: 0.2,
-                  direction: ShimmerDirection.fromLBRT(),
-                  enabled: true,
-                
-                  child: Center()
-                );
-              }
-              return child;
-            },
+            image: NetworkImage(
+            movie.posterPath,
           ),
+          )
+          
         ),
       ),
     );

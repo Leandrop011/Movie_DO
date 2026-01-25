@@ -84,35 +84,33 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
 
           reproducirSonido();
         },
-        child: ZoomIn(
-          child: Container(
-            
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: valueFavorite ? 
-              const Color.fromARGB(255, 105, 106, 107)
-              :
-              Colors.transparent,
-              border: Border.all(
-                width: 3, 
-                color: Colors.white
-              )
-            ),
-            width: size.width * 0.28,
-            height: size.height * 0.05,
-            child: isFavoriteFuture.when(
-              data: (isFavorite) => isFavorite == true ?
-              Icon(Icons.check, size: 29,)
-              :
-              Icon(Icons.add, size: 29,), 
-              error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
-              loading: () => Center(
-                child: LoadingAnimationWidget.hexagonDots(
-                  color: Colors.white, 
-                  size: 20
-                ),
-              )
-            ),
+        child: Container(
+          
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: valueFavorite ? 
+            const Color.fromARGB(255, 105, 106, 107)
+            :
+            Colors.transparent,
+            border: Border.all(
+              width: 3, 
+              color: Colors.white
+            )
+          ),
+          width: size.width * 0.3,
+          height: size.height * 0.065,
+          child: isFavoriteFuture.when(
+            data: (isFavorite) => isFavorite == true ?
+            Icon(Icons.check, size: 29,)
+            :
+            Icon(Icons.add, size: 29,), 
+            error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
+            loading: () => Center(
+              child: LoadingAnimationWidget.hexagonDots(
+                color: Colors.white, 
+                size: 20
+              ),
+            )
           ),
         ),
       ),

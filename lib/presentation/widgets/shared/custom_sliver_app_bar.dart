@@ -63,14 +63,14 @@ class GlassSliverAppBar extends StatelessWidget {
             ),
             child: FlexibleSpaceBar(
               title: Padding(
-                padding: EdgeInsetsGeometry.only(bottom: size.height * 0.0045),
+                padding: EdgeInsetsGeometry.only(),
                 child: Text(
                   title,
 
                   style: TextStyle(
                     color: colors.primary,
                     fontWeight: FontWeight.w500,
-                    fontSize: 18
+                    fontSize: 20
                   ),
                 ),
               ),

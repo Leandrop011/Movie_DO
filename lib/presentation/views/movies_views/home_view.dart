@@ -51,7 +51,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     final size = MediaQuery.of(context).size;
     //! Para obtener el color del tema
     final colors = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
+    // final textTheme = Theme.of(context).textTheme;
 
     //todo, provider que determina si los provider ya  tienen data y asi hacer lo que se dice
     final initialLoading = ref.watch(initialLoadingProvider);
@@ -103,7 +103,7 @@ class HomeViewState extends ConsumerState<HomeView> {
           //   ),
           // ),
           GlassSliverAppBar(
-            expandedHeight: 70, 
+            expandedHeight: size.height * 0.07, 
             title: 'Movie DO',
             actions: [
               IconButton(
@@ -128,7 +128,7 @@ class HomeViewState extends ConsumerState<HomeView> {
                   padding: const EdgeInsets.only(top: 5.0),
                   child: Icon(
                     Icons.search, 
-                    size: size.width * 0.07,
+                    size: size.width * 0.04,
                     color: isDarck?
                     Colors.white
                     :
@@ -142,7 +142,7 @@ class HomeViewState extends ConsumerState<HomeView> {
               padding: const EdgeInsets.only(top: 8.0),
               child: Icon(
                 Icons.movie_outlined,
-                size: size.width * 0.08,
+                size: size.width * 0.055,
                 color: colors.primary,
               ),
             ),
@@ -154,12 +154,12 @@ class HomeViewState extends ConsumerState<HomeView> {
                 return Column(
       
                   children: [
-                        
+                    // const Spacer(),   
                     //* CARTELERA GRANDE DE LA PELICULA MAS POPULAR
                     MovieTop(movie: movieTop),
-      
+                    // const Spacer(),
                     //* Peliculas en Cines
-      
+                    // const Spacer(),
                     MovieHorizontalListview(
                       movies: nowPlayingMovies,
                       title: 'En cines',
@@ -186,7 +186,7 @@ class HomeViewState extends ConsumerState<HomeView> {
                     // ),
             
                     
-      
+                    // const Spacer(),
                     //* Peliculas Proximamente
       
                     MovieHorizontalListview(
@@ -198,26 +198,26 @@ class HomeViewState extends ConsumerState<HomeView> {
                         ref.read(upComingMoviesProvider.notifier).loadNextPage();
                       },
                     ),
-      
+
                     //* Peliculas Mejor Calificadas
-      
+                    // const Spacer(),
                     MovieHorizontalListview(
                       movies: topratedMovies,
                       title: 'Mejor calificadas',
                       subTitle: 'Desde siempre', 
-                      heightN: true,
-                      widthN: true,
                       loadNextPage: () {
                         //todo, PAGINACION
                         //todo, le pedimos que nos carge mas peliculas(infity scroll)
                         ref.read(topRatedMoviesProvider.notifier).loadNextPage();
                       },
                     ),
-                
+
+                    // SizedBox(height: 70,)
                   ],
                 );
               },
-      
+
+            
               //todo, esto le dira cuantos hijos construir(osea cuantas veces construir lo que esta dentro)
               childCount: 1,
             )
