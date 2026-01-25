@@ -18,3 +18,25 @@ samples, guidance on mobile development, and a full API reference.
 # Dev
 1. Copiar el .env.template y renombrarlo a .env 
 2. Cambiar las variables de entorno (The MovieDB) 
+
+
+# Prod
+Para cmabiar el nombre de la Aplicacion
+```
+flutter pub run change_app_package_name:main com.leoVeloper.movies_app
+```
+
+Para Cambiar el icono de la aplicacion
+```
+flutter pub run flutter_launcher_icons
+```
+
+Para Cambiar el Splash Screen
+```
+flutter pub run flutter_native_splash:create
+```
+
+Adroid AAB
+```
+flutter build appbundle
+```

@@ -54,11 +54,14 @@ dependencies:
   loading_animation_widget: ^1.3.0
   video_player: ^2.10.1
   youtube_player_flutter: ^9.1.3
+  flutter_native_splash: ^2.4.7
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/logo_app/logo1.png"
   min_sdk_android: 21
+flutter_native_splash:
+  color: "#252829"
 
 dev_dependencies:
   animated_theme_switcher: ^2.0.10

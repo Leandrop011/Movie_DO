@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/database/notifications/database_notifications.dart';
 import 'package:movies_app/config/local_notifications/local_notifications.dart';
@@ -14,6 +15,8 @@ import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/providers/notifications/notifications_repository_provider.dart';
 //import 'package:movies_app/config/database/database.dart';
 Future <void> main()async{ 
+  
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
 
   //!ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
   WidgetsFlutterBinding.ensureInitialized();

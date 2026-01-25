@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/domain/entities/movie.dart';
@@ -56,6 +57,8 @@ class HomeViewState extends ConsumerState<HomeView> {
     final initialLoading = ref.watch(initialLoadingProvider);
 
     if(initialLoading == true ) return CustomFullscreenLoading(); 
+
+    FlutterNativeSplash.remove();
 
     //todo, renderizar la data, llamamos al repository
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);

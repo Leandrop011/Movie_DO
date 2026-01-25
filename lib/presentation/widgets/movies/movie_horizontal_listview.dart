@@ -245,7 +245,7 @@ class _Slide extends ConsumerWidget {
               ),
             ),
         
-            //* Rating
+            //* Ratingini
 
             SizedBox(//todo, para que tenga un limite 
               width: widthN ?
