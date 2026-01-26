@@ -1,21 +1,14 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/config/database/notifications/database_notifications.dart';
-import 'package:movies_app/config/local_notifications/local_notifications.dart';
 import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
-import 'package:movies_app/presentation/blocs/notifications/notifications_bloc.dart';
 import 'package:movies_app/presentation/providers/config/index_theme_provider.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
-import 'package:movies_app/presentation/providers/notifications/notifications_repository_provider.dart';
-//import 'package:movies_app/config/database/database.dart';
 Future <void> main()async{ 
   
-  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+  // FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
 
   //!ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,8 +33,8 @@ Future <void> main()async{
 
   //todo, para usar el api key que colocamos en variables de entorno 
   await dotenv.load(fileName: '.env');
-  await NotificationsBloc.initializeFCM();
-  await LocalNotifications.initializeLocalNotifications();
+  // await NotificationsBloc.initializeFCM();
+  // await LocalNotifications.initializeLocalNotifications();
   // ? PARA COLOCAR LA HORIENTACION DEL TELEFONO 
   // await SystemChrome.setPreferredOrientations([
   //       DeviceOrientation.portraitUp,
@@ -49,30 +42,31 @@ Future <void> main()async{
   // ]);
   //! Inicializar base de datos de notificaciones
   // Esto asegura que la BD esté lista antes de usarla
-  await dbNotifications.select(dbNotifications.notifications).get();
+  // await dbNotifications.select(dbNotifications.notifications).get();
   
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingTerminatedHandler);
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingTerminatedHandler);
   runApp(
-  MultiBlocProvider(
-    providers: [
-      BlocProvider(create: (context) {
-        //! le pasamos el repo que nos provee del datasource la data de la database 
-        final container = ProviderContainer();
-        final repository = container.read(repositoryNotificationProvider);
+  // MultiBlocProvider(
+    // providers: [
+    //   BlocProvider(create: (context) {
+    //     //! le pasamos el repo que nos provee del datasource la data de la database 
+    //     final container = ProviderContainer();
+    //     final repository = container.read(repositoryNotificationProvider);
         
-        return NotificationsBloc(
-        //* caso de uso para pedir el permiso de las local notifications
-        requestLocalNotificationPermissions: LocalNotifications.requestPermissionLocalNotifications,
-        //* para el show local notification
-        showLocalNotification: LocalNotifications.showLocalNotifications,
-        notificationsRepository: repository
-      );
-     }
-    )
+    //     return NotificationsBloc(
+    //     //* caso de uso para pedir el permiso de las local notifications
+    //     requestLocalNotificationPermissions: LocalNotifications.requestPermissionLocalNotifications,
+    //     //* para el show local notification
+    //     showLocalNotification: LocalNotifications.showLocalNotifications,
+    //     notificationsRepository: repository
+    //     );
+    //  }
+    // )
 
-    ],
-    child: ProviderScope(child: const MyApp())
-  ),
+    // ],
+    //! EL PROVIDER SCOPE ES NECESARIO PARA EL FUNCIONAMIENTO DE RIVERPOD
+    ProviderScope(child: const MyApp())
+  // ),
   );
 }
 
@@ -90,72 +84,72 @@ class MyApp extends ConsumerWidget {
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
       theme: AppTheme(isdarck: isdarck, indexColor: indexColor).getTheme(),
-      builder: (context, child) => HandleNotificationInteractions(child: child!),
+      // builder: (context, child) => HandleNotificationInteractions(child: child!),
     );
   }
 }
 
 
  
-//! 9. Noveno Paso Implementar Navegacion desde estado notification Background o Terminated
-//! Navegue hacia los detalles de la notification
-//! Metodo para cuando se pulse una notificcacion en estado Background navegue hacia los details
-class HandleNotificationInteractions extends StatefulWidget {
+// //! 9. Noveno Paso Implementar Navegacion desde estado notification Background o Terminated
+// //! Navegue hacia los detalles de la notification
+// //! Metodo para cuando se pulse una notificcacion en estado Background navegue hacia los details
+// class HandleNotificationInteractions extends StatefulWidget {
   
-  final Widget child;
-  const HandleNotificationInteractions({super.key, required this.child});
+//   final Widget child;
+//   const HandleNotificationInteractions({super.key, required this.child});
 
-  @override
-  State<HandleNotificationInteractions> createState() => _HandleNotificationInteractionsState();
-}
+//   @override
+//   State<HandleNotificationInteractions> createState() => _HandleNotificationInteractionsState();
+// }
 
-class _HandleNotificationInteractionsState extends State<HandleNotificationInteractions> {
+// class _HandleNotificationInteractionsState extends State<HandleNotificationInteractions> {
 
-  Future<void> setupInteractedMessage() async {
-    // Get any messages which caused the application to open from
-    // a terminated state.
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+//   Future<void> setupInteractedMessage() async {
+//     // Get any messages which caused the application to open from
+//     // a terminated state.
+//     RemoteMessage? initialMessage =
+//         await FirebaseMessaging.instance.getInitialMessage();
 
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    if (initialMessage != null) {
-      _handleMessage(initialMessage);
-    }
+//     // If the message also contains a data property with a "type" of "chat",
+//     // navigate to a chat screen
+//     if (initialMessage != null) {
+//       _handleMessage(initialMessage);
+//     }
 
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  }
+//     // Also handle any interaction when the app is in the background via a
+//     // Stream listener
+//     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+//   }
   
-  void _handleMessage(RemoteMessage message) {
-    context.read<NotificationsBloc>().handleRemoteMessage(message);
-    final messageId = message.messageId?.replaceAll(':', '').replaceAll('%', '');
+//   void _handleMessage(RemoteMessage message) {
+//     context.read<NotificationsBloc>().handleRemoteMessage(message);
+//     final messageId = message.messageId?.replaceAll(':', '').replaceAll('%', '');
 
-    //* Para que navegue mas rapido con la instancia del app router
-    appRouter.push('/push-details/$messageId');
+//     //* Para que navegue mas rapido con la instancia del app router
+//     appRouter.push('/push-details/$messageId');
 
-    // if (message.data['type'] == 'chat') {
-    //   Navigator.pushNamed(context, '/chat', 
-    //     arguments: ChatArguments(message),
-    //   );
-    // }
-  }
+//     // if (message.data['type'] == 'chat') {
+//     //   Navigator.pushNamed(context, '/chat', 
+//     //     arguments: ChatArguments(message),
+//     //   );
+//     // }
+//   }
 
-  @override
-  void initState() {
-    super.initState();
+//   @override
+//   void initState() {
+//     super.initState();
 
-    // Run code required to handle interacted messages in an async function
-    // as initState() must not be async
-    setupInteractedMessage();
-  }
+//     // Run code required to handle interacted messages in an async function
+//     // as initState() must not be async
+//     setupInteractedMessage();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return widget.child;
+//   }
+// }
 
 
 

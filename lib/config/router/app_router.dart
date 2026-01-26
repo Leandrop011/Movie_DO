@@ -1,6 +1,5 @@
 
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/presentation/screens/notifications/details_screen.dart';
 import 'package:movies_app/presentation/screens/screens.dart';
 import 'package:movies_app/presentation/screens/settings/change_fount_screen.dart';
 import 'package:movies_app/presentation/screens/settings/change_theme_screen.dart';
@@ -73,10 +72,10 @@ final appRouter = GoRouter(
       builder: (context, state) => ChangeFountScreen(),
     ),
     //* Pantalla de detalles de una notificacion
-    GoRoute(
-      path: '/push-details/:messageId',
-      builder: (context, state) => DetailsScreen(pushMessageId: state.pathParameters['messageId'] ?? ''),
-    ),
+    // GoRoute(
+    //   path: '/push-details/:messageId',
+    //   builder: (context, state) => DetailsScreen(pushMessageId: state.pathParameters['messageId'] ?? ''),
+    // ),
 
     //! Para redireccionar la direccion / a la nueva /home/0
     GoRoute(
