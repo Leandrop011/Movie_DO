@@ -13,7 +13,7 @@ class FavoritesView extends ConsumerStatefulWidget {
   ConsumerState<FavoritesView> createState() => FavoritesViewState();
 }
 
-class FavoritesViewState extends ConsumerState<FavoritesView> {
+class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeepAliveClientMixin{
 
   @override
   void initState() {
@@ -52,6 +52,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     final movies = ref.watch(favoriteMoviesProvider);
     final myMovieList = movies.values.toList();//!TRANFORMAR A LISTA LAS MOVIES QUE VIENEN COMO MAPA
@@ -134,4 +135,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
       
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

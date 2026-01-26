@@ -26,7 +26,7 @@ class HomeView extends ConsumerStatefulWidget {
   HomeViewState createState() => HomeViewState();
 }
 
-class HomeViewState extends ConsumerState<HomeView> {
+class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClientMixin{
 
   @override
   void initState() {
@@ -47,6 +47,7 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     //! VARIABLE PARA OBTENER EL TAMANO DEL DISPOSITIVO
     final size = MediaQuery.of(context).size;
     //! Para obtener el color del tema
@@ -226,4 +227,7 @@ class HomeViewState extends ConsumerState<HomeView> {
       ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

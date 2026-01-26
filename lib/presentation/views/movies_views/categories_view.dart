@@ -14,7 +14,7 @@ class CategoriesView extends ConsumerStatefulWidget {
   ConsumerState<CategoriesView> createState() => _CategoriesViewState();
 }
 
-class _CategoriesViewState extends ConsumerState<CategoriesView> {
+class _CategoriesViewState extends ConsumerState<CategoriesView> with AutomaticKeepAliveClientMixin{
 
   @override
   void initState() {
@@ -44,6 +44,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     final movies = ref.watch(popularMoviesProvider);
     final size = MediaQuery.of(context).size;
@@ -102,4 +103,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
       )
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

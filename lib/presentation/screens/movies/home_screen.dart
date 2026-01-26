@@ -35,6 +35,19 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       // initialPage: widget.pageIndex
     );
   }
+  // @override
+  // void didUpdateWidget(HomeScreen oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+    
+  //   // Animar cuando cambia el índice
+  //   if (oldWidget.pageIndex != widget.pageIndex) {
+  //     pageController.animateToPage(
+  //       widget.pageIndex,
+  //       duration: const Duration(milliseconds: 250),
+  //       curve: Curves.easeInOut,
+  //     );
+  //   }
+  // }
  
   @override
   void dispose() {
@@ -69,13 +82,13 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     super.build(context);
 
     // * para darle esa animacion
-    // if(pageController.hasClients){
-    //   pageController.animateToPage(
-    //     widget.pageIndex, 
-    //     duration: Duration(milliseconds: 250), 
-    //     curve: Curves.easeInOut
-    //   );
-    // }
+    if(pageController.hasClients){
+      pageController.animateToPage(
+        widget.pageIndex, 
+        duration: Duration(milliseconds: 250), 
+        curve: Curves.easeInOut
+      );
+    }
     
 
     return Scaffold(
@@ -86,8 +99,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       ),
     
       // body: PageView(
-      //   // physics: const NeverScrollableScrollPhysics(),
-      //   // controller: pageController,//* este es el controller que da la animacion cuando se cambia de view
+      //   physics: const NeverScrollableScrollPhysics(),
+      //   controller: pageController,//* este es el controller que da la animacion cuando se cambia de view
       //   children: viewRoutes,
     
       // ),
