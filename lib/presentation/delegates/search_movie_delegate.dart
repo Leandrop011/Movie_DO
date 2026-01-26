@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/movie.dart';
@@ -229,6 +228,7 @@ class _MovieItem extends ConsumerWidget {
                   //* Image
                   SizedBox(
                     width: size.width * 0.265,
+                    height: size.height * 0.25,
                     child: ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(20),
                       child: FadeInImage(

@@ -1,6 +1,6 @@
 //todo, esto es para proveer las peliculas, pero dependiendo el caso de uso
 
-//TODO, ENTENDERLO MEJOR ESTUDIARLO
+
 
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:movies_app/domain/entities/movie.dart';

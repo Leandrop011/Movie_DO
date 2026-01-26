@@ -12,6 +12,6 @@ class ActorMapper {
     ? 'https://image.tmdb.org/t/p/w500${cast.profilePath}'
     : 
     'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png' , 
-    character: cast.character != null ? cast.character: 'Not Found',
+    character: cast.character ?? 'Not Found',
   );
 }

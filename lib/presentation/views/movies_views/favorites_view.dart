@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,7 +57,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     final myMovieList = movies.values.toList();//!TRANFORMAR A LISTA LAS MOVIES QUE VIENEN COMO MAPA
     final colors = Theme.of(context).colorScheme;
     final style = Theme.of(context).textTheme;
-    //final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     if(myMovieList.isEmpty){
       return Scaffold(
@@ -105,7 +103,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.info_outline, size: 30,),
+              child: Icon(Icons.info_outline, size: size.width * 0.075),
             )
           )
         ]

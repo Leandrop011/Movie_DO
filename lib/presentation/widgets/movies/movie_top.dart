@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
@@ -146,7 +145,7 @@ class _MovieTopView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarck = ref.watch(isdarckProvider);//* WATCH PORQUE NECESITO QUE ESTE PENDIENTE DE LOS CAMBIOS
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     return DecoratedBox(
       decoration: BoxDecoration(
         // border: Border.all(

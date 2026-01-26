@@ -46,6 +46,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
   Widget build(BuildContext context) {
 
     final movies = ref.watch(popularMoviesProvider);
+    final size = MediaQuery.of(context).size;
     // final style = Theme.of(context).textTheme;
     // final colors = Theme.of(context).colorScheme;
 
@@ -74,7 +75,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.info_outline, size: 30,),
+              child: Icon(Icons.info_outline, size: size.width * 0.075),
             )
           )
         ],

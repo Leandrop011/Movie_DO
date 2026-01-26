@@ -32,8 +32,8 @@ class SettingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = Theme.of(context).colorScheme;
-    final style = Theme.of(context).textTheme;
+    // final colors = Theme.of(context).colorScheme;
+    // final style = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final isDarck = ref.watch(isdarckProvider);
 
@@ -60,7 +60,7 @@ class SettingsView extends ConsumerWidget {
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.info_outline, size: size.width * 0.04,),
+              child: Icon(Icons.info_outline, size: size.width * 0.075),
             )
           )
         ]

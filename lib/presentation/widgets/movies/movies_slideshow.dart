@@ -18,10 +18,11 @@ class MoviesSlideshow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final size = MediaQuery.of(context).size;
     return Column(
       children: [
         SizedBox(//todo,  porque quiero un ancho para cada elemento
-          height: 310,//? AQUI ES DONDE SE LE DA TAMANO DE ALTO
+          height: size.height * 0.35,//? AQUI ES DONDE SE LE DA TAMANO DE ALTO
           width: double.infinity,
           child: Swiper(
             viewportFraction: 0.81,//todo, para ver como el pre visualizer del slide anteriori y el sigueinte
@@ -97,6 +98,7 @@ class _Slide extends ConsumerWidget {
               // * porque el fixt boxfitCover no funciona aqui
               // * PARA QUE LA IMAGEN OCUPE TODO1 EL ESPACIO DE LA CAJA
               width: double.infinity,
+              height: double.infinity,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1, 

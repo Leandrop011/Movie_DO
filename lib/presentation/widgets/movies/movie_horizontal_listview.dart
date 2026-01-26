@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/domain/entities/movie.dart';
-import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/providers/movies/movie_top_provider.dart';
 
 
@@ -60,13 +59,13 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     return SizedBox(//todo, para que no se desborde
       //! AQUI ES DONDE DEFINO EL TAMANO MAXIMO DE LOS ELEMENTOS DE ESE SCROLL HORIZONTAL
       //! SI LE DOY MAS, PUES PUEDO AUMENTAR SU TAMANO, DISENO RESPONSIVO
       //! OJO HAY QUE PRIORIZAR QUE FUNCIONE EN OTROS DISPOSITIVOS QUE AL DISENO
-      height: 380,
+      height: size.height * 0.45,
       // widget.heightN! ? 
       // size.height * 0.57
       // :
@@ -116,7 +115,7 @@ class _Tittle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tittleStyle = Theme.of(context).textTheme.titleLarge;
+    final tittleStyle = Theme.of(context).textTheme.titleMedium;
 
     return Container(
       padding: EdgeInsets.only(top: 10, right: 5, left: 5),
@@ -156,75 +155,79 @@ class _Slide extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final textStyle = Theme.of(context).textTheme;
+
     // final isdarck = ref.read(isdarckProvider);
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
 
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        //context.push('/movie/${movie.id}'); //! Esta ruta ya no existe porque se cambio el router
-        //! Antes solo era /movie/${movie.id} porque la direccion raiz era /, ahora es home
-        onTap: () => context.push('/home/0/movie/${movie.id}'),//* Por ser el hijo se une el home 0( la pagina 1), con el hijo movie id
-        
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //* Imagen
-            SizedBox(
-              width: 140,
-              child: ClipRRect(
-                borderRadius: BorderRadiusGeometry.circular(20),
-                child: FadeInImage(
-                  height: 200,
-                  
-                  fit: BoxFit.cover,
-                  placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
-                  
-                  image: NetworkImage(
-                  movie.posterPath,
-                  ),
-                )
+    return SizedBox(//! PARA DISENO RESPONSIVO Y QUE MAXIMO OCUPE ESE ESPACIO
+      width: size.width * 0.4,
+      height: size.height * 0.35,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          //context.push('/movie/${movie.id}'); //! Esta ruta ya no existe porque se cambio el router
+          //! Antes solo era /movie/${movie.id} porque la direccion raiz era /, ahora es home
+          onTap: () => context.push('/home/0/movie/${movie.id}'),//* Por ser el hijo se une el home 0( la pagina 1), con el hijo movie id
+          
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //* Imagen
+              SizedBox(
+                width: double.infinity,//* LO MAXIMO QUE PUEDA OCUPAR
+                child: ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(20),
+                  child: FadeInImage(
+                    height: size.height * 0.28,
+                    fit: BoxFit.cover,
+                    placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+                    
+                    image: NetworkImage(
+                    movie.posterPath,
+                    ),
+                  )
+                ),
+              ),  
+          
+              SizedBox(height: 5,),
+              // Spacer(),
+          
+              //* Titulo
+          
+              SizedBox(
+                width: 150,
+                child: Text(
+                  movie.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textStyle.titleSmall,
+                ),
               ),
-            ),  
-        
-            SizedBox(height: 5,),
-            // Spacer(),
-        
-            //* Titulo
-        
-            SizedBox(
-              width: 150,
-              child: Text(
-                movie.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: textStyle.titleSmall,
+          
+              //* Rating
+      
+              SizedBox(//todo, para que tenga un limite 
+                width: 150,
+                child: Row(
+                
+                  children: [
+                    Icon(Icons.star_half_outlined, color: Colors.yellow.shade800,),
+                    const SizedBox(width: 3,),
+                    Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
+                    const Spacer(),
+                    //todo, solucionar problema de no transformacion correcta del numero
+                    // ? concatenamos el valor con una M,
+                    Text('${HumanFormats.humanReadableNumber(movie.popularity)} M', style: textStyle.bodySmall,),
+                    
+                  ],
+                ),
               ),
-            ),
-        
-            //* Rating
-
-            SizedBox(//todo, para que tenga un limite 
-              width: 150,
-              child: Row(
               
-                children: [
-                  Icon(Icons.star_half_outlined, color: Colors.yellow.shade800,),
-                  SizedBox(width: 3,),
-                  Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
-                  const Spacer(),
-                  //todo, solucionar problema de no transformacion correcta del numero
-                  // ? concatenamos el valor con una M,
-                  Text('${HumanFormats.humanReadableNumber(movie.popularity)} M', style: textStyle.bodySmall,),
-                  
-                ],
-              ),
-            ),
-            
-          ],
+            ],
+          ),
         ),
       ),
     );

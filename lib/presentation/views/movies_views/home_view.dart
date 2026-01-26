@@ -13,7 +13,7 @@ import '../../providers/movies/movie_top_provider.dart';
 import '../../widgets/movies/movie_top.dart';
 /*
   todo, el StateLes solo sirve para leer y reaccionar a los providers
-  todo, miestras que el stateful tienes poder del initsate y riverpod
+  todo, miestras que el stateful tienes poder del initsate
   todo, el initsate es el lugar ideal para inicializar cosas que tu widget necesita antes de renderizarse. 
   todo, el initsate: se ejecuta una sola vez, antes del primer render y es para inicializar lógica o cargar datos
 */
@@ -56,6 +56,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     //todo, provider que determina si los provider ya  tienen data y asi hacer lo que se dice
     final initialLoading = ref.watch(initialLoadingProvider);
 
+    // ! HASTA QUE CARGUE LA DATA PUES MUESTRA ESTO
     if(initialLoading == true ) return CustomFullscreenLoading(); 
 
     FlutterNativeSplash.remove();
@@ -75,7 +76,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     final movieTop = ref.read(movieTopProvider);
     
     //? para cuando termine la carga
-    final finishLoadinf = ref.watch(visibilityMoviesProvider);
+    // final finishLoadinf = ref.watch(visibilityMoviesProvider);
 
     //? para obtener si el fount is darck or ligth
     final isDarck = ref.watch(isdarckProvider);
@@ -163,7 +164,6 @@ class HomeViewState extends ConsumerState<HomeView> {
                     MovieHorizontalListview(
                       movies: nowPlayingMovies,
                       title: 'En cines',
-                      subTitle: 'Este mes', 
                       loadNextPage: () {
                         //todo, le pedimos que nos carge mas peliculas(infity scroll)
                         ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
@@ -204,7 +204,6 @@ class HomeViewState extends ConsumerState<HomeView> {
                     MovieHorizontalListview(
                       movies: topratedMovies,
                       title: 'Mejor calificadas',
-                      subTitle: 'Desde siempre', 
                       loadNextPage: () {
                         //todo, PAGINACION
                         //todo, le pedimos que nos carge mas peliculas(infity scroll)

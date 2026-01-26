@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
 
 import 'package:movies_app/presentation/providers/providers.dart';
 import 'package:movies_app/presentation/views/views.dart';
@@ -87,8 +86,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       ),
     
       // body: PageView(
-      //   physics: const NeverScrollableScrollPhysics(),
-      //   controller: pageController,//* este es el controller que da la animacion cuando se cambia de view
+      //   // physics: const NeverScrollableScrollPhysics(),
+      //   // controller: pageController,//* este es el controller que da la animacion cuando se cambia de view
       //   children: viewRoutes,
     
       // ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 
 //todo, WIDGET QUE SE MUESTRA MIENTRAS LA DATA SE ESTA RENDERIZANDO(UN SIMBOLO DE CARGA)
@@ -33,12 +32,7 @@ class CustomFullscreenLoading extends StatelessWidget {
           Text('Espere por favor', style: style.titleMedium,),
           SizedBox(height: 20,),
 
-          LoadingAnimationWidget.discreteCircle(
-            color: Colors.white, 
-            secondRingColor: Colors.blueAccent,
-            thirdRingColor: Colors.grey,
-            size: 40,
-          ),
+          CircularProgressIndicator(strokeWidth: 2,),
 
           SizedBox(height: 10,),
 
