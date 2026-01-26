@@ -148,6 +148,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                 color: colors.primary,
               ),
             ),
+            
           ),
       
           SliverList(

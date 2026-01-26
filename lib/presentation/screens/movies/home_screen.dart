@@ -106,6 +106,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       // ),
     
       bottomNavigationBar: CustomBottomNavigationbar(currentIndex: widget.pageIndex,),
+
+      // drawer: NavigationDrawer(),
     );
   }
   

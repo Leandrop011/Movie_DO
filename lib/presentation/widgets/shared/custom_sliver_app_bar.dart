@@ -28,6 +28,7 @@ class GlassSliverAppBar extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     
     return SliverAppBar(
+      
       expandedHeight: expandedHeight,
       floating: false,
       pinned: true,
