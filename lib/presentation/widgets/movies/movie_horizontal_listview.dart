@@ -65,7 +65,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
       //! AQUI ES DONDE DEFINO EL TAMANO MAXIMO DE LOS ELEMENTOS DE ESE SCROLL HORIZONTAL
       //! SI LE DOY MAS, PUES PUEDO AUMENTAR SU TAMANO, DISENO RESPONSIVO
       //! OJO HAY QUE PRIORIZAR QUE FUNCIONE EN OTROS DISPOSITIVOS QUE AL DISENO
-      height: size.height * 0.45,
+      height: size.height * 0.5,
       // widget.heightN! ? 
       // size.height * 0.57
       // :
@@ -163,7 +163,7 @@ class _Slide extends ConsumerWidget {
 
     return SizedBox(//! PARA DISENO RESPONSIVO Y QUE MAXIMO OCUPE ESE ESPACIO
       width: size.width * 0.4,
-      height: size.height * 0.35,
+      height: size.height * 0.45,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
         child: InkWell(
@@ -210,7 +210,7 @@ class _Slide extends ConsumerWidget {
               //* Rating
       
               SizedBox(//todo, para que tenga un limite 
-                width: 150,
+                width: size.width * 0.35,
                 child: Row(
                 
                   children: [
@@ -221,7 +221,7 @@ class _Slide extends ConsumerWidget {
                     //todo, solucionar problema de no transformacion correcta del numero
                     // ? concatenamos el valor con una M,
                     Text('${HumanFormats.humanReadableNumber(movie.popularity)} M', style: textStyle.bodySmall,),
-                    
+                    // const Spacer(),
                   ],
                 ),
               ),

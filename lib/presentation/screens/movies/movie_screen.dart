@@ -7,10 +7,9 @@ import 'package:movies_app/domain/entities/actor.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
 import 'package:movies_app/presentation/providers/providers.dart';
+import 'package:movies_app/presentation/widgets/shared/custom_bottom_favorites.dart';
 import 'package:movies_app/presentation/widgets/videos/videos_from_movie.dart';
 
-import '../../providers/storage/favorite_movies_provider.dart';
-import '../../providers/storage/is_favorite_movie_provider.dart';
 
 //todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
 class MovieScreen extends ConsumerStatefulWidget {
@@ -539,8 +538,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final size = MediaQuery.of(context).size;//* para saber las dimensiones del dispositivo
-    final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
-    
+    // final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
+    final isDarck = ref.watch(isdarckProvider);
+
     //! toma el color blacno o negro dependiendo del contexto del theme
     //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     
@@ -556,27 +556,31 @@ class _CustomSliverAppBar extends ConsumerWidget {
       ),
 
       actions: [//! PARA QUE FUNCIONE LA PARTE DE FAVORITOS, USA LA BASE DE DATOS LOCAL
-        IconButton(
-          //!SOLO SI SE PRESIONA ESE BOTON SE HACEN LOS CAMBIOS EN EL PROVIDER
-          onPressed: () async{//!ESTE ASYN ES MUY IMPORTANTA PARA EL AWAIT 
-            //* AQUI LEEMOS Y PODEMOS ACTUALIZAR AGREGAR O REMOVER DE FAVORITOS A UNA MOVIE Y TAMBIEN LOS CAMBIOS EN LA BASE DE DATOS
-            //* LE MANDAMOS ESA PELICULA Y AHI HACE LA CONSULTA CON LA BASE DE DATOS Y DECICE SI REMOVER O AGREGAR
-            await ref.read(favoriteMoviesProvider.notifier).toggleFavoriteMovie(movie);
-            ref.invalidate(isFavoriteMovieProvider(movie.id));//* ESTO ES PARA INVALIDAR AL PROVIDER Y ASI CAMBIE EL ICONO(ASI CONSULTA A LA BASE DE DATOS OTRA VEZ)
-          },
-          //* EL FUTURE DEL PROVIDERFUTURE NOS AYUDA MUCHO PORQUE NOS DEJA TENER LOS 3 ESTADOS
-          icon: isFavoriteFuture.when(
-            data: (isFavorite) => isFavorite == true ?
-            Icon(Icons.favorite, color: Colors.red,)
-            :
-            Icon(Icons.favorite_outline_rounded),
-            error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
-            loading: () => Center(
-              child: CircularProgressIndicator(strokeWidth: 4,)
-            )
-          ), 
-        )
+          CustomBottomFavorites(//* BOBTON A PARTE PERSONALIZADO
+            movie: movie, 
+            isDarck: isDarck
+          )      
       ],
+        // IconButton(
+        //   //!SOLO SI SE PRESIONA ESE BOTON SE HACEN LOS CAMBIOS EN EL PROVIDER
+        //   onPressed: () async{//!ESTE ASYN ES MUY IMPORTANTA PARA EL AWAIT 
+        //     //* AQUI LEEMOS Y PODEMOS ACTUALIZAR AGREGAR O REMOVER DE FAVORITOS A UNA MOVIE Y TAMBIEN LOS CAMBIOS EN LA BASE DE DATOS
+        //     //* LE MANDAMOS ESA PELICULA Y AHI HACE LA CONSULTA CON LA BASE DE DATOS Y DECICE SI REMOVER O AGREGAR
+        //     await ref.read(favoriteMoviesProvider.notifier).toggleFavoriteMovie(movie);
+        //     ref.invalidate(isFavoriteMovieProvider(movie.id));//* ESTO ES PARA INVALIDAR AL PROVIDER Y ASI CAMBIE EL ICONO(ASI CONSULTA A LA BASE DE DATOS OTRA VEZ)
+        //   },
+        //   //* EL FUTURE DEL PROVIDERFUTURE NOS AYUDA MUCHO PORQUE NOS DEJA TENER LOS 3 ESTADOS
+        //   icon: isFavoriteFuture.when(
+        //     data: (isFavorite) => isFavorite == true ?
+        //     Icon(Icons.favorite, color: Colors.red,)
+        //     :
+        //     Icon(Icons.favorite_outline_rounded),
+        //     error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
+        //     loading: () => Center(
+        //       child: CircularProgressIndicator(strokeWidth: 4,)
+        //     )
+        //   ), 
+        // )
 
       expandedHeight: size.height * 0.7,
 

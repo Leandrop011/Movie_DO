@@ -99,7 +99,9 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
                   FilledButton(onPressed: (){
                     context.pop();
                   }, child: Text('Ok')),
-                ]);
+                ],
+                style,
+              );
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),

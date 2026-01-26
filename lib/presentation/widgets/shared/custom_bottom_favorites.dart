@@ -63,11 +63,18 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
     //final colors = Theme.of(context).colorScheme;    
     
     return Padding(
-      padding: EdgeInsetsGeometry.only(top: 15, bottom: 5),
+      padding: EdgeInsetsGeometry.only(top: 15, bottom: 5, right: 10),
       child: SizedBox(
         height: size.height * 0.08,
-        width: size.width * 0.45,
+        width: size.width * 0.235,
         child: FilledButton(
+          // * Estilo del botoeN
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(10)
+            ),
+            backgroundColor: Colors.black54
+          ),
           onPressed: () async{
             //! ACTUALIZAR LA DATABASE
             await ref.read(favoriteMoviesProvider.notifier).toggleFavoriteMovie(widget.movie);
@@ -88,26 +95,33 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomBottomFavorites> {
           child: isFavoriteFuture.when(
             data: (isFavorite) => isFavorite == true ?
             Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Eliminar', style: TextStyle(fontSize: 20),),
-                const SizedBox(width: 5,),
-                const Icon(Icons.favorite),
+                Icon(Icons.favorite, color: Colors.red,),
+                // SizedBox(width: 5,),
+                // Text('Eliminar', style: TextStyle(color: Colors.white, fontSize: size.width * 0.03),),
               ],
             )
             :
             Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Agregar', style: TextStyle(fontSize: 20)),
-                const SizedBox(width: 5,),
-                const Icon(Icons.favorite_outline),
+                Icon(Icons.favorite_outline_rounded, color: Colors.white,),
+                // SizedBox(width: 5,),
+                // Text('Agregar', style: TextStyle(color: Colors.white, fontSize: size.width * 0.03),),
               ],
             ),
-        
             error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
             loading: () => Center(
-              child: CircularProgressIndicator(strokeWidth: 3,)
+              child: SizedBox(
+                width: 10,
+                height: 10,
+                child: CircularProgressIndicator(strokeWidth: 2,)
+              )
             )
-          ),
+          ), 
         ),
       ),
     );

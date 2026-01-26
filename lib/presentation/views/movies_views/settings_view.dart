@@ -33,7 +33,7 @@ class SettingsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final colors = Theme.of(context).colorScheme;
-    // final style = Theme.of(context).textTheme;
+    final style = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final isDarck = ref.watch(isdarckProvider);
 
@@ -55,7 +55,8 @@ class SettingsView extends ConsumerWidget {
                     }, 
                     child: Text('Ok')
                   )
-                ]
+                ],
+                style,
               );
             }, 
             icon: Padding(

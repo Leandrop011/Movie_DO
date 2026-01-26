@@ -47,7 +47,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
 
     final movies = ref.watch(popularMoviesProvider);
     final size = MediaQuery.of(context).size;
-    // final style = Theme.of(context).textTheme;
+    final style = Theme.of(context).textTheme;
     // final colors = Theme.of(context).colorScheme;
 
     if(movies.isEmpty) return CustomFullscreenLoading();
@@ -70,7 +70,8 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> {
                     }, 
                     child: Text('Ok')
                   )
-                ]
+                ],
+                style,
               );
             }, 
             icon: Padding(

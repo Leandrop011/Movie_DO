@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/router/app_router.dart';
@@ -31,15 +32,16 @@ Future <void> main()async{
 
   // print('Movies: $movies');
 
+  // ? PARA COLOCAR LA HORIENTACION DEL TELEFONO 
+  await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+  ]);
+  
   //todo, para usar el api key que colocamos en variables de entorno 
   await dotenv.load(fileName: '.env');
   // await NotificationsBloc.initializeFCM();
   // await LocalNotifications.initializeLocalNotifications();
-  // ? PARA COLOCAR LA HORIENTACION DEL TELEFONO 
-  // await SystemChrome.setPreferredOrientations([
-  //       DeviceOrientation.portraitUp,
-  //       DeviceOrientation.portraitDown,
-  // ]);
   //! Inicializar base de datos de notificaciones
   // Esto asegura que la BD esté lista antes de usarla
   // await dbNotifications.select(dbNotifications.notifications).get();
