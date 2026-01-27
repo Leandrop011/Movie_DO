@@ -23,18 +23,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 //* Este Mixin es necesario para mantener el estado en el PageView
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
+class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClientMixin */ {
  
-  late PageController pageController;
+  // late PageController pageController;
 
-  @override
-  void initState() {
-    super.initState();
-    pageController = PageController(
-      keepPage: true,
-      // initialPage: widget.pageIndex
-    );
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   pageController = PageController(
+  //     keepPage: true,
+  //     // initialPage: widget.pageIndex
+  //   );
+  // }
   // @override
   // void didUpdateWidget(HomeScreen oldWidget) {
   //   super.didUpdateWidget(oldWidget);
@@ -49,11 +49,11 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   //   }
   // }
  
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   pageController.dispose();
+  //   super.dispose();
+  // }
 
   // @override
   // void didUpdateWidget(HomeScreen oldWidget) {
@@ -79,16 +79,16 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // super.build(context);
 
-    // * para darle esa animacion
-    if(pageController.hasClients){
-      pageController.animateToPage(
-        widget.pageIndex, 
-        duration: Duration(milliseconds: 250), 
-        curve: Curves.easeInOut
-      );
-    }
+    // // * para darle esa animacion
+    // if(pageController.hasClients){
+    //   pageController.animateToPage(
+    //     widget.pageIndex, 
+    //     duration: Duration(milliseconds: 250), 
+    //     curve: Curves.easeInOut
+    //   );
+    // }
     
 
     return Scaffold(
@@ -111,6 +111,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     );
   }
   
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
 }

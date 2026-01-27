@@ -20,10 +20,10 @@ class CustomAppbar extends ConsumerWidget {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsetsGeometry.only(left: 15),
+              padding: const EdgeInsetsGeometry.only(left: 15),
               child: Icon(Icons.movie_creation_outlined, color: colors.primary, size: 30,)
             ),
-            SizedBox(width: 5,),
+            const SizedBox(width: 5,),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text('Movie Do', style: titleStyle,),
@@ -56,7 +56,7 @@ class CustomAppbar extends ConsumerWidget {
                     
                   // });
                 }, 
-                icon: Icon(Icons.search, size: 25)
+                icon: const Icon(Icons.search, size: 25)
               ),
             ),
             

@@ -5,3 +5,7 @@ export 'package:movies_app/features/movies/presentation/widgets/movies/movies_sl
 export 'package:movies_app/features/movies/presentation/widgets/shared/custom_bottom_navigationbar.dart';
 
 export 'package:movies_app/features/movies/presentation/widgets/shared/custom_fullscreen_loading.dart';
+export 'package:movies_app/features/movies/presentation/widgets/shared/custom_categories_masonry.dart';
+
+export 'package:movies_app/features/movies/presentation/widgets/shared/custom_appbar_transparent.dart';
+export 'package:movies_app/features/movies/presentation/widgets/shared/custom_sliver_app_bar.dart';

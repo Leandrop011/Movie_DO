@@ -12,7 +12,7 @@ final moviesSlideshowProvider = Provider<List<Movie>>(
     if (nowPlayingMovies.isEmpty) {
       return [];
     }else{
-      return nowPlayingMovies.sublist(0, 6);
+      return nowPlayingMovies.sublist(0, 8);
     }
 
   } 

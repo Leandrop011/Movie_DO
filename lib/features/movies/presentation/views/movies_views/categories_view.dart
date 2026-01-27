@@ -14,7 +14,7 @@ class CategoriesView extends ConsumerStatefulWidget {
   ConsumerState<CategoriesView> createState() => _CategoriesViewState();
 }
 
-class _CategoriesViewState extends ConsumerState<CategoriesView> with AutomaticKeepAliveClientMixin{
+class _CategoriesViewState extends ConsumerState<CategoriesView> /*with AutomaticKeepAliveClientMixin*/{
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> with AutomaticK
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // super.build(context);
 
     final movies = ref.watch(popularMoviesProvider);
     final size = MediaQuery.of(context).size;
@@ -69,7 +69,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> with AutomaticK
                     onPressed: (){
                       context.pop();
                     }, 
-                    child: Text('Ok')
+                    child: const Text('Ok')
                   )
                 ],
                 style,
@@ -77,7 +77,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> with AutomaticK
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.info_outline, size: size.width * 0.065),
+              child: Icon(Icons.info_outline, size: size.width * 0.05),
             )
           )
         ],
@@ -104,6 +104,6 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> with AutomaticK
     );
   }
   
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
 }

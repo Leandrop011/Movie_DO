@@ -29,21 +29,21 @@ class CustomBottomNavigationbar extends StatelessWidget {
       //backgroundColor: colors.primary,
       items: [//todo, requiere por lo menos 2 hijos 
         BottomNavigationBarItem(//cada icono, debe tener icono y label obligado
-          icon: Icon(Icons.home_outlined),
+          icon: const Icon(Icons.home_outlined),
           label: 'Home',
-          activeIcon: Icon(Icons.home)
+          activeIcon: const Icon(Icons.home)
         ),
 
         BottomNavigationBarItem(
-          icon: Icon(Icons.thumbs_up_down_outlined),
+          icon: const Icon(Icons.thumbs_up_down_outlined),
           label: 'Populares',
-          activeIcon: Icon(Icons.thumbs_up_down)
+          activeIcon: const Icon(Icons.thumbs_up_down)
         ),
 
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border_outlined), 
+          icon: const Icon(Icons.favorite_border_outlined), 
           label: 'Favoritos',
-          activeIcon: Icon(Icons.favorite)
+          activeIcon: const Icon(Icons.favorite)
         ),
 
         // BottomNavigationBarItem(

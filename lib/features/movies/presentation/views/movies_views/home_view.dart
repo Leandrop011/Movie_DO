@@ -7,7 +7,6 @@ import 'package:movies_app/features/movies/domain/entities/movie.dart';
 import 'package:movies_app/features/movies/presentation/delegates/search_movie_delegate.dart';
 
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/custom_sliver_app_bar.dart';
 import '../../providers/config/fount_provider.dart';
 import '../../providers/movies/movie_top_provider.dart';
 import '../../widgets/movies/movie_top.dart';
@@ -26,7 +25,7 @@ class HomeView extends ConsumerStatefulWidget {
   HomeViewState createState() => HomeViewState();
 }
 
-class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClientMixin{
+class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveClientMixin*/{
 
   @override
   void initState() {
@@ -47,7 +46,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // super.build(context);
     //! VARIABLE PARA OBTENER EL TAMANO DEL DISPOSITIVO
     final size = MediaQuery.of(context).size;
     //! Para obtener el color del tema
@@ -84,7 +83,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
 
     //* BOUNCE => EFECTO REBOTE DE ANIMATE_DO
     return ZoomIn(//* EFECTO DE ENTRADA COMO UN ZOOM
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       //curve: Curves.elasticOut,
       child: CustomScrollView(//todo, para controlar el scroll
       
@@ -239,6 +238,6 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
     );
   }
   
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
 }

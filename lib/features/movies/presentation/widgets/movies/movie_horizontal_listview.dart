@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
-import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/features/movies/domain/entities/movie.dart';
 import 'package:movies_app/features/movies/presentation/providers/movies/movie_top_provider.dart';
 
@@ -118,8 +118,8 @@ class _Tittle extends StatelessWidget {
     final tittleStyle = Theme.of(context).textTheme.titleMedium;
 
     return Container(
-      padding: EdgeInsets.only(top: 10, right: 5, left: 5),
-      margin: EdgeInsets.symmetric(horizontal: 10,),
+      padding: const EdgeInsets.only(top: 10, right: 5, left: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 10,),
       child: Row(
         children: [
 
@@ -192,7 +192,7 @@ class _Slide extends ConsumerWidget {
                 ),
               ),  
           
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               // Spacer(),
           
               //* Titulo
@@ -220,7 +220,7 @@ class _Slide extends ConsumerWidget {
                     const Spacer(),
                     //todo, solucionar problema de no transformacion correcta del numero
                     // ? concatenamos el valor con una M,
-                    Text('${HumanFormats.humanReadableNumber(movie.popularity)} M', style: textStyle.bodySmall,),
+                    Text('${NumberFormat('###.##').format(movie.popularity)} M', style: textStyle.bodySmall,),
                     // const Spacer(),
                   ],
                 ),

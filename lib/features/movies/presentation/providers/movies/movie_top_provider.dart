@@ -4,7 +4,8 @@ import 'package:movies_app/features/movies/domain/entities/movie.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Random random = Random();
+// ! PARA QUE GENERE UNA PELICULA ALEATORIA ENTRE 0 10 DE EN LA CARTELERA GRANDE
+final Random random = Random();
 
 final movieRandom = random.nextInt(10);
 

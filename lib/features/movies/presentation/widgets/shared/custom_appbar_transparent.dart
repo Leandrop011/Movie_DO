@@ -12,13 +12,12 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
   final double blurIntensity;
   final double glassOpacity;
 
-  const CustomAppbarTransparent({
+  const CustomAppbarTransparent( {
     super.key, 
-    required this.tittle, 
     required this.leadingIcon, 
     required this.actions,
     this.blurIntensity = 10, 
-    this.glassOpacity = 0.1, 
+    this.glassOpacity = 0.1, required this.tittle, 
     // required this.onIconPressed
   });
 

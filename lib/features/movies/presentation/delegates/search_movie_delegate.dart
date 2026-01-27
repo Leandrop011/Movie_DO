@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-import 'package:movies_app/config/helpers/human_formats.dart';
 import 'package:movies_app/features/movies/domain/entities/movie.dart';
 import 'package:movies_app/features/movies/presentation/providers/movies/movie_top_provider.dart';
 
@@ -45,7 +45,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
     if(_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
     _debounceTimer = Timer (
-      Duration(milliseconds: 500), 
+      const Duration(milliseconds: 500), 
       () async{
         // if(query.isEmpty) {//* si el query es vacio
         //   debounceMovies.add([]);
@@ -249,7 +249,7 @@ class _MovieItem extends ConsumerWidget {
                     ),
                   ),
 
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
               
                   //* Descripcion
                   SizedBox(
@@ -260,21 +260,21 @@ class _MovieItem extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(movie.title, style: textStyle.titleMedium, maxLines: 2,),
-                        SizedBox(height: 5,),
+                        const SizedBox(height: 5,),
                         
                         (movie.overview != '') ?
                         Text(movie.overview, maxLines: 4, overflow: TextOverflow.ellipsis,)
                         :
-                        Text('No Description'),
+                        const Text('No Description'),
               
                         SizedBox(height: 5,),
               
                         Row(
                           children: [
                             Icon(Icons.star_half_rounded, color: Colors.yellow.shade800,),
-                            SizedBox(width: 5,),
+                            const SizedBox(width: 5,),
                             Text(
-                              HumanFormats.humanReadableNumber(movie.voteAverage, 1),
+                              NumberFormat('###.##').format(movie.voteAverage),
                               style: textStyle.bodyMedium!.copyWith(color: Colors.yellow.shade800),
                             )
                       

@@ -86,7 +86,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme(isdarck: isdarck, indexColor: 1).getTheme(),
+      theme: AppTheme(isdarck: isdarck, indexColor: 0).getTheme(),
       // builder: (context, child) => HandleNotificationInteractions(child: child!),
     );
   }

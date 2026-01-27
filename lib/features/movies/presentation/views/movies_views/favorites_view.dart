@@ -13,7 +13,7 @@ class FavoritesView extends ConsumerStatefulWidget {
   ConsumerState<FavoritesView> createState() => FavoritesViewState();
 }
 
-class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeepAliveClientMixin{
+class FavoritesViewState extends ConsumerState<FavoritesView> /*with AutomaticKeepAliveClientMixin*/{
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // super.build(context);
 
     final movies = ref.watch(favoriteMoviesProvider);
     final myMovieList = movies.values.toList();//!TRANFORMAR A LISTA LAS MOVIES QUE VIENEN COMO MAPA
@@ -77,7 +77,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
                 onPressed: (){
                   context.go('/home/0');
                 }, 
-                child: Text('Empezar a Buscar')
+                child: const Text('Empezar a Buscar')
               )
             ],
           ),
@@ -99,7 +99,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
                 [
                   FilledButton(onPressed: (){
                     context.pop();
-                  }, child: Text('Ok')),
+                  }, child: const Text('Ok')),
                 ],
                 style,
               );
@@ -136,6 +136,6 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
     );
   }
   
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
 }

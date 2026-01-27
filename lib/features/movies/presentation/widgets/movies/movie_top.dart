@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../providers/config/fount_provider.dart';
 
@@ -19,17 +18,17 @@ class MovieTop extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
     //final isDarck = ref.watch(isdarckProvider);//! watch porque tiene que estar pendientes de los cambios
 
-    if(movie.posterPath.isEmpty){
-      return Shimmer(
-        duration: Duration(seconds: 2),
-        color: Colors.white,
-        colorOpacity: 1,
-        enabled: true,
-        direction: ShimmerDirection.fromLBRT(),
+    // if(movie.posterPath.isEmpty){//* para animacion de carga 
+    //   return Shimmer(
+    //     duration: Duration(seconds: 2),
+    //     color: Colors.white,
+    //     colorOpacity: 1,
+    //     enabled: true,
+    //     direction: ShimmerDirection.fromLBRT(),
 
-        child: SizedBox()
-      );
-    }
+    //     child: SizedBox()
+    //   );
+    // }
     
     return InkWell(
       borderRadius: BorderRadius.circular(10),
@@ -44,7 +43,7 @@ class MovieTop extends ConsumerWidget {
           bottom: 10,
         ),
         child: FadeInDown(
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
           curve: Curves.elasticOut,
           child: SizedBox(
             width: size.width * 0.9,
@@ -67,7 +66,7 @@ class MovieTop extends ConsumerWidget {
                     children: [
                       ...movie.genreIds.map(
                         (gender) => Container(
-                          margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                           child: _GenderView(gender: gender),
                         )
                       )
@@ -167,7 +166,7 @@ class _MovieTopView extends ConsumerWidget {
       ),
         
       child: Padding(//! SE COLOCA ESTE PADIGN PARA EL BORDER ALL PORQUE EL POSTER OCUPA ALL THIS SPACE, ENTONCES LO ACORTAMOS CON PAADIGN
-        padding: EdgeInsetsGeometry.all(0.5),
+        padding: const EdgeInsetsGeometry.all(0.5),
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(10),
           child: FadeInImage(
@@ -199,7 +198,7 @@ class _GradientView extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,//* inicio
             end: Alignment.bottomCenter,//* final
-            stops: [0.93, 1.2],
+            stops: const [0.93, 1.2],
             colors: [
               Colors.transparent,
               Colors.black87
@@ -234,7 +233,7 @@ class _CustomButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.info_outline, color: Colors.white,),
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
             Text('Ver Detalles', style: TextStyle(color: Colors.white),),
           ],
         ),

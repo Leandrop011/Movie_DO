@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final List<Color> colorsTheme = [
-  Colors.yellow,
+  // Colors.yellow,
   Colors.blue,
-  Colors.purple,
-  Colors.purpleAccent,
-  Colors.green,
-  Colors.greenAccent,
-  Colors.orange,
-  Colors.red,
-  const Color.fromARGB(255, 57, 204, 165)
+  // Colors.purple,
+  // Colors.purpleAccent,
+  // Colors.green,
+  // Colors.greenAccent,
+  // Colors.orange,
+  // Colors.red,
+  // const Color.fromARGB(255, 57, 204, 165)
 ];
 
-final List<String> colorsThemeNames = [
-  "Yellow",
-  "Blue",
-  "Purple",
-  "Purple Accent",
-  "Green",
-  "Green Accent",
-  "Orange",
-  "Red",
-  "Teal",
-];
+// final List<String> colorsThemeNames = [
+//   "Yellow",
+//   "Blue",
+//   "Purple",
+//   "Purple Accent",
+//   "Green",
+//   "Green Accent",
+//   "Orange",
+//   "Red",
+//   "Teal",
+// ];
 
 
 class AppTheme {

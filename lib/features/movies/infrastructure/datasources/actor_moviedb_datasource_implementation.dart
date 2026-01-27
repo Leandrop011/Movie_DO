@@ -19,10 +19,13 @@ class ActorMoviedbDatasourceImplementation extends ActorsDatasource{
   //todo, DATA SOURCE DE LOS ACTORES
   @override
   Future<List<Actor>> getActorByMovie(String movieid) async{
+    // * respuesta
     final response = await dio.get('/movie/$movieid/credits');
 
+    // * mapearla
     final castResponse = CastResponse.fromJson(response.data);
 
+    // * mappaer cada actor a nuestra regla de negocio
     final List<Actor> actores = castResponse.cast.map(
       (actor) => ActorMapper.castToEntity(actor),
     ).toList();

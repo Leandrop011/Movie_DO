@@ -30,11 +30,11 @@ class CustomFullscreenLoading extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Espere por favor', style: style.titleMedium,),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
 
-          CircularProgressIndicator(strokeWidth: 2,),
+          const CircularProgressIndicator(strokeWidth: 2,),
 
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
 
           StreamBuilder(//* esto es pa que vaya mostrando frases conforme un tiempo va pasando
             stream: getLoadingMessages(), 

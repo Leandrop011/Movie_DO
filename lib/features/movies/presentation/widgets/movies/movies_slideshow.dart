@@ -30,7 +30,7 @@ class MoviesSlideshow extends StatelessWidget {
             scale: 0.85,//todo, es para que en el actual sea mas grande y los de adelante y atras sean mas pequenos
             autoplay: true,//todo, es para que se mueva solo 
             pagination: SwiperPagination(//todo, para que coloque esos puntitos de cuantas movies hay
-              margin: EdgeInsetsGeometry.only(top: 0),
+              // margin: EdgeInsetsGeometry.only(top: 0),
               builder: DotSwiperPaginationBuilder(
                 activeColor: colors.primary,
                 color: colors.secondary,
@@ -74,14 +74,14 @@ class _Slide extends ConsumerWidget {
         BoxShadow(
           color: Colors.black45,
           blurRadius: 10,
-          offset: Offset(0, 8)
+          offset: const Offset(0, 8)
         )
       ],
     );
     final isDarck = ref.watch(isdarckProvider).fount;
 
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         bottom: 30,
       ),
       child: Stack(
@@ -143,7 +143,7 @@ class _Slide extends ConsumerWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,//* inicio
                     end: Alignment.bottomCenter,//* final
-                    stops: [0.7, 1.0],
+                    stops: const [0.7, 1.0],
                     colors: [
                       Colors.transparent,
                       Colors.black87
@@ -155,7 +155,7 @@ class _Slide extends ConsumerWidget {
       
           //* TITULO DE LA PELICULA
           Padding(
-            padding: EdgeInsetsGeometry.only(left: 10, bottom: 10),
+            padding: const EdgeInsetsGeometry.only(left: 10, bottom: 10),
             child: Text(
               movie.title,
               style: TextStyle(

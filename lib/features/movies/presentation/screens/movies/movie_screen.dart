@@ -63,7 +63,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     }
 
     return ZoomIn(
-      duration: Duration(milliseconds: 450),
+      duration: const Duration(milliseconds: 450),
       child: Scaffold(
         
         body: CustomScrollView(
@@ -165,7 +165,7 @@ class _ElementsInDetails extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme;
 
     return Padding(
-      padding: EdgeInsetsGeometry.all(8),
+      padding: const EdgeInsetsGeometry.all(8),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: isDarck ?
@@ -185,7 +185,7 @@ class _ElementsInDetails extends StatelessWidget {
           ]
         ),
         child: Padding(
-          padding: EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
+          padding: const EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -211,7 +211,7 @@ class _ElementsInDetails extends StatelessWidget {
                 ],
               ),
               
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
           
               SizedBox(
                 width: size.width * 0.6,
@@ -226,7 +226,7 @@ class _ElementsInDetails extends StatelessWidget {
                       ),
                     ),
                     
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
 
                     SizedBox(
                       height: size.height * 0.12,
@@ -244,7 +244,7 @@ class _ElementsInDetails extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.star_half_rounded, color: Colors.yellow.shade900,),
-                          SizedBox(width: 5,),
+                          const SizedBox(width: 5,),
                           Text('${movie.voteAverage}', style: TextStyle(color: Colors.yellow.shade900),),
                           
                         ],
@@ -292,11 +292,11 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     final movies = moviesById[movieId] ?? [];
     
     if (movies.isEmpty){
-      return SizedBox();
+      return const SizedBox();
     }
     
     return Padding(
-      padding: EdgeInsetsGeometry.only(bottom: 10, left: 10, right: 10, top: 1),
+      padding: const EdgeInsetsGeometry.only(bottom: 10, left: 10, right: 10, top: 1),
       child: SizedBox(
         width: size.width * 1,
         height: size.height * 0.065,
@@ -342,18 +342,18 @@ class _MoviesSimilars extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
 
     if(moviesById[movieId] == null){
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     }
 
     if(moviesSimilars.isEmpty){
-      return SizedBox();
+      return const SizedBox();
     }
 
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: SizedBox(
         
-        height: size.height * 0.6,
+        height: size.height * 0.45,
         child: MasonryGridView.count(
           physics: AlwaysScrollableScrollPhysics(),
           crossAxisCount: 3,
@@ -477,7 +477,7 @@ class _ActorsByMovie extends ConsumerWidget {
     final actorsByMovie = ref.watch(actorsByMovieProvider);
 
     if(actorsByMovie[movieId]== null){
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
 
     final actors = actorsByMovie[movieId]!;
@@ -512,7 +512,7 @@ class _ActorView extends StatelessWidget {
       width: size.width * 0.3,
       height: size.height * 0.25,
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         width: double.infinity,
         height: double.infinity,
         child: Column(
@@ -543,7 +543,7 @@ class _ActorView extends StatelessWidget {
             ),
 
             //* Nombre de el Actor
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             // const Spacer(),
             Text(
               actor.name, 
@@ -691,7 +691,7 @@ class _ContentSilverAppBar extends StatelessWidget {
         //*GRADIENTE DE LA FLECHA DE REGRESO
         _CustomGradient(
           begin: Alignment.topLeft, 
-          stops: [0.0, 0.4],
+          stops: const [0.0, 0.4],
           colors: [Colors.black87, Colors.transparent]
         ),
 
@@ -699,7 +699,7 @@ class _ContentSilverAppBar extends StatelessWidget {
         _CustomGradient(
           begin: Alignment.topRight, 
           end: Alignment.bottomCenter, 
-          stops: [0.0, 0.2],
+          stops: const [0.0, 0.2],
           colors: [Colors.black87, Colors.transparent]
         ),
         

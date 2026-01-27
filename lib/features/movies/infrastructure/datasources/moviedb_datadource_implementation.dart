@@ -16,7 +16,7 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
   final dio = Dio(BaseOptions(
     baseUrl: 'https://api.themoviedb.org/3',//todo, es la base para obtener las peliculas
     queryParameters: {//todo, demas parametros
-      'api_key': Environment.movieDBKey,//TODO, AQUI IMPLEMENTAMOS EL APY-KEY
+      'api_key': Environment.movieDBKey,//TODO1, AQUI IMPLEMENTAMOS EL APY-KEY
       'language': 'es-MX'
     }
   ));

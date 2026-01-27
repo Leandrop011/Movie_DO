@@ -7,7 +7,44 @@ final appRouter = GoRouter(
   routes: [
 
 
-    //todo, ruta de el home(donde esta el bottom navigationBar) y rutas hijas
+   
+    GoRoute(
+      path: '/home/:page',
+      name: HomeScreen.name,
+      builder: (context, state) {
+        final pageIndex = int.parse( state.pathParameters['page'] ?? '0' );
+
+        return HomeScreen( pageIndex: pageIndex );
+      },
+      routes: [
+         GoRoute(
+          path: 'movie/:id',
+          name: MovieScreen.name,
+          builder: (context, state) {
+            final movieId = state.pathParameters['id'] ?? 'no-id';
+
+            return MovieScreen( movieId: movieId );
+          },
+        ),
+      ]
+    ),
+
+
+    //! Para redireccionar la direccion / a la nueva /home/0
+    GoRoute(
+      path: '/',
+      redirect: ( _ , __ ) {
+        return '/home/0';
+      },
+    )
+
+  ]
+);
+
+
+
+
+     //todo, ruta de el home(donde esta el bottom navigationBar) y rutas hijas
     // GoRoute(
     //   path: '/home/:page',//* esto indica en cual page quiere mostrar 0 home, 1 categories, 2 favorites
     //   builder: (context, state){
@@ -35,26 +72,6 @@ final appRouter = GoRouter(
     //     ),
     //   ]
     // ),
-    GoRoute(
-      path: '/home/:page',
-      name: HomeScreen.name,
-      builder: (context, state) {
-        final pageIndex = int.parse( state.pathParameters['page'] ?? '0' );
-
-        return HomeScreen( pageIndex: pageIndex );
-      },
-      routes: [
-         GoRoute(
-          path: 'movie/:id',
-          name: MovieScreen.name,
-          builder: (context, state) {
-            final movieId = state.pathParameters['id'] ?? 'no-id';
-
-            return MovieScreen( movieId: movieId );
-          },
-        ),
-      ]
-    ),
 
     //todo, RUTAS GLOBALES DONDE MANDA A OTRA SCREENS
     //* Pantalla de cambio de theme de la app
@@ -74,14 +91,3 @@ final appRouter = GoRouter(
     //   path: '/push-details/:messageId',
     //   builder: (context, state) => DetailsScreen(pushMessageId: state.pathParameters['messageId'] ?? ''),
     // ),
-
-    //! Para redireccionar la direccion / a la nueva /home/0
-    GoRoute(
-      path: '/',
-      redirect: ( _ , __ ) {
-        return '/home/0';
-      },
-    )
-
-  ]
-);
