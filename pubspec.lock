@@ -26,7 +26,7 @@ packages:
     source: hosted
     version: "4.2.0"
   animated_theme_switcher:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: animated_theme_switcher
       sha256: "24ccd74437b8db78f6d1ec701804702817bced5f925b1b3419c7a93071e3d3e9"

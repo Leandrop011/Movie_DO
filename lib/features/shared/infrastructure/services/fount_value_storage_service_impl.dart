@@ -1,6 +1,8 @@
 import 'package:movies_app/features/shared/infrastructure/services/fount_value_storage_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ! SIEMPRE SON METODOS SET PAR AGUARDARLO MIENTRAS LA APP CORRE, PARA ESTABLECER VALOR
+// !  Y GET PARA OBTENERLO APENAS INICIAR LA APP, PARA USAR EL SHARED_PREFERENCES
 class FountValueStorageServiceImpl extends FountValueStorageService {
   Future getSharedPrefs() async{
     return await SharedPreferences.getInstance(); 
@@ -19,7 +21,7 @@ class FountValueStorageServiceImpl extends FountValueStorageService {
   Future<bool> getValue(String key) async{
     final prefs = await getSharedPrefs();
 
-    return await prefs.getBool(key) ?? false;
+    return await prefs.getBool(key) ?? true;
   }
   
 }

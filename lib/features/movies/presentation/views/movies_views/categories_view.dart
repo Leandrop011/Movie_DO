@@ -77,7 +77,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> with AutomaticK
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.info_outline, size: size.width * 0.075),
+              child: Icon(Icons.info_outline, size: size.width * 0.065),
             )
           )
         ],

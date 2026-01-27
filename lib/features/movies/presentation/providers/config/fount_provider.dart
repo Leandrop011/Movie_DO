@@ -16,12 +16,12 @@ class FountNotifier extends StateNotifier<FountState> {
   final FountValueStorageService fountValueStorageService;
   FountNotifier({required this.fountValueStorageService}): 
   super(FountState()){
-    initialFount();//* inicializamos el fount apenes inicie la app
+    initialFount();//* inicializamos el fount apenes inicie el uso del provider
   }
   
   // * inicializamos el valor del fount, obtenemos el valor que ya fue guardado con el set
   // * y cambaimos el state de la app, para que se vean los cambios
-  void initialFount()async{
+  void initialFount() async{
     //* obtenemos el valor guardado
     final value = await fountValueStorageService.getValue('value');
     // * cambiamos el state con ese valor obtenido para que se vea visualmente
@@ -33,7 +33,7 @@ class FountNotifier extends StateNotifier<FountState> {
   // *
   void setFount(bool value) async{
     // * establecemos el valor( lo guardamos en el dispositivo)
-    await fountValueStorageService.setValue('value', state.fount);
+    await fountValueStorageService.setValue('value', value);
     
     // * cambiamos el state
     state = state.copyWith(

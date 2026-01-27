@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import 'package:movies_app/features/movies/domain/entities/actor.dart';
 import 'package:movies_app/features/movies/domain/entities/movie.dart';
@@ -60,9 +62,8 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       );
     }
 
-    return FadeInDown (
-      // duration: Duration(milliseconds: 400),
-      curve: Curves.elasticOut,
+    return ZoomIn(
+      duration: Duration(milliseconds: 450),
       child: Scaffold(
         
         body: CustomScrollView(
@@ -110,16 +111,22 @@ class _MovieDetails extends ConsumerWidget {
 
         Padding(//* GENEROS DE LA MOVIE
           padding: const EdgeInsets.all(8),
-          child: Wrap(
-            children: [
-              ...movie.genreIds.map((gender) => Container(
-                margin: const EdgeInsets.only(right: 10),
-                child: Chip(
-                  label: Text(gender),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                ),
-              ))
-            ],
+          child: SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              
+              children: [
+                ...movie.genreIds.map((gender) => Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: Chip(
+                    label: Text(gender),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                ))
+              ],
+            ),
           ),
         ),
 
@@ -155,6 +162,8 @@ class _ElementsInDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme;
+
     return Padding(
       padding: EdgeInsetsGeometry.all(8),
       child: DecoratedBox(
@@ -220,13 +229,34 @@ class _ElementsInDetails extends StatelessWidget {
                     SizedBox(height: 10,),
 
                     SizedBox(
-                      height: size.height * 0.2,
+                      height: size.height * 0.12,
                       width: double.infinity,
                       child: Text(
                         movie.overview, 
                         style: textStyle.titleSmall,
                         maxLines: 9,
                         overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          Icon(Icons.star_half_rounded, color: Colors.yellow.shade900,),
+                          SizedBox(width: 5,),
+                          Text('${movie.voteAverage}', style: TextStyle(color: Colors.yellow.shade900),),
+                          
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          Text('Estreno: ', style: textStyle.titleSmall?.copyWith(fontWeight: FontWeight.bold)),
+                          Text(DateFormat('yyyy/MM/dd').format(movie.releaseDate)),
+                        ],
                       ),
                     )
                   ],
@@ -266,7 +296,7 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     }
     
     return Padding(
-      padding: EdgeInsetsGeometry.only(bottom: 15, left: 10, right: 10, top: 10),
+      padding: EdgeInsetsGeometry.only(bottom: 10, left: 10, right: 10, top: 1),
       child: SizedBox(
         width: size.width * 1,
         height: size.height * 0.065,
@@ -309,6 +339,7 @@ class _MoviesSimilars extends ConsumerWidget {
     //lista de peliculas
     final moviesById = ref.watch(similarMoviesProvider);//* mapa que da el provider
     final moviesSimilars = moviesById[movieId] ?? [];//* lo transformamos
+    final size = MediaQuery.of(context).size;
 
     if(moviesById[movieId] == null){
       return CircularProgressIndicator();
@@ -322,18 +353,30 @@ class _MoviesSimilars extends ConsumerWidget {
       padding: const EdgeInsets.only(left: 10),
       child: SizedBox(
         
-        height: 330,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
-      
+        height: size.height * 0.6,
+        child: MasonryGridView.count(
+          physics: AlwaysScrollableScrollPhysics(),
+          crossAxisCount: 3,
           itemCount: moviesSimilars.length,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
           itemBuilder: (context, index) {
-            final moviesimilar = moviesSimilars[index];
-      
-            return _MovieSimilarView(movie: moviesimilar);
+            final movie = moviesSimilars[index];
+
+            return _MovieSimilarView(movie: movie);
           },
-        )
+        ),
+        // ListView.builder(
+        //   scrollDirection: Axis.horizontal,
+        //   physics: BouncingScrollPhysics(),
+      
+        //   itemCount: moviesSimilars.length,
+        //   itemBuilder: (context, index) {
+        //     final moviesimilar = moviesSimilars[index];
+      
+        //     return _MovieSimilarView(movie: moviesimilar);
+        //   },
+        // )
       ),
     );
   }
@@ -347,73 +390,70 @@ class _MovieSimilarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final textStyle = Theme.of(context).textTheme;
+    // final textStyle = Theme.of(context).textTheme;
 
     return SizedBox(
-      width: size.width * 0.35,
-      height: size.height * 0.25,
+      width: double.infinity,
+      height: size.height * 0.3,
       child: FadeInRight(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 15),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {
-              //! LA DIRECCION DE LA RUTA CAMBIO PORQUE AHORA ES /HOME, YA NO ES DE DIRECCION RAIZ /
-              context.push('/home/0/movie/${movie.id}');
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-
-                //* Imagen de la Movie
-                ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(20),
-                  child: SizedBox(
+        child: InkWell(
+          borderRadius: BorderRadius.circular(5),
+          onTap: () {
+            //! LA DIRECCION DE LA RUTA CAMBIO PORQUE AHORA ES /HOME, YA NO ES DE DIRECCION RAIZ /
+            context.push('/home/0/movie/${movie.id}');
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+        
+              //* Imagen de la Movie
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(5),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: size.height * 0.28,//* le decimos que tome solo una parte no todo
+                  child: FadeInImage(
                     width: double.infinity,
-                    height: size.height * 0.25,//* le decimos que tome solo una parte no todo
-                    child: FadeInImage(
-                      width: double.infinity,
-                      height: double.infinity,
-                          
-                      placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
-                      
-                      fit: BoxFit.cover,
-                      
-                      image:  NetworkImage(
-                        movie.posterPath,
-                      ),
-                    ),
-                  ) 
-                 
-                ),
-            
-                Padding(
-                  padding: const EdgeInsets.only(top: 5, left: 3),
-                  child: SizedBox(
-                    width: 100,
-                    child: Text(
-                      movie.title, 
-                      maxLines: 2,
-                      style: textStyle.titleSmall,
+                    height: double.infinity,
+                        
+                    placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+                    
+                    fit: BoxFit.cover,
+                    
+                    image:  NetworkImage(
+                      movie.posterPath,
                     ),
                   ),
-                ),
-                
-                Row(
-                  children: [
-                    Icon(Icons.star_half_outlined, color: Colors.amber.shade800,),
-                    SizedBox(width: 3,),
-                    Text(
-                      movie.voteAverage.toString(),
-                      style: TextStyle(
-                        color: Colors.amber.shade800,
-                      ),
-                    ),
-                  ],
-                ),
-            
-              ],
-            ),
+                ) 
+               
+              ),
+          
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 5, left: 3),
+              //   child: SizedBox(
+              //     width: 100,
+              //     child: Text(
+              //       movie.title, 
+              //       maxLines: 1,
+              //       style: textStyle.titleSmall,
+              //     ),
+              //   ),
+              // ),
+              
+              // Row(
+              //   children: [
+              //     Icon(Icons.star_half_outlined, color: Colors.amber.shade800,),
+              //     SizedBox(width: 3,),
+              //     Text(
+              //       movie.voteAverage.toString(),
+              //       style: TextStyle(
+              //         color: Colors.amber.shade800,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+          
+            ],
           ),
         ),
       ),
@@ -485,7 +525,7 @@ class _ActorView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: SizedBox(//* DEFINE EL TAMANO QUE LA IMAGEN PUEDE TOMAR
                   width: double.infinity,//* TOMA TODO1 EL TAMANO QUE PUEED
-                  height: size.height * 0.2,
+                  height: size.height * 0.20,
                   child: FadeInImage(
                     width: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN 
                     height: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN

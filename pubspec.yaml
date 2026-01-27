@@ -56,6 +56,7 @@ dependencies:
   audioplayers: ^6.5.1
   google_fonts: ^8.0.0
   shared_preferences: ^2.5.4
+  animated_theme_switcher: ^2.0.10
 flutter_launcher_icons:
   android: true
   ios: true
@@ -65,7 +66,6 @@ flutter_native_splash:
   color: "#252829"
 
 dev_dependencies:
-  animated_theme_switcher: ^2.0.10
   build_runner: ^2.10.4
   drift_dev: ^2.29.0
   flutter_lints: ^5.0.0

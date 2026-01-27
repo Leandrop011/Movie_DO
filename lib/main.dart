@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
 import 'package:movies_app/features/movies/presentation/providers/config/fount_provider.dart';
 Future <void> main()async{ 
-  
+  Intl.defaultLocale = 'es_ES';
+  initializeDateFormatting('es_ES', null);
   // FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
 
   //!ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
