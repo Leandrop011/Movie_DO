@@ -42,6 +42,7 @@ class _VideosList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme;
 
     //* Nada que mostrar
     if ( videos.isEmpty ) {
@@ -54,9 +55,12 @@ class _VideosList extends StatelessWidget {
         // ignore: prefer_const_constructors
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: const Text('Video', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+          child: Text('Video', style: style.titleMedium,),
         ),
-        
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(videos.first.name, style: style.titleSmall,),
+        ),
         //* Aunque tengo varios videos, sólo quiero mostrar el primero
         _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: videos.first.name )
         
