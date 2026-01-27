@@ -1,8 +1,6 @@
 
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/presentation/screens/screens.dart';
-import 'package:movies_app/presentation/screens/settings/change_fount_screen.dart';
-import 'package:movies_app/presentation/screens/settings/change_theme_screen.dart';
+import 'package:movies_app/features/movies/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/home/0',
@@ -60,17 +58,17 @@ final appRouter = GoRouter(
 
     //todo, RUTAS GLOBALES DONDE MANDA A OTRA SCREENS
     //* Pantalla de cambio de theme de la app
-    GoRoute(
-      name: ChangeThemeScreen.name,
-      path: '/theme',
-      builder: (context, state) => ChangeThemeScreen(),
-    ),
-    //* Pantalla de cambio de fondo de la app
-    GoRoute(
-      name: ChangeFountScreen.name,
-      path: '/fount',
-      builder: (context, state) => ChangeFountScreen(),
-    ),
+    // GoRoute(
+    //   name: ChangeThemeScreen.name,
+    //   path: '/theme',
+    //   builder: (context, state) => ChangeThemeScreen(),
+    // ),
+    // //* Pantalla de cambio de fondo de la app
+    // GoRoute(
+    //   name: ChangeFountScreen.name,
+    //   path: '/fount',
+    //   builder: (context, state) => ChangeFountScreen(),
+    // ),
     //* Pantalla de detalles de una notificacion
     // GoRoute(
     //   path: '/push-details/:messageId',

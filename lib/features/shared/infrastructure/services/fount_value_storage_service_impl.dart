@@ -1,0 +1,25 @@
+import 'package:movies_app/features/shared/infrastructure/services/fount_value_storage_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class FountValueStorageServiceImpl extends FountValueStorageService {
+  Future getSharedPrefs() async{
+    return await SharedPreferences.getInstance(); 
+  }
+  
+  @override
+  Future<void> setValue(String key, bool value) async{
+    final prefs = await getSharedPrefs();
+
+    // * el provider es el que me dara el valor
+    await prefs.setBool(key, value);
+
+  }
+  
+  @override
+  Future<bool> getValue(String key) async{
+    final prefs = await getSharedPrefs();
+
+    return await prefs.getBool(key) ?? false;
+  }
+  
+}

@@ -5,8 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/router/app_router.dart';
 import 'package:movies_app/config/theme/app_theme.dart';
-import 'package:movies_app/presentation/providers/config/index_theme_provider.dart';
-import 'package:movies_app/presentation/providers/config/isdarck_provider.dart';
+import 'package:movies_app/features/movies/presentation/providers/config/fount_provider.dart';
 Future <void> main()async{ 
   
   // FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
@@ -79,13 +78,12 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     //* Va a estar pendiente de cualquier cambio, si existe algun cambio pues redibuja
-    final isdarck = ref.watch(isdarckProvider);
-    final indexColor = ref.watch(indexThemeProvider);
+    final isdarck = ref.watch(isdarckProvider).fount;
 
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme(isdarck: isdarck, indexColor: indexColor).getTheme(),
+      theme: AppTheme(isdarck: isdarck, indexColor: 1).getTheme(),
       // builder: (context, child) => HandleNotificationInteractions(child: child!),
     );
   }
