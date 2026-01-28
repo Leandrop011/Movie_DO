@@ -28,7 +28,7 @@ class MoviePosterLink extends StatelessWidget {
             image: NetworkImage(movie.posterPath),
             //! PARA QUE NO DE ESE SALTO FEO POR QUE NO HAY COMO UN LOADING
             //!SOLO PERMITE IMAGENES
-            placeholder: AssetImage('assets/loaders/loader_04.gif'),
+            placeholder: AssetImage('assets/loaders/bottle-loader.gif'),
             fit: BoxFit.cover,
           ),
         ),

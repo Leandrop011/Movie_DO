@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:movies_app/features/movies/presentation/widgets/movies/movies_masonry.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/custom_appbar_transparent.dart';
 import 'package:movies_app/features/movies/presentation/widgets/shared/custom_infomake_showdialog.dart';
 
 class CategoriesView extends ConsumerStatefulWidget {
@@ -77,7 +76,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> /*with Automati
             }, 
             icon: Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.info_outline, size: size.width * 0.05),
+              child: Icon(Icons.info_outline, size: size.width * 0.065),
             )
           )
         ],

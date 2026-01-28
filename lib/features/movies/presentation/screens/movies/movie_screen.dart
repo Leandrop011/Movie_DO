@@ -78,7 +78,6 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
                 childCount: 1,
               )
             ),
-            
           ],
         ),
       
@@ -229,7 +228,7 @@ class _ElementsInDetails extends StatelessWidget {
                     const SizedBox(height: 10,),
 
                     SizedBox(
-                      height: size.height * 0.12,
+                      height: size.height * 0.15,
                       width: double.infinity,
                       child: Text(
                         movie.overview, 
@@ -353,17 +352,20 @@ class _MoviesSimilars extends ConsumerWidget {
       padding: const EdgeInsets.only(left: 10),
       child: SizedBox(
         
-        height: size.height * 0.45,
+        height: size.height * 0.4,
         child: MasonryGridView.count(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
+          
           crossAxisCount: 3,
           itemCount: moviesSimilars.length,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
           itemBuilder: (context, index) {
             final movie = moviesSimilars[index];
-
-            return _MovieSimilarView(movie: movie);
+            if(index %2 == 0){//? si el index es par pues true para que tenga una dimension distinta
+              return _MovieSimilarView(movie: movie, height: true);
+            }
+            return _MovieSimilarView(movie: movie, height: false);
           },
         ),
         // ListView.builder(
@@ -385,7 +387,8 @@ class _MoviesSimilars extends ConsumerWidget {
 //* WIDGET QUE LE DA DISENO A CADA PELICULA SIMILAR DE LA LISTA DE ARRIBA
 class _MovieSimilarView extends StatelessWidget {
   final Movie movie;
-  const _MovieSimilarView({required this.movie});
+  final bool height;
+  const _MovieSimilarView({required this.movie, required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -394,8 +397,11 @@ class _MovieSimilarView extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: size.height * 0.3,
-      child: FadeInRight(
+      height: height ?
+      size.height * 0.25
+      : 
+      size.height * 0.3,
+      child: FadeInDown(
         child: InkWell(
           borderRadius: BorderRadius.circular(5),
           onTap: () {
@@ -411,7 +417,10 @@ class _MovieSimilarView extends StatelessWidget {
                 borderRadius: BorderRadiusGeometry.circular(5),
                 child: SizedBox(
                   width: double.infinity,
-                  height: size.height * 0.28,//* le decimos que tome solo una parte no todo
+                  height: height ?
+                  size.height * 0.24
+                  :
+                  size.height * 0.29,//* le decimos que tome solo una parte no todo
                   child: FadeInImage(
                     width: double.infinity,
                     height: double.infinity,
@@ -475,6 +484,7 @@ class _ActorsByMovie extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     
     final actorsByMovie = ref.watch(actorsByMovieProvider);
+    final size = MediaQuery.of(context).size;
 
     if(actorsByMovie[movieId]== null){
       return const Center(child: CircularProgressIndicator());
@@ -484,7 +494,8 @@ class _ActorsByMovie extends ConsumerWidget {
 
 
     return SizedBox(
-      height: 265,
+      height: size.height * 0.4,
+      width: double.infinity,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: actors.length,
@@ -509,8 +520,8 @@ class _ActorView extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return SizedBox(//? DEFINE EL TAMANO DE TODA LA 'TARJETA' CON IMAGEN NOMBRE
-      width: size.width * 0.3,
-      height: size.height * 0.25,
+      width: size.width * 0.33,
+      height: size.height * 0.35,
       child: Container(
         padding: const EdgeInsets.all(8),
         width: double.infinity,
@@ -525,7 +536,7 @@ class _ActorView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: SizedBox(//* DEFINE EL TAMANO QUE LA IMAGEN PUEDE TOMAR
                   width: double.infinity,//* TOMA TODO1 EL TAMANO QUE PUEED
-                  height: size.height * 0.20,
+                  height: size.height * 0.265,
                   child: FadeInImage(
                     width: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN 
                     height: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN

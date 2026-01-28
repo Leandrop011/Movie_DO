@@ -6,6 +6,7 @@ import 'package:movies_app/features/movies/presentation/widgets/movies/movie_pos
 class MoviesMasonry extends StatefulWidget {
 
   final List<Movie> movies;
+  // * funcion future que devuleve una list de movies
   final Future<List<Movie>> Function()? loadNextPage;
 
   const MoviesMasonry({super.key, required this.movies, this.loadNextPage});
@@ -69,21 +70,11 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
           
           // ?SI EL INDEX ES PAR
           if(index %2 == 0){//! SEGUN EL INDEX(SI ES PAR EJECUTA LA LOGICA)
-            return Column(
-              children: [
-                SizedBox(height: 5,),
-                MoviePosterLink(movie: widget.movies[index], index: false,)
-              ],
-            );
+            return MoviePosterLink(movie: widget.movies[index], index: false,);
           }
 
           //? SI EL INDEX ES IMPAR
-          return Column(
-            children: [
-              SizedBox(height: 5,),
-              MoviePosterLink(movie: widget.movies[index], index: true,),
-            ],
-          );
+          return MoviePosterLink(movie: widget.movies[index], index: true,);
         },
       ),
     );

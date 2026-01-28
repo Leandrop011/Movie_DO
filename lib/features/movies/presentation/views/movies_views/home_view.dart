@@ -107,7 +107,16 @@ class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveCli
             expandedHeight: size.height * 0.07, 
             title: 'Movie DO',
             actions: [
-              IconButton(
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: isDarck ?
+                   colors.primary
+                   :
+                   Colors.black54,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(10)
+                  )
+                ),
                 onPressed: (){
                   final searchedMovies = ref.read(searchedMoviesProvider);
                   final searchQuery = ref.read(searchQueryProvider);
@@ -125,27 +134,37 @@ class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveCli
                     context.push('/home/0/movie/${movie.id}');
                   });
                 }, 
-                icon: Padding(
+
+                child: Padding(
                   padding: const EdgeInsets.only(top: 5.0),
                   child: Icon(
                     Icons.search, 
                     size: size.width * 0.055,
-                    color: isDarck?
-                    Colors.white
-                    :
-                    Colors.black,
+                    color: Colors.white
                   ),
                 ),
               ),
 
-              IconButton(
-                onPressed: (){
-                  ref.read(isdarckProvider.notifier).setFount(!isDarck);
-                }, 
-                icon: isDarck ?
-                Icon(Icons.light_mode_outlined)
-                :
-                Icon(Icons.dark_mode_rounded)
+              Padding(
+                padding: const EdgeInsets.only(right: 5.0, left: 5),
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: isDarck ?
+                    Colors.black54
+                    :
+                    colors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(10)
+                    )
+                  ),
+                  onPressed: (){
+                    ref.read(isdarckProvider.notifier).setFount(!isDarck);
+                  }, 
+                  child: isDarck ?
+                  Icon(Icons.light_mode_outlined, color: Colors.white,size: size.width * 0.035,)
+                  :
+                  Icon(Icons.dark_mode_rounded, color: Colors.white,size: size.width * 0.035,)
+                ),
               )
             
             ],

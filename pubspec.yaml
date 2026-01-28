@@ -57,6 +57,9 @@ dependencies:
   google_fonts: ^8.0.0
   shared_preferences: ^2.5.4
   animated_theme_switcher: ^2.0.10
+  animated_bottom_navigation_bar: ^1.4.0
+  curved_navigation_bar: ^1.0.6
+  salomon_bottom_bar: ^3.3.2
 flutter_launcher_icons:
   android: true
   ios: true

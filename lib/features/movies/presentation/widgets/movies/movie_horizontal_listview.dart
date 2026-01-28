@@ -163,7 +163,7 @@ class _Slide extends ConsumerWidget {
 
     return SizedBox(//! PARA DISENO RESPONSIVO Y QUE MAXIMO OCUPE ESE ESPACIO
       width: size.width * 0.4,
-      height: size.height * 0.45,
+      height: size.height * 0.5,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
         child: InkWell(
@@ -181,7 +181,7 @@ class _Slide extends ConsumerWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(20),
                   child: FadeInImage(
-                    height: size.height * 0.28,
+                    height: size.height * 0.3,
                     fit: BoxFit.cover,
                     placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
                     
@@ -192,13 +192,14 @@ class _Slide extends ConsumerWidget {
                 ),
               ),  
           
-              const SizedBox(height: 5,),
+              SizedBox(height: size.height * 0.008,),
               // Spacer(),
           
               //* Titulo
           
               SizedBox(
                 width: 150,
+                height: size.height * 0.03,
                 child: Text(
                   movie.title,
                   maxLines: 1,
@@ -211,16 +212,17 @@ class _Slide extends ConsumerWidget {
       
               SizedBox(//todo, para que tenga un limite 
                 width: size.width * 0.35,
+                height: size.height * 0.03,
                 child: Row(
                 
                   children: [
                     Icon(Icons.star_half_outlined, color: Colors.yellow.shade800,),
                     const SizedBox(width: 3,),
-                    Text('${movie.voteAverage}', style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
+                    Text(NumberFormat('###.#').format(movie.voteAverage), style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
                     const Spacer(),
                     //todo, solucionar problema de no transformacion correcta del numero
                     // ? concatenamos el valor con una M,
-                    Text('${NumberFormat('###.##').format(movie.popularity)} M', style: textStyle.bodySmall,),
+                    Text('${NumberFormat('###.#').format(movie.popularity)} M', style: textStyle.bodySmall,),
                     // const Spacer(),
                   ],
                 ),

@@ -18,7 +18,7 @@ class CustomBottomNavigationbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) { 
     //final colors = Theme.of(context).colorScheme;
-
+  
     return BottomNavigationBar(//la barra de navegar inferior
       type: BottomNavigationBarType.fixed,//!CUANDO HAY MAS DE 3 ITEMS HAY QUE COLOCAR ESTO PARA QUE MUESTRE SU COLOR 
       currentIndex: currentIndex,//todo, valor actual(segun la list de las view)
@@ -29,9 +29,8 @@ class CustomBottomNavigationbar extends StatelessWidget {
       //backgroundColor: colors.primary,
       items: [//todo, requiere por lo menos 2 hijos 
         BottomNavigationBarItem(//cada icono, debe tener icono y label obligado
-          icon: const Icon(Icons.home_outlined),
+          icon: const Icon(Icons.home_max_outlined),
           label: 'Home',
-          activeIcon: const Icon(Icons.home)
         ),
 
         BottomNavigationBarItem(

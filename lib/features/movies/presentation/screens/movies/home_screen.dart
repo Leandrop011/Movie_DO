@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:movies_app/features/movies/presentation/views/views.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 //import '../../views/movies_views/home_view.dart';
 
 //todo, dotenv es para mover archivos de entorno hacia la app
@@ -89,13 +90,12 @@ class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClien
     //     curve: Curves.easeInOut
     //   );
     // }
-    
 
     return Scaffold(
     
       body: IndexedStack(//! Para preservar el estado y no volver a crear el widget MUY UTIL
         index: widget.pageIndex, //* Esto es lo que define cual mostrar con el index(es el que escoge en el children)
-        children: viewRoutes//* Todas las View y segun el index decide que view mostrar
+        children: viewRoutes//* Todas las View y segun el in,dex decide que view mostrar
       ),
     
       // body: PageView(
@@ -104,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClien
       //   children: viewRoutes,
     
       // ),
+
     
       bottomNavigationBar: CustomBottomNavigationbar(currentIndex: widget.pageIndex,),
 
