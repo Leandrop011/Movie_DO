@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:movies_app/features/movies/presentation/views/views.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 //import '../../views/movies_views/home_view.dart';
 
 //todo, dotenv es para mover archivos de entorno hacia la app
@@ -92,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClien
     // }
 
     return Scaffold(
-    
+      extendBody: true, //? PARA COLOCAR EL BOTTOMNAVIGATIONBAR ENCIMA DE TODO1, COMO QUE SE EXTIENDE
       body: IndexedStack(//! Para preservar el estado y no volver a crear el widget MUY UTIL
         index: widget.pageIndex, //* Esto es lo que define cual mostrar con el index(es el que escoge en el children)
         children: viewRoutes//* Todas las View y segun el in,dex decide que view mostrar

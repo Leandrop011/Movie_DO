@@ -57,16 +57,30 @@ dependencies:
   google_fonts: ^8.0.0
   shared_preferences: ^2.5.4
   animated_theme_switcher: ^2.0.10
-  animated_bottom_navigation_bar: ^1.4.0
-  curved_navigation_bar: ^1.0.6
-  salomon_bottom_bar: ^3.3.2
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/logo_app/logo1.png"
   min_sdk_android: 21
 flutter_native_splash:
-  color: "#252829"
+  color: "#000000"  # Color de fondo
+  image: "assets/logo_app/logo1.png" # Tu logo (max 200x200px)
+  
+  # Configuración por plataforma
+  android: true
+  ios: true
+  web: false
+  
+  # Android 12+
+  android_12:
+    color: "#000000"
+    image: "assets/logo_app/logo1.png"
+    icon_background_color: "#000000"
+  
+  # Mantén el splash hasta que lo remuevas manualmente
+  android_gravity: center
+  ios_content_mode: center
+  fullscreen: true
 
 dev_dependencies:
   build_runner: ^2.10.4

@@ -28,8 +28,9 @@ class HomeView extends ConsumerStatefulWidget {
 class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveClientMixin*/{
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
+
     //todo, aqui simplemente se dice que cargue peliculas para comenzar
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     //ref.read(popularMoviesProvider.notifier).loadNextPage();
@@ -55,10 +56,12 @@ class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveCli
 
     //todo, provider que determina si los provider ya  tienen data y asi hacer lo que se dice
     final initialLoading = ref.watch(initialLoadingProvider);
+    
 
     // ! HASTA QUE CARGUE LA DATA PUES MUESTRA ESTO
     if(initialLoading == true ) return CustomFullscreenLoading(); 
 
+    
     FlutterNativeSplash.remove();
 
     //todo, renderizar la data, llamamos al repository
@@ -241,7 +244,7 @@ class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveCli
                       },
                     ),
 
-                    // SizedBox(height: 70,)
+                    SizedBox(height: size.height * 0.03,)
                   ],
                 );
               },

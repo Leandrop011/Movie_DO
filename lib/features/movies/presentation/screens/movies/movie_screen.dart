@@ -30,7 +30,6 @@ class MovieScreen extends ConsumerStatefulWidget {
 }
 
 class MovieScreenState extends ConsumerState<MovieScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -39,6 +38,8 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
     //todo, para peliculas similares
     ref.read(similarMoviesProvider.notifier).loadSimilarMovies(widget.movieId);
+
+    
   }
   
   @override
@@ -88,12 +89,36 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 }
 
 //* DETALLES DE LA PELICULA
-class _MovieDetails extends ConsumerWidget {
+class _MovieDetails extends ConsumerStatefulWidget {
   final Movie movie;
   const _MovieDetails({required this.movie});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_MovieDetails> createState() => _MovieDetailsState();
+}
+
+class _MovieDetailsState extends ConsumerState<_MovieDetails> {
+  bool _showTrailer = false;
+  
+  // ? Para controlar que no todo cargue a la vez
+  @override
+  void initState() {
+    super.initState();
+    //! Retrasa la inicialización del reproductor de YouTube
+    // ! Lo que hace es que le dice esperate 2 segundos y muestra el video
+    // ! Mounted le dice 'si ya esta todo montado', haz eL setstate y coloca en true
+    // ! METODO DE OPTIMIZACION | IMPORTANTE
+    Future.delayed(const Duration(seconds: 3), () {//? primero se espera a ejecutar los 2 seg
+      if (mounted == true) {
+        setState(() {
+          _showTrailer = true;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final textStyle = Theme.of(context).textTheme;
     final isDarck = ref.read(isdarckProvider).fount;
@@ -103,11 +128,13 @@ class _MovieDetails extends ConsumerWidget {
       children: [
         
         //* INFORMACION DE LA MOVIE
-        _ElementsInDetails(isDarck: isDarck, size: size, movie: movie, textStyle: textStyle),
+        _ElementsInDetails(isDarck: isDarck, size: size, movie: widget.movie, textStyle: textStyle),
 
         //* VIDEO DE LA MOVIE
-        VideosFromMovie(movieId: movie.id),
-
+        
+        if(_showTrailer == true)//? solo cuando se cumpla los 2 segundos esto sera true
+          VideosFromMovie(movieId: widget.movie.id),
+        
         Padding(//* GENEROS DE LA MOVIE
           padding: const EdgeInsets.all(8),
           child: SizedBox(
@@ -117,7 +144,7 @@ class _MovieDetails extends ConsumerWidget {
               alignment: WrapAlignment.center,
               
               children: [
-                ...movie.genreIds.map((gender) => Container(
+                ...widget.movie.genreIds.map((gender) => Container(
                   margin: const EdgeInsets.only(right: 10),
                   child: Chip(
                     label: Text(gender),
@@ -128,15 +155,15 @@ class _MovieDetails extends ConsumerWidget {
             ),
           ),
         ),
-
+        
         //* ACTORES DE LA MOVIE
-        _ActorsByMovie(movieId: movie.id.toString()),
+        _ActorsByMovie(movieId: widget.movie.id.toString()),
 
         //* TITULO DE SIMILARES
-        _PreSimilarMoviesView(size: size, textStyle: textStyle, movieId: movie.id.toString(),),
+        _PreSimilarMoviesView(size: size, textStyle: textStyle, movieId: widget.movie.id.toString(),),
 
         //* PELICULAS SIMILARES
-        _MoviesSimilars(movieId: movie.id.toString()),
+        _MoviesSimilars(movieId: widget.movie.id.toString()),
 
         const SizedBox(height: 20),
         
@@ -499,6 +526,7 @@ class _ActorsByMovie extends ConsumerWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: actors.length,
+        addAutomaticKeepAlives: false,//TODO, hacer en los demas
         itemBuilder: (context, index) {
           final actor = actors[index];
 

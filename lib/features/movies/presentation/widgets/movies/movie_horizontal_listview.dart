@@ -181,12 +181,12 @@ class _Slide extends ConsumerWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(20),
                   child: FadeInImage(
-                    height: size.height * 0.3,
+                    height: size.height * 0.31,
                     fit: BoxFit.cover,
                     placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
                     
                     image: NetworkImage(
-                    movie.posterPath,
+                      movie.posterPath,
                     ),
                   )
                 ),
