@@ -1,4 +1,4 @@
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
+﻿import 'package:movies_app/features/movies/domain/entities/index.dart';
 
 abstract class LocalStorageDatasource {
 

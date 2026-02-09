@@ -1,6 +1,6 @@
-import 'package:flutter_riverpod/legacy.dart';
-import 'package:movies_app/features/movies/domain/entities/actor.dart';
-import 'package:movies_app/features/movies/presentation/providers/actors/actor_repository_provider.dart';
+﻿import 'package:flutter_riverpod/legacy.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/actors/index.dart';
 
 //todo, provider que nos da cada actor por id
 //todo, nos da ua lista de actores como vienen en el JSON

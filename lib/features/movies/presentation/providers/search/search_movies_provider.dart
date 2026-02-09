@@ -1,7 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
 //* PARA QUE SE CONSERVE ESA BUSQUEDA DEL USUARIO CUANDO SE VUELVE A HOME Y EL USUARIO QUIERO
 //* BUSCAR DENUEVO YA TIENE ESE STRING CARGADO
 final searchQueryProvider = StateProvider<String>(

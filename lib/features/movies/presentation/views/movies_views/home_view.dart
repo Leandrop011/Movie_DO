@@ -1,20 +1,18 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/delegates/search_movie_delegate.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/delegates/index.dart';
 
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-import '../../providers/config/fount_provider.dart';
-import '../../providers/movies/movie_top_provider.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
 import '../../widgets/movies/movie_top.dart';
 /*
   todo, el StateLes solo sirve para leer y reaccionar a los providers
   todo, miestras que el stateful tienes poder del initsate
   todo, el initsate es el lugar ideal para inicializar cosas que tu widget necesita antes de renderizarse. 
-  todo, el initsate: se ejecuta una sola vez, antes del primer render y es para inicializar lógica o cargar datos
+  todo, el initsate: se ejecuta una sola vez, antes del primer render y es para inicializar lÃ³gica o cargar datos
 */
 
 //todo consumer de un ful para los providers 
@@ -26,6 +24,7 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveClientMixin*/{
+  bool _deferredLoadsRequested = false;
 
   @override
   void initState(){
@@ -34,8 +33,14 @@ class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveCli
     //todo, aqui simplemente se dice que cargue peliculas para comenzar
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     //ref.read(popularMoviesProvider.notifier).loadNextPage();
-    ref.read(upComingMoviesProvider.notifier).loadNextPage();
-    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    //todo, carga diferida para no bloquear el primer frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _deferredLoadsRequested) return;
+      _deferredLoadsRequested = true;
+      ref.read(upComingMoviesProvider.notifier).loadNextPage();
+      ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+      //ref.read(popularMoviesProvider.notifier).loadNextPage();
+    });
     
   }
 
@@ -134,6 +139,7 @@ class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveCli
                     ),
                   ).then((movie){
                     if(movie == null) return;
+                    // ignore: use_build_context_synchronously
                     context.push('/home/0/movie/${movie.id}');
                   });
                 }, 
@@ -147,7 +153,7 @@ class HomeViewState extends ConsumerState<HomeView> /*with AutomaticKeepAliveCli
                   ),
                 ),
               ),
-
+            
               Padding(
                 padding: const EdgeInsets.only(right: 5.0, left: 5),
                 child: FilledButton(

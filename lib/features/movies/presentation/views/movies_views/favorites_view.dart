@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/presentation/providers/storage/favorite_movies_provider.dart';
-import 'package:movies_app/features/movies/presentation/widgets/movies/movies_masonry.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/custom_appbar_transparent.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/custom_infomake_showdialog.dart';
+import 'package:movies_app/features/movies/presentation/providers/storage/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/movies/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/shared/index.dart';
 
 class FavoritesView extends ConsumerStatefulWidget {
   const FavoritesView({super.key});
@@ -17,8 +16,8 @@ class FavoritesViewState extends ConsumerState<FavoritesView> /*with AutomaticKe
 
   @override
   void initState() {
-    ref.read(favoriteMoviesProvider.notifier).loadNextPage();//* PARA EMPEZAR EL PROCEDIMIENTO DE INICIALIZACION
     super.initState();//!SIEMPRE COLOCARLO PRIMERO
+    ref.read(favoriteMoviesProvider.notifier).loadNextPage();//* PARA EMPEZAR EL PROCEDIMIENTO DE INICIALIZACION
     
   }
 
@@ -33,7 +32,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> /*with AutomaticKe
   //         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
   //         child: AlertDialog(
   //           title: Text('Favoritas'),
-  //           content: Text('En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.'),
+  //           content: Text('En esta secciÃ³n podrÃ¡s ver todas las pelÃ­culas que marcaste como favoritas. Las pelÃ­culas se guardan en tu dispositivo, asÃ­ que siempre estarÃ¡n disponibles incluso sin conexiÃ³n. Puedes agregar o quitar una pelÃ­cula de favoritos desde su pantalla de detalle.'),
   //           actions: [
   //             FilledButton(
   //               onPressed: (){

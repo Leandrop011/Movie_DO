@@ -1,6 +1,6 @@
-import 'package:movies_app/features/movies/domain/data_sources/local_storage_datasource.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/domain/repositories/local_storage_repository.dart';
+﻿import 'package:movies_app/features/movies/domain/data_sources/index.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/domain/repositories/index.dart';
 
 class LocalStorageRepositoryImpl extends LocalStorageRepository {
   

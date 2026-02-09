@@ -1,6 +1,6 @@
+﻿
 
-
-import 'package:movies_app/features/movies/domain/entities/actor.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
 //* VA HACIA SU IMPLEMENTACION
 abstract class ActorsDatasource {
   

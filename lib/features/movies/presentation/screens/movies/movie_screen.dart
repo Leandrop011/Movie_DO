@@ -1,17 +1,15 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import 'package:movies_app/features/movies/domain/entities/actor.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/custom_bottom_favorites.dart';
-import 'package:movies_app/features/movies/presentation/widgets/videos/videos_from_movie.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/shared/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/videos/index.dart';
 
-import '../../providers/config/fount_provider.dart';
 
 
 //todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
@@ -88,6 +86,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
+// TODO: HACER LA IMPLEMENTACION DE LA REUTILIZACION DEL MASONRY EN LAS PELICULAS RECOMENDADAS
+
+
 //* DETALLES DE LA PELICULA
 class _MovieDetails extends ConsumerStatefulWidget {
   final Movie movie;
@@ -104,11 +105,11 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
   @override
   void initState() {
     super.initState();
-    //! Retrasa la inicialización del reproductor de YouTube
+    //! Retrasa la inicializaciÃ³n del reproductor de YouTube
     // ! Lo que hace es que le dice esperate 2 segundos y muestra el video
     // ! Mounted le dice 'si ya esta todo montado', haz eL setstate y coloca en true
     // ! METODO DE OPTIMIZACION | IMPORTANTE
-    Future.delayed(const Duration(seconds: 3), () {//? primero se espera a ejecutar los 2 seg
+    Future.delayed(const Duration(milliseconds: 2500), () {//? primero se espera a ejecutar los 2.5 seg
       if (mounted == true) {
         setState(() {
           _showTrailer = true;

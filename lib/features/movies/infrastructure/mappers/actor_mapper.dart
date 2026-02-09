@@ -1,7 +1,7 @@
+﻿
 
-
-import 'package:movies_app/features/movies/domain/entities/actor.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/credits_response.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
 
 //todo, para poder acoplar a nuestro modelo de negocio de actor
 class ActorMapper {

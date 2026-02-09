@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/providers/storage/favorite_movies_provider.dart';
-import 'package:movies_app/features/movies/presentation/providers/storage/is_favorite_movie_provider.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/storage/index.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class CustomBottomFavorites extends ConsumerStatefulWidget {

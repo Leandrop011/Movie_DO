@@ -1,10 +1,10 @@
-//todo, esto es para proveer las peliculas, pero dependiendo el caso de uso
+﻿//todo, esto es para proveer las peliculas, pero dependiendo el caso de uso
 
 
 
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/movies_repository_provider.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/movies/index.dart';
 
 //* DEL PRIMER REPOSITORY(USAMOS LA MISMA CLASE DE ABAJO PARA LAS DOS)
 final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(

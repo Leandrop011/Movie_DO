@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:movies_app/features/movies/presentation/widgets/movies/movie_poster_link.dart';
+import 'package:movies_app/features/movies/presentation/widgets/movies/index.dart';
 
 class MoviesMasonry extends StatefulWidget {
 

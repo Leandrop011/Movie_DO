@@ -1,9 +1,9 @@
-import 'package:animate_do/animate_do.dart';
+﻿import 'package:animate_do/animate_do.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
 
 import '../../providers/config/fount_provider.dart';
 //todo, usaremos un SWIPER, para el carrucel => card_swiper

@@ -1,7 +1,6 @@
-//todo, como quiero que venga los origenes de datos
+﻿//todo, como quiero que venga los origenes de datos
 
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/domain/entities/video.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
 
 abstract class MoviesDatasource {
   //todo, una lista de movie, la info que nos va a dar 

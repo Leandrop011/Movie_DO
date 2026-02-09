@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-import 'package:movies_app/features/movies/presentation/views/views.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
+import 'package:movies_app/features/movies/presentation/views/index.dart';
 //import '../../views/movies_views/home_view.dart';
 
 //todo, dotenv es para mover archivos de entorno hacia la app
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClien
   // void initState() {
   //   super.initState();
   //   pageController = PageController(
-  //     keepPage: true,
+  //     keepPage: true, //! es para que mantenga el estado de la page y no se reinicie
   //     // initialPage: widget.pageIndex
   //   );
   // }
@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClien
   // void didUpdateWidget(HomeScreen oldWidget) {
   //   super.didUpdateWidget(oldWidget);
     
-  //   // Animar cuando cambia el índice
+  //   // Animar cuando cambia el Ã­ndice
   //   if (oldWidget.pageIndex != widget.pageIndex) {
   //     pageController.animateToPage(
   //       widget.pageIndex,
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClien
   // void didUpdateWidget(HomeScreen oldWidget) {
   //   super.didUpdateWidget(oldWidget);
     
-    // Solo anima si el índice cambió
+    // Solo anima si el Ã­ndice cambiÃ³
     // if (oldWidget.pageIndex != widget.pageIndex) {
     //   pageController.animateToPage(
     //     widget.pageIndex,

@@ -1,7 +1,7 @@
-
+﻿
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
 
 //todo, para manegar el numero de peliculas que quiero mostrar
 //todo, solo mostrara 6 peliculas en el carrucel de peliculas

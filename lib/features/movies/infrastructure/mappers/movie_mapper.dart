@@ -1,25 +1,24 @@
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/movie_details.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/movie_moviedb.dart';
+﻿import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
 
 //* MAPA PARA TRANSFORMAR LOS GENEROS DE UNA MOVIE, POR EJEMPLO DE 28 -> A ACCION
 const Map<int, String> generos = {
-  28: "Acción",
+  28: "AcciÃ³n",
   12: "Aventura",
-  16: "Animación",
+  16: "AnimaciÃ³n",
   35: "Comedia",
   80: "Crimen",
   99: "Documental",
   18: "Drama",
   10751: "Familia",
-  14: "Fantasía",
+  14: "FantasÃ­a",
   36: "Historia",
   27: "Terror",
-  10402: "Música",
+  10402: "MÃºsica",
   9648: "Misterio",
   10749: "Romance",
-  878: "Ciencia ficción",
-  10770: "Película de TV",
+  878: "Ciencia ficciÃ³n",
+  10770: "PelÃ­cula de TV",
   53: "Suspenso",
   10752: "Guerra",
   37: "Western",

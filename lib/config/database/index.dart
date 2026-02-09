@@ -1,0 +1,2 @@
+﻿export 'favorites/index.dart';
+

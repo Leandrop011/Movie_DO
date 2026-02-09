@@ -1,7 +1,7 @@
-
-import 'package:movies_app/features/movies/domain/data_sources/actors_datasource.dart';
-import 'package:movies_app/features/movies/domain/entities/actor.dart';
-import 'package:movies_app/features/movies/domain/repositories/actors_repository.dart';
+﻿
+import 'package:movies_app/features/movies/domain/data_sources/index.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/domain/repositories/index.dart';
 
 class ActorsMoviedbRepositoryImplementation extends ActorsRepository{
   final ActorsDatasource datasource;

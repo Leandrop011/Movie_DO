@@ -1,11 +1,11 @@
-
+﻿
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:movies_app/features/shared/infrastructure/services/fount_value_storage_service.dart';
-import 'package:movies_app/features/shared/infrastructure/services/fount_value_storage_service_impl.dart';
+import 'package:movies_app/features/shared/infrastructure/services/index.dart';
 
 // ! PROVIDER
 final isdarckProvider = StateNotifierProvider.autoDispose<FountNotifier, FountState>((ref) {
   
+
   final fountValueStorageService = FountValueStorageServiceImpl();
   
   return FountNotifier(fountValueStorageService: fountValueStorageService);

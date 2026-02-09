@@ -1,13 +1,13 @@
-
+﻿
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:movies_app/config/router/app_router.dart';
-import 'package:movies_app/config/theme/app_theme.dart';
-import 'package:movies_app/features/movies/presentation/providers/config/fount_provider.dart';
+import 'package:movies_app/config/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
+
 Future <void> main()async{ 
   Intl.defaultLocale = 'es_ES';
   initializeDateFormatting('es_ES', null);
@@ -45,7 +45,7 @@ Future <void> main()async{
   // await NotificationsBloc.initializeFCM();
   // await LocalNotifications.initializeLocalNotifications();
   //! Inicializar base de datos de notificaciones
-  // Esto asegura que la BD esté lista antes de usarla
+  // Esto asegura que la BD estÃ© lista antes de usarla
   // await dbNotifications.select(dbNotifications.notifications).get();
   
   // FirebaseMessaging.onBackgroundMessage(firebaseMessagingTerminatedHandler);

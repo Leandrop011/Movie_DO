@@ -1,5 +1,4 @@
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/domain/entities/video.dart';
+﻿import 'package:movies_app/features/movies/domain/entities/index.dart';
 //todo, el repositorio es al que vamos a llamar, si queremos otro
 //todo, datasource pues solo cambiaremos el repositorie
 abstract class MoviesRepositorie {

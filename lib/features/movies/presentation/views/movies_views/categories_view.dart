@@ -1,10 +1,10 @@
-//import 'package:animate_do/animate_do.dart';
+﻿//import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-import 'package:movies_app/features/movies/presentation/widgets/movies/movies_masonry.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/custom_infomake_showdialog.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/movies/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/shared/index.dart';
 
 class CategoriesView extends ConsumerStatefulWidget {
   const CategoriesView({super.key});
@@ -27,7 +27,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> /*with Automati
   //     builder: (context) {
   //       return AlertDialog(
   //         title: Text('Peliculas Populares'),
-  //         content: Text('Aquí puedes descubrir las películas más populares del momento. La lista se actualiza constantemente y te muestra las tendencias más recientes según las valoraciones y el interés del público. Selecciona una película para ver más detalles como su sinopsis, puntuación y fecha de lanzamiento.'),
+  //         content: Text('AquÃ­ puedes descubrir las pelÃ­culas mÃ¡s populares del momento. La lista se actualiza constantemente y te muestra las tendencias mÃ¡s recientes segÃºn las valoraciones y el interÃ©s del pÃºblico. Selecciona una pelÃ­cula para ver mÃ¡s detalles como su sinopsis, puntuaciÃ³n y fecha de lanzamiento.'),
   //         actions: [ 
   //           FilledButton(
   //             onPressed: (){

@@ -1,5 +1,5 @@
-//todo, esto es para hacer el mapeo y asi manejar la data del datasource
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/movie_moviedb.dart';
+﻿//todo, esto es para hacer el mapeo y asi manejar la data del datasource
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
 
 class MovideDbResponse {
     final Dates? dates;

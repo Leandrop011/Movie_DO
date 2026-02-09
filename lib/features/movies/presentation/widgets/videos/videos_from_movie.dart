@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
-import 'package:movies_app/features/movies/domain/entities/video.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/movies_repository_provider.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/movies/index.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
@@ -27,7 +27,7 @@ class VideosFromMovie extends ConsumerWidget {
     //*Cargando
     return moviesFromVideo.when(
       data: ( videos ) => _VideosList( videos: videos ),
-      error: (_ , __) => const Center(child: Text('No se pudo cargar películas similares') ), 
+      error: (_ , _) => const Center(child: Text('No se pudo cargar pelÃ­culas similares') ), 
       loading: () => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
     );
   }
@@ -61,13 +61,8 @@ class _VideosList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(videos.first.name, style: style.titleSmall,),
         ),
-        //* Aunque tengo varios videos, sólo quiero mostrar el primero
+        //* Aunque tengo varios videos, sÃ³lo quiero mostrar el primero
         _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: videos.first.name )
-        
-        //* Si se desean mostrar todos los videos
-        // ...videos.map(
-        //   (video) => _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: video.name)
-        // ).toList()
       ],
     );
   }
@@ -87,19 +82,33 @@ class _YouTubeVideoPlayer extends StatefulWidget {
 
 class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
 
-  late YoutubePlayerController _controller;  
+  YoutubePlayerController? _controller;
+  bool _showPlayer = false;
 
   @override
   void initState() {
     super.initState();
-    
+  }
+
+  // ! OPTIMIZACION MEDIANTE UNA VARIABLE BOOLEANA Y UN METODO CON SETSTATE
+  // ! SE CAMBIA UNA MINIATURA POR EL VIDEO Y ASI SE OPTIMIZA
+  // ! EN LUGAR DE CARGAR TODO1 EL VIDEO, CARGA LA IMAGEN NOMAS
+
+  // ? METODO QUE AL HACER ONTAP EN LA MINIATURA
+  // ? CAMBIA EL ESTADO ESE BOOL Y MUESTRA EL VIDEO, ADEMAS DE INICIALIZAR EL CONTROLLER
+  void _initAndPlay() {
+    if (_controller != null) {
+      setState(() => _showPlayer = true);
+      return;
+    }
+
     _controller = YoutubePlayerController(
       initialVideoId: widget.youtubeId,
       flags: const YoutubePlayerFlags(
         hideThumbnail: true, //? para mostrar la miniatura
         showLiveFullscreenButton: false, //? para el boton de transmision en vivo
         mute: false, //? para determinar si comienza o no con sonido
-        autoPlay: false, //? para determinar si se coloca play automaticamente o no
+        autoPlay: true, //? reproducir cuando se crea
         disableDragSeek: false, //? para determinar si el usuario puede arrastrar la barra
         loop: false, //? para determinar si se repite el video 
         isLive: false, //? inidica si es o no una transmision en vivo
@@ -107,25 +116,9 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
         enableCaption: false, //? para los subtitulos
         hideControls: false, //?Para activar o no los controles
       ),
-      //? el listener esta constantemente escuchando los cambios(similar al setstate) 
-    // )..addListener((){//* el '..' es para concatenar metodos al _controller
-    //   //* detecta cuando entra/sale de la pantalla completa
-    //   if (_controller.value.isFullScreen) {
-    //     //* Modo horizontal
-    //     SystemChrome.setPreferredOrientations([
-    //       DeviceOrientation.landscapeLeft,
-    //       DeviceOrientation.landscapeRight,
-    //     ]);
-    //   }
-    //   else{
-    //     //* Modo Vertical
-    //     SystemChrome.setPreferredOrientations([
-    //       DeviceOrientation.portraitUp,
-    //       DeviceOrientation.portraitDown,
-    //     ]);
-    //   }
-    // });
     );
+
+    setState(() => _showPlayer = true);
   }
 
 
@@ -133,28 +126,59 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
   @override
   void dispose() {
     //* limpiar al salir del widget
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final thumbnailUrl = YoutubePlayer.getThumbnail(
+      videoId: widget.youtubeId,
+      quality: ThumbnailQuality.high,
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Text(widget.name),
-          YoutubePlayer(
-            controller: _controller,
-            showVideoProgressIndicator: true,
-            bottomActions: [
-              CurrentPosition(),
-              ProgressBar(isExpanded: true),
-              RemainingDuration(),
-              const PlaybackSpeedButton(), // opcional
-              
-            ],
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: _showPlayer && _controller != null
+                // ? Muestra el video
+                ? YoutubePlayer(
+                    controller: _controller!,
+                    showVideoProgressIndicator: true,
+                    bottomActions: [
+                      CurrentPosition(),
+                      ProgressBar(isExpanded: true),
+                      RemainingDuration(),
+                      const PlaybackSpeedButton(), // opcional
+                    ],
+                  )
+                  // ? MUESTRA SOLO LA MINIATURA
+                : GestureDetector(
+                    onTap: _initAndPlay,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.network(
+                          thumbnailUrl,
+                          fit: BoxFit.cover,
+                        ),
+                        Container(
+                          color: Colors.black26,
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            Icons.play_circle_fill,
+                            size: 64,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+              ),
           ),
         ],
       )

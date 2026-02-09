@@ -1,6 +1,6 @@
-import 'package:flutter_riverpod/legacy.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
+﻿import 'package:flutter_riverpod/legacy.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
 
 //todo, esto es para poder cargar una pelicula segun el ID, se lo pide al provider que provee los respositorios
 //TODO, ENTENDER ESTO

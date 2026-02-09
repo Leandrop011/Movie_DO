@@ -1,8 +1,8 @@
-import 'package:animate_do/animate_do.dart';
+﻿import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/movie_top_provider.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/movies/index.dart';
 
 class MoviePosterLink extends StatelessWidget {
   final Movie movie;
@@ -15,7 +15,7 @@ class MoviePosterLink extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push('/home/0/movie/${movie.id}'), 
       child: FadeInUp(
-        //! ESTO ES LA distancia en píxeles desde donde comienza la animación
+        //! ESTO ES LA distancia en pÃ­xeles desde donde comienza la animaciÃ³n
         from: random.nextInt(100) + 80,//! ESTO CONTROLA MEJOR LA PAGINACION EL CATEGORIES
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),

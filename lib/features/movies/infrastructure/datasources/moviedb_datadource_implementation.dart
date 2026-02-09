@@ -1,13 +1,9 @@
-import 'package:dio/dio.dart';
-import 'package:movies_app/config/constants/environment.dart';
-import 'package:movies_app/features/movies/domain/data_sources/movies_datasource.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/domain/entities/video.dart';
-import 'package:movies_app/features/movies/infrastructure/mappers/movie_mapper.dart';
-import 'package:movies_app/features/movies/infrastructure/mappers/video_mapper.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/movie_details.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb_response.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb_videos.dart';
+﻿import 'package:dio/dio.dart';
+import 'package:movies_app/config/constants/index.dart';
+import 'package:movies_app/features/movies/domain/data_sources/index.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/infrastructure/mappers/index.dart';
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
 
 //todo, aqui es la implementacion, si o si debo hacer una implementacion
 class MoviedbDatadourceImplementation extends MoviesDatasource{

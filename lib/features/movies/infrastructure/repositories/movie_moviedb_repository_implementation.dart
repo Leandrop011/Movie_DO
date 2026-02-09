@@ -1,11 +1,10 @@
-//todo, lo que hara esta implementacion del respositorie
+﻿//todo, lo que hara esta implementacion del respositorie
 //todo, es llamar al datasource y ese datasourc va a llamar a esos metodos y 
 //todo, obtenemos la info
 
-import 'package:movies_app/features/movies/domain/data_sources/movies_datasource.dart';
-import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/domain/entities/video.dart';
-import 'package:movies_app/features/movies/domain/repositories/movies_repositorie.dart';
+import 'package:movies_app/features/movies/domain/data_sources/index.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/domain/repositories/index.dart';
 
 class MovieMovieDbRepositoryImplementation extends MoviesRepositorie{
   
