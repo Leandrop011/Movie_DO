@@ -86,7 +86,6 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
-// TODO: HACER LA IMPLEMENTACION DE LA REUTILIZACION DEL MASONRY EN LAS PELICULAS RECOMENDADAS
 
 
 //* DETALLES DE LA PELICULA
@@ -193,103 +192,101 @@ class _ElementsInDetails extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsetsGeometry.all(8),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: isDarck ?
-          const Color.fromARGB(255, 42, 42, 42)
-          :
-          const Color.fromARGB(255, 225, 224, 224),
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: isDarck ?
-              const Color.fromARGB(255, 73, 72, 72)
-              :
-              const Color.fromARGB(255, 134, 132, 132), 
-              blurRadius: 6,
-              offset: Offset(1, 3)
-            )
-          ]
-        ),
-        child: Padding(
-          padding: const EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(10),
-                    child: Image.network(
-                      width: size.width * 0.3,
-                      movie.posterPath,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if(loadingProgress != null){
-                          return Center(child: CircularProgressIndicator(),);
-                        }
-                        return child;
-                      },
-                    ),
-                  ),
-
-                  //* BOTON PERSONALIZADO
-                  // CustomBottomFavorites(movie: movie, isDarck: isDarck,)
-                ],
-              ),
-              
-              const SizedBox(width: 10,),
-          
-              SizedBox(
-                width: size.width * 0.6,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        movie.title, 
-                        style: textStyle.titleMedium,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 10,),
-
-                    SizedBox(
-                      height: size.height * 0.15,
-                      width: double.infinity,
-                      child: Text(
-                        movie.overview, 
-                        style: textStyle.titleSmall,
-                        maxLines: 9,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-
-                    SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Icon(Icons.star_half_rounded, color: Colors.yellow.shade900,),
-                          const SizedBox(width: 5,),
-                          Text('${movie.voteAverage}', style: TextStyle(color: Colors.yellow.shade900),),
-                          
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Text('Estreno: ', style: textStyle.titleSmall?.copyWith(fontWeight: FontWeight.bold)),
-                          Text(DateFormat('yyyy/MM/dd').format(movie.releaseDate)),
-                        ],
-                      ),
-                    )
-                  ],
-                )
+      child: SizedBox(
+        width: size.width,
+        height: size.height * 0.42,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: isDarck ?
+            const Color.fromARGB(255, 42, 42, 42)
+            :
+            const Color.fromARGB(255, 225, 224, 224),
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: isDarck ?
+                const Color.fromARGB(255, 73, 72, 72)
+                :
+                const Color.fromARGB(255, 134, 132, 132), 
+                blurRadius: 6,
+                offset: Offset(1, 3)
               )
-            ],
+            ]
+          ),
+          child: Padding(
+            padding: const EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(10),
+                  child: Image.network(
+                    width: size.width * 0.3,
+                    movie.posterPath,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if(loadingProgress != null){
+                        return Center(child: CircularProgressIndicator(),);
+                      }
+                      return child;
+                    },
+                  ),
+                ),
+                
+                const SizedBox(width: 10,),
+            
+                SizedBox(
+                  width: size.width * 0.6,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          movie.title, 
+                          style: textStyle.titleMedium,
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 10,),
+        
+                      SizedBox(
+                        height: size.height * 0.17,
+                        width: double.infinity,
+                        child: Text(
+                          movie.overview, 
+                          style: textStyle.titleSmall,
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+
+                      SizedBox(height: size.height * 0.02,),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Icon(Icons.star_half_rounded, color: Colors.yellow.shade900,),
+                            const SizedBox(width: 5,),
+                            Text('${movie.voteAverage}', style: TextStyle(color: Colors.yellow.shade900),),
+                            
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Text('Estreno: ', style: textStyle.titleSmall?.copyWith(fontWeight: FontWeight.bold)),
+                            Text(DateFormat('yyyy/MM/dd').format(movie.releaseDate)),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -380,7 +377,7 @@ class _MoviesSimilars extends ConsumerWidget {
       padding: const EdgeInsets.only(left: 10),
       child: SizedBox(
         
-        height: size.height * 0.4,
+        height: size.height * 0.45,
         child: MasonryGridView.count(
           physics: const BouncingScrollPhysics(),
           
@@ -388,6 +385,7 @@ class _MoviesSimilars extends ConsumerWidget {
           itemCount: moviesSimilars.length,
           mainAxisSpacing: 8,
           crossAxisSpacing: 8,
+          
           itemBuilder: (context, index) {
             final movie = moviesSimilars[index];
             if(index %2 == 0){//? si el index es par pues true para que tenga una dimension distinta
