@@ -1,18 +1,11 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/misc.dart';
 import 'package:movies_app/features/movies/domain/entities/index.dart';
 import 'package:movies_app/features/movies/presentation/providers/movies/index.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 // ! EXISTE UN PROBLEMA QUE NO SE PUEDE CONTROLAR, DEBIDO A LAS POLITICAS DE YT QUE RECIENTEMENTE
 // ! ACTUALIZARON, NO DE PUEDE REPRODUCIR LOS TRAILERS, NO ES UN PROBLEMA DE LA APP, SINO DE LAS POLITICAS DE YT
-
-final FutureProviderFamily<List<Video>, int> videosFromMovieProvider = FutureProvider.family((ref, int movieId) {
-  final movieRepository = ref.watch(movieRepositoryProvider);
-  return movieRepository.getYoutubeVideosById(movieId);
-});
 
 class VideosFromMovie extends ConsumerWidget {
 
@@ -45,7 +38,6 @@ class _VideosList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = Theme.of(context).textTheme;
 
     //* Nada que mostrar
     if ( videos.isEmpty ) {
@@ -58,14 +50,17 @@ class _VideosList extends StatelessWidget {
         // ignore: prefer_const_constructors
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text('Video', style: style.titleMedium,),
+          child: const Text('Video', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(videos.first.name, style: style.titleSmall,),
-        ),
-        //* Aunque tengo varios videos, sÃ³lo quiero mostrar el primero
-        _YouTubeVideoPlayer(videos: videos,)
+        
+        // * Aunque tengo varios videos, sólo quiero mostrar el primero
+        // * SOLO MANDAMOS EL PRIMER VIDEO DE LA LIST QUE RECIBIMOS, MANDAMOS SU YOUTUBE KEY
+        _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: videos.first.name )
+        
+        //* Si se desean mostrar todos los videos
+        // ...videos.map(
+        //   (video) => _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: video.name)
+        // ).toList()
       ],
     );
   }
@@ -73,172 +68,68 @@ class _VideosList extends StatelessWidget {
 
 //! El que forma el video, es stateful porque necesito un controller
 class _YouTubeVideoPlayer extends StatefulWidget {
-  final List<Video> videos;
 
-  const _YouTubeVideoPlayer({required this.videos});
+  final String youtubeId;
+  final String name;
+
+  const _YouTubeVideoPlayer({ required this.youtubeId, required this.name });
 
   @override
   State<_YouTubeVideoPlayer> createState() => _YouTubeVideoPlayerState();
 }
 
 class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
-  YoutubePlayerController? _controller;
-  bool _showPlayer = false;
-  bool _hasError = false;
-  int _errorCode = 0;
-  int _currentIndex = 0; 
 
-  
-  Video get _currentVideo => widget.videos[_currentIndex];
+  // ? EL CONTROLLER QUE SE INICIALIZARA DESPUES
+  late YoutubePlayerController _controller;  
 
-  void _initAndPlay() {
-    if (_controller != null) {
-      setState(() => _showPlayer = true);
-      return;
-    }
-
+  @override
+  void initState() {
+    super.initState();
+    
     _controller = YoutubePlayerController(
-      initialVideoId: _currentVideo.youtubeKey, 
+      initialVideoId: widget.youtubeId,
       flags: const YoutubePlayerFlags(
-        hideThumbnail: true,
-        showLiveFullscreenButton: false,
-        mute: false,
-        autoPlay: true,
-        disableDragSeek: false,
-        loop: false,
-        isLive: false,
-        forceHD: false,
-        enableCaption: false,
-        hideControls: false,
+        hideThumbnail: true, //? para mostrar la miniatura
+        showLiveFullscreenButton: false, //? para el boton de transmision en vivo
+        mute: false, //? para determinar si comienza o no con sonido
+        autoPlay: false, //? para determinar si se coloca play automaticamente o no
+        disableDragSeek: false, //? para determinar si el usuario puede arrastrar la barra
+        loop: false, //? para determinar si se repite el video 
+        isLive: false, //? inidica si es o no una transmision en vivo
+        forceHD: false, //? para determinar si coloca la maxima calidad o se ajusta a su wifi
+        enableCaption: false, //? para los subtitulos
+        hideControls: false, //?Para activar o no los controles
       ),
+      //? el listener esta constantemente escuchando los cambios(similar al setstate) 
     );
-
-    _controller!.addListener(_handleControllerChange);
-    setState(() => _showPlayer = true);
-  }
-
-  void _handleControllerChange() {
-    final controller = _controller;
-    if (controller == null) return;
-
-    final errorCode = controller.value.errorCode;
-    if (errorCode != 0 && !_hasError) {
-      if (!mounted) return;
-      _tryNextVideo(errorCode); 
-    }
   }
 
 
-  void _tryNextVideo(int errorCode) {
-    final nextIndex = _currentIndex + 1;
-
-    if (nextIndex < widget.videos.length) {
-      // hay más videos, intenta con el siguiente
-      _controller?.removeListener(_handleControllerChange);
-      _controller = null;
-
-      setState(() {
-        _currentIndex = nextIndex;
-        _hasError = false;
-        _errorCode = 0;
-        _showPlayer = false;
-      });
-
-      // pequeño delay para que el widget se reconstruya
-      Future.delayed(const Duration(milliseconds: 300), _initAndPlay);
-    } else {
-      // se agotaron todos los videos
-      setState(() {
-        _hasError = true;
-        _errorCode = errorCode;
-        _showPlayer = false;
-      });
-    }
-  }
-
-  Future<void> _openInYoutube() async {
-    final uri = Uri.parse('https://www.youtube.com/watch?v=${_currentVideo.youtubeKey}');
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
 
   @override
   void dispose() {
-    _controller?.removeListener(_handleControllerChange);
-    _controller?.dispose();
+    //* limpiar al salir del widget
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final thumbnailUrl = YoutubePlayer.getThumbnail(
-      videoId: _currentVideo.youtubeKey, 
-      quality: ThumbnailQuality.medium,
-    );
-    final hasError = _hasError || (_controller?.value.hasError ?? false);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: _showPlayer && _controller != null && !hasError
-                ? YoutubePlayer(
-                    controller: _controller!,
-                    showVideoProgressIndicator: true,
-                    bottomActions: [
-                      CurrentPosition(),
-                      ProgressBar(isExpanded: true),
-                      RemainingDuration(),
-                      const PlaybackSpeedButton(),
-                    ],
-                  )
-                : GestureDetector(
-                    onTap: hasError ? null : _initAndPlay,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.network(thumbnailUrl, fit: BoxFit.cover),
-                        Container(
-                          color: Colors.black26,
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                hasError ? Icons.error_outline : Icons.play_circle_fill,
-                                size: 64,
-                                color: Colors.white,
-                              ),
-                              if (hasError) ...[
-                                const SizedBox(height: 8),
-                                Text(
-                                  'No se puede reproducir (Error $_errorCode)',
-                                  style: const TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 6),
-                                TextButton(
-                                  onPressed: _openInYoutube,
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: Colors.red,
-                                  ),
-                                  child: const Text('Ver en YouTube'),
-                                ),
-                              ]
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+          // * NOMBRE DEL VIDEO EN YT
+          Text(widget.name),
+          // * VIDEO EN YT CON CONTROLLER 
+          YoutubePlayer(
+            controller: _controller,
+            showVideoProgressIndicator: true,
           ),
         ],
-      ),
+      )
     );
   }
 }
