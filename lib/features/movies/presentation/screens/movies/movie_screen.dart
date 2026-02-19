@@ -104,11 +104,11 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
   @override
   void initState() {
     super.initState();
-    //! Retrasa la inicializaciÃ³n del reproductor de YouTube
+    //! Retrasa la inicializacion del reproductor de YouTube
     // ! Lo que hace es que le dice esperate 2 segundos y muestra el video
     // ! Mounted le dice 'si ya esta todo montado', haz eL setstate y coloca en true
     // ! METODO DE OPTIMIZACION | IMPORTANTE
-    Future.delayed(const Duration(milliseconds: 2500), () {//? primero se espera a ejecutar los 2.5 seg
+    Future.delayed(const Duration(seconds: 2), () {//? primero se espera a ejecutar los 2.5 seg
       if (mounted == true) {
         setState(() {
           _showTrailer = true;

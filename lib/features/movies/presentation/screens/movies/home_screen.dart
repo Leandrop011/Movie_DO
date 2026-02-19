@@ -23,51 +23,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 //* Este Mixin es necesario para mantener el estado en el PageView
-class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClientMixin */ {
- 
-  // late PageController pageController;
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
+  
+  late final PageController pageController;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   pageController = PageController(
-  //     keepPage: true, //! es para que mantenga el estado de la page y no se reinicie
-  //     // initialPage: widget.pageIndex
-  //   );
-  // }
-  // @override
-  // void didUpdateWidget(HomeScreen oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-    
-  //   // Animar cuando cambia el Ã­ndice
-  //   if (oldWidget.pageIndex != widget.pageIndex) {
-  //     pageController.animateToPage(
-  //       widget.pageIndex,
-  //       duration: const Duration(milliseconds: 250),
-  //       curve: Curves.easeInOut,
-  //     );
-  //   }
-  // }
- 
-  // @override
-  // void dispose() {
-  //   pageController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(
+      keepPage: true,
+      initialPage: widget.pageIndex,
+    );
+  }
 
-  // @override
-  // void didUpdateWidget(HomeScreen oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-    
-    // Solo anima si el Ã­ndice cambiÃ³
-    // if (oldWidget.pageIndex != widget.pageIndex) {
-    //   pageController.animateToPage(
-    //     widget.pageIndex,
-    //     duration: Duration(milliseconds: 250),
-    //     curve: Curves.easeInOut,
-    //   );
-    // }
-  // }
+  @override
+  void didUpdateWidget(HomeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.pageIndex != widget.pageIndex && pageController.hasClients) {
+      pageController.animateToPage(
+        widget.pageIndex,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
  
   final viewRoutes = const <Widget>[
     HomeView(), // <---- Home
@@ -79,30 +65,15 @@ class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClien
 
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
-
-    // // * para darle esa animacion
-    // if(pageController.hasClients){
-    //   pageController.animateToPage(
-    //     widget.pageIndex, 
-    //     duration: Duration(milliseconds: 250), 
-    //     curve: Curves.easeInOut
-    //   );
-    // }
+    super.build(context);
 
     return Scaffold(
       extendBody: true, //? PARA COLOCAR EL BOTTOMNAVIGATIONBAR ENCIMA DE TODO1, COMO QUE SE EXTIENDE
-      body: IndexedStack(//! Para preservar el estado y no volver a crear el widget MUY UTIL
-        index: widget.pageIndex, //* Esto es lo que define cual mostrar con el index(es el que escoge en el children)
-        children: viewRoutes//* Todas las View y segun el in,dex decide que view mostrar
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: pageController, //* este es el controller que da la animacion cuando se cambia de view
+        children: viewRoutes,
       ),
-    
-      // body: PageView(
-      //   physics: const NeverScrollableScrollPhysics(),
-      //   controller: pageController,//* este es el controller que da la animacion cuando se cambia de view
-      //   children: viewRoutes,
-    
-      // ),
 
     
       bottomNavigationBar: CustomBottomNavigationbar(currentIndex: widget.pageIndex,),
@@ -111,6 +82,6 @@ class _HomeScreenState extends State<HomeScreen> /* with AutomaticKeepAliveClien
     );
   }
   
-  // @override
-  // bool get wantKeepAlive => true;
+  @override
+  bool get wantKeepAlive => true;
 }

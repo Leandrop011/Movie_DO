@@ -5,7 +5,7 @@ import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.d
 
 class VideoMapper {
 
-  static moviedbVideoToEntity( Result moviedbVideo ) => Video(
+  static Video moviedbVideoToEntity( Result moviedbVideo ) => Video(
     id: moviedbVideo.id, 
     name: moviedbVideo.name, 
     youtubeKey: moviedbVideo.key,

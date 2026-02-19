@@ -92,7 +92,7 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-
+  
  
 // //! 9. Noveno Paso Implementar Navegacion desde estado notification Background o Terminated
 // //! Navegue hacia los detalles de la notification

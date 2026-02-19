@@ -12,7 +12,7 @@ class FavoritesView extends ConsumerStatefulWidget {
   ConsumerState<FavoritesView> createState() => FavoritesViewState();
 }
 
-class FavoritesViewState extends ConsumerState<FavoritesView> /*with AutomaticKeepAliveClientMixin*/{
+class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> /*with AutomaticKe
 
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
+    super.build(context);
 
     final movies = ref.watch(favoriteMoviesProvider);
     final myMovieList = movies.values.toList();//!TRANFORMAR A LISTA LAS MOVIES QUE VIENEN COMO MAPA
@@ -60,28 +60,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> /*with AutomaticKe
     final size = MediaQuery.of(context).size;
 
     if(myMovieList.isEmpty){
-      return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.favorite_border, size: 100, color: colors.primary,),
-              Text('Ohhhh no!!!', style: style.titleLarge!.copyWith(color: colors.primary),),
-              SizedBox(height: 15,),
-              Text('Sin peliculas Favoritas', style: style.titleMedium,),
-              
-              SizedBox(height: 20,),
-              
-              FilledButton(
-                onPressed: (){
-                  context.go('/home/0');
-                }, 
-                child: const Text('Empezar a Buscar')
-              )
-            ],
-          ),
-        ),
-      );
+      return _FavoritesEmptyView(colors: colors, style: style);
     }
  
     return Scaffold(
@@ -110,22 +89,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> /*with AutomaticKe
           )
         ]
       ),
-      // appBar: AppBar(
-      //   leading: Icon(Icons.add_box_outlined, color: colors.primary, size: 30,),
-      //   title: Text('FAVORITAS', style: style.titleLarge),
-      //   centerTitle: false,
-      //   titleSpacing: 0,
-      //   actions: [ 
-      //     IconButton(
-      //       onPressed: (){
-      //         infoMake(context);
-      //       }, 
-      //       icon: Icon(Icons.info_outline)
-      //     )
-      //   ],
-      // ),
-
-
+      
       body: MoviesMasonry( 
         movies: myMovieList, 
         loadNextPage: () => ref.read(favoriteMoviesProvider.notifier).loadNextPage(), //* el () => es porque espera una funcion
@@ -135,6 +99,44 @@ class FavoritesViewState extends ConsumerState<FavoritesView> /*with AutomaticKe
     );
   }
   
-  // @override
-  // bool get wantKeepAlive => true;
+  @override
+  bool get wantKeepAlive => true;
+}
+
+// TODO: MEJORAR EL DISENO
+// ? WIDGET QUE MOSTRARA SI LA LISTA ESTA VACIA 
+class _FavoritesEmptyView extends StatelessWidget {
+  const _FavoritesEmptyView({
+    required this.colors,
+    required this.style,
+  });
+
+  final ColorScheme colors;
+  final TextTheme style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.favorite_border, size: 100, color: colors.primary,),
+            Text('Ohhhh no!!!', style: style.titleLarge!.copyWith(color: colors.primary),),
+            SizedBox(height: 15,),
+            Text('Sin peliculas Favoritas', style: style.titleMedium,),
+            
+            SizedBox(height: 20,),
+            
+            FilledButton(
+              onPressed: (){
+                context.go('/home/0');
+              }, 
+              child: const Text('Empezar a Buscar')
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
