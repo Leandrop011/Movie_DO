@@ -1,15 +1,18 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/presentation/providers/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/shared/custom_snack_bar.dart';
+import 'package:movies_app/features/movies/presentation/widgets/shared/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/videos/index.dart';
+
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/index.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/index.dart';
-import 'package:movies_app/features/movies/presentation/widgets/videos/index.dart';
-
+import 'package:movies_app/config/plugins/share_plugin.dart';
 
 
 //todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
@@ -607,18 +610,43 @@ class _ActorView extends StatelessWidget {
 
 
 //* APPBAR
-class _CustomSliverAppBar extends ConsumerWidget {
+class _CustomSliverAppBar extends ConsumerStatefulWidget {
 
   final Movie movie;
 
   const _CustomSliverAppBar({required this.movie});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_CustomSliverAppBar> createState() => _CustomSliverAppBarState();
+}
+
+class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
+
+
+  //! PARA EL USO DE SONIDSO ES NECESARIO EL PLUGIN AUDIOPLAYERS
+  //! SE REQUIERE UN STATEFUL O CONSUMERFUL, ADEMAS DE MODIFICAR EL ANDROIDMANIFEST
+  //! UNA FUNCION FUTURA Y TERMINAR EL VALOR CON EL DISPOSE 
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> reproducirSonido() async{
+    await _audioPlayer.setVolume(0.2);//* REGULAR EL VOLUMEN 1 MAXIMO
+    await _audioPlayer.play(AssetSource('sounds/mixkit-select-click-1109.mp3'));
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;//* para saber las dimensiones del dispositivo
     // final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(movie.id));
     final isDarck = ref.watch(isdarckProvider).fount;
+
+    final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(widget.movie.id));
 
     //! toma el color blacno o negro dependiendo del contexto del theme
     //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
@@ -635,9 +663,40 @@ class _CustomSliverAppBar extends ConsumerWidget {
       ),
 
       actions: [//! PARA QUE FUNCIONE LA PARTE DE FAVORITOS, USA LA BASE DE DATOS LOCAL
-          CustomBottomFavorites(//* BOBTON A PARTE PERSONALIZADO
-            movie: movie, 
-            isDarck: isDarck
+          
+          //* BOTON DE COMPARTIR MOVIE
+          // TODO: IMPLEMENTAR UN PROCESO DE DEEP-LINKING
+          CustomButton(
+            movie: widget.movie, 
+            isDarck: isDarck,
+            iconActive: Icons.share,
+            iconNotActive: Icons.share_outlined,
+            onPressed: () {
+              SharePlugin.shareLink(widget.movie.posterPath, 'Mira esta Pelicula');
+            },
+          ),
+
+          // * BOTON DE FAVORITOS
+          CustomButton(//* BOBTON A PARTE PERSONALIZADO
+            movie: widget.movie, 
+            isDarck: isDarck,
+            iconActive: Icons.favorite,
+            iconNotActive: Icons.favorite_border_rounded,
+            onPressed: () async{
+              await ref.read(favoriteMoviesProvider.notifier).toggleFavoriteMovie(widget.movie);
+              ref.invalidate(isFavoriteMovieProvider(widget.movie.id));
+              final isFav = isFavoriteFuture.value ?? false;//* Obtenemos el valor
+              
+              if(isFav == true){//* Significa que es un favorito, si lo pulsa de debe mostrar mensaje de se quito
+                // ignore: use_build_context_synchronously
+                CustomSnackBar.snackBar(context, isDarck, 'Se quito de tus Favoritas');
+                
+              }else{
+                // ignore: use_build_context_synchronously
+                CustomSnackBar.snackBar(context, isDarck, 'Se agrego a tus Favoritas');
+              }
+              reproducirSonido();
+            },
           )      
       ],
         // IconButton(
@@ -665,7 +724,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
 
       flexibleSpace: FlexibleSpaceBar(//*contenido
         //* contenido
-        background: _ContentSilverAppBar(movie: movie),
+        background: _ContentSilverAppBar(movie: widget.movie),
 
         //! ESTO ES PARA QEU EL GRADIENTE PARA QUE SE VEA EL TITULO EN PELICUALS CON FONDO BLANCO
         //! SE MUEVA INCLUSO SI BAJO LA PANTALLA  

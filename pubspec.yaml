@@ -55,15 +55,16 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0
   audioplayers: ^6.5.1
   google_fonts: ^8.0.0
-  shared_preferences: ^2.5.4
+  shared_preferences: ^2.2.2
   animated_theme_switcher: ^2.0.10
+  share_plus: ^12.0.1
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/logo_app/logo1.png"
   min_sdk_android: 21
 flutter_native_splash:
-  color: "#000000"  # Color de fondo
+  color: "#FFFFFF"  # Color de fondo
   image: "assets/logo_app/logo1.png" # Tu logo (max 200x200px)
   
   # Configuración por plataforma
@@ -73,9 +74,9 @@ flutter_native_splash:
   
   # Android 12+
   android_12:
-    color: "#000000"
+    color: "#FFFFFF"
     image: "assets/logo_app/logo1.png"
-    icon_background_color: "#000000"
+    icon_background_color: "#FFFFFF"
   
   # Mantén el splash hasta que lo remuevas manualmente
   android_gravity: center

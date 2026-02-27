@@ -23,17 +23,19 @@ samples, guidance on mobile development, and a full API reference.
 # Prod
 Para cmabiar el nombre de la Aplicacion
 ```
+<!-- ! DEBE SER PARTE DE DEV DEPENDENCIES -->
+change_app_package_name <--- paquete
 flutter pub run change_app_package_name:main com.leoVeloper.movies_app
 ```
 
 Para Cambiar el icono de la aplicacion
 ```
-flutter pub run flutter_launcher_icons
+dart run flutter_launcher_icons
 ```
 
 Para Cambiar el Splash Screen
 ```
-flutter pub run flutter_native_splash:create
+dart run flutter_native_splash:create
 ```
 
 Adroid AAB
