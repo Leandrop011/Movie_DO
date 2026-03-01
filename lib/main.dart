@@ -7,7 +7,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:movies_app/config/index.dart';
 import 'package:movies_app/features/movies/presentation/providers/index.dart';
-
+// ? rama etapa 06
 Future <void> main()async{ 
   Intl.defaultLocale = 'es_ES';
   initializeDateFormatting('es_ES', null);
