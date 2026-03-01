@@ -24,7 +24,7 @@ class GlassSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     final colors = Theme.of(context).colorScheme;
     
     return SliverAppBar(
@@ -71,7 +71,7 @@ class GlassSliverAppBar extends StatelessWidget {
                   style: TextStyle(
                     color: colors.primary,
                     fontWeight: FontWeight.w500,
-                    fontSize: 20
+                    fontSize: size.width * 0.04,
                   ),
                 ),
               ),

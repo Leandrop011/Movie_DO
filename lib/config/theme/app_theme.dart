@@ -46,7 +46,8 @@ class AppTheme {
       titleMedium: GoogleFonts.montserratAlternates()
         .copyWith( fontSize: 18, fontWeight: FontWeight.bold ),
       titleSmall: GoogleFonts.montserratAlternates()
-        .copyWith( fontSize: 15 )
+        .copyWith( fontSize: 15, ),
+      bodySmall: GoogleFonts.russoOne()
     ),
 
     // * Botones

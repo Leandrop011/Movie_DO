@@ -112,7 +112,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
           //   ),
           // ),
           GlassSliverAppBar(
-            expandedHeight: size.height * 0.07, 
+            expandedHeight: size.height * 0.08, 
             title: 'Movie DO',
             actions: [
               FilledButton(
@@ -139,6 +139,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                     ),
                   ).then((movie){
                     if(movie == null) return;
+                    // ? SI PULSA ALGUNA MOVIE PUES NAVEGA A ESA RUTA
                     // ignore: use_build_context_synchronously
                     context.push('/home/0/movie/${movie.id}');
                   });

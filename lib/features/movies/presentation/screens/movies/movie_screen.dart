@@ -111,7 +111,7 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
     // ! Lo que hace es que le dice esperate 2 segundos y muestra el video
     // ! Mounted le dice 'si ya esta todo montado', haz eL setstate y coloca en true
     // ! METODO DE OPTIMIZACION | IMPORTANTE
-    Future.delayed(const Duration(seconds: 2), () {//? primero se espera a ejecutar los 2.5 seg
+    Future.delayed(const Duration(seconds: 1), () {//? primero se espera a ejecutar los 1 seg
       if (mounted == true) {
         setState(() {
           _showTrailer = true;
@@ -135,8 +135,8 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
 
         //* VIDEO DE LA MOVIE
         
-        if(_showTrailer == true)//? solo cuando se cumpla los 2 segundos esto sera true
-          VideosFromMovie(movieId: widget.movie.id),
+        if(_showTrailer == true)//? solo cuando se cumpla los 1 segundos esto sera true
+          VideosFromMovie(movie: widget.movie,),
         
         Padding(//* GENEROS DE LA MOVIE
           padding: const EdgeInsets.all(8),
@@ -197,7 +197,8 @@ class _ElementsInDetails extends StatelessWidget {
       padding: const EdgeInsetsGeometry.all(8),
       child: SizedBox(
         width: size.width,
-        height: size.height * 0.42,
+        // ! QUITAMOS EL HEIGHT PARA DECIRLE AL WIDGET QUE COJA TODO1 EL HEIGHT QUE NECESITE 
+        // height: size.height * 0.42,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: isDarck ?
@@ -254,17 +255,18 @@ class _ElementsInDetails extends StatelessWidget {
                       const SizedBox(height: 10,),
         
                       SizedBox(
-                        height: size.height * 0.17,
+                        // height: size.height * 0.17,
                         width: double.infinity,
                         child: Text(
                           movie.overview, 
                           style: textStyle.titleSmall,
-                          maxLines: 5,
+                          maxLines: 7,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
 
-                      SizedBox(height: size.height * 0.02,),
+                      SizedBox(height: size.height * 0.01,),
+
                       SizedBox(
                         width: double.infinity,
                         child: Row(
@@ -280,8 +282,8 @@ class _ElementsInDetails extends StatelessWidget {
                         width: double.infinity,
                         child: Row(
                           children: [
-                            Text('Estreno: ', style: textStyle.titleSmall?.copyWith(fontWeight: FontWeight.bold)),
-                            Text(DateFormat('yyyy/MM/dd').format(movie.releaseDate)),
+                            Text('Estreno: ', style: textStyle.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 15)),
+                            Text(DateFormat('yyyy/MM/dd').format(movie.releaseDate), style: textStyle.bodySmall?.copyWith(fontSize: 14),),
                           ],
                         ),
                       )
@@ -314,7 +316,8 @@ class _PreSimilarMoviesView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final isDarck = ref.read(isdarckProvider).fount;
+    // final isDarck = ref.read(isdarckProvider).fount;
+    // ? POR SI NO HAY PELICULAS NO MOSTRAR ESTE TITULO
     final moviesById = ref.watch(similarMoviesProvider);
     final movies = moviesById[movieId] ?? [];
     
@@ -323,35 +326,16 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     }
     
     return Padding(
-      padding: const EdgeInsetsGeometry.only(bottom: 10, left: 10, right: 10, top: 1),
-      child: SizedBox(
-        width: size.width * 1,
-        height: size.height * 0.065,
-        child: Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: isDarck?
-            const Color.fromARGB(255, 42, 42, 42)
-            :
-            const Color.fromARGB(255, 225, 224, 224)
-            ,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-              color: const Color.fromARGB(255, 96, 94, 94),
-              blurRadius: 6,
-              offset: Offset(1, 2),
-            )
-            ]
+      padding: const EdgeInsetsGeometry.only(bottom: 2, left: 10, right: 10, top: 1),
+      child: Row(
+        children: [
+          Text(
+            'Recomendaciones', 
+            style: textStyle.bodySmall?.copyWith(fontSize: 24),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              'Recomendaciones', 
-              style: textStyle.titleMedium,
-            ),
-          ),
-        )
+          const Spacer(),
+          Icon(Icons.recommend, size: size.width * 0.1,),
+        ],
       ),
     );
   }
@@ -377,12 +361,12 @@ class _MoviesSimilars extends ConsumerWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 5, right: 5),
       child: SizedBox(
         
         height: size.height * 0.45,
         child: MasonryGridView.count(
-          physics: const BouncingScrollPhysics(),
+          // physics: const BouncingScrollPhysics(),
           
           crossAxisCount: 3,
           itemCount: moviesSimilars.length,
@@ -397,17 +381,6 @@ class _MoviesSimilars extends ConsumerWidget {
             return _MovieSimilarView(movie: movie, height: false);
           },
         ),
-        // ListView.builder(
-        //   scrollDirection: Axis.horizontal,
-        //   physics: BouncingScrollPhysics(),
-      
-        //   itemCount: moviesSimilars.length,
-        //   itemBuilder: (context, index) {
-        //     final moviesimilar = moviesSimilars[index];
-      
-        //     return _MovieSimilarView(movie: moviesimilar);
-        //   },
-        // )
       ),
     );
   }
@@ -465,31 +438,6 @@ class _MovieSimilarView extends StatelessWidget {
                 ) 
                
               ),
-          
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 5, left: 3),
-              //   child: SizedBox(
-              //     width: 100,
-              //     child: Text(
-              //       movie.title, 
-              //       maxLines: 1,
-              //       style: textStyle.titleSmall,
-              //     ),
-              //   ),
-              // ),
-              
-              // Row(
-              //   children: [
-              //     Icon(Icons.star_half_outlined, color: Colors.amber.shade800,),
-              //     SizedBox(width: 3,),
-              //     Text(
-              //       movie.voteAverage.toString(),
-              //       style: TextStyle(
-              //         color: Colors.amber.shade800,
-              //       ),
-              //     ),
-              //   ],
-              // ),
           
             ],
           ),
@@ -664,8 +612,9 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
 
       actions: [//! PARA QUE FUNCIONE LA PARTE DE FAVORITOS, USA LA BASE DE DATOS LOCAL
           
-          //* BOTON DE COMPARTIR MOVIE
           // TODO: IMPLEMENTAR UN PROCESO DE DEEP-LINKING
+
+          //* BOTON DE COMPARTIR MOVIE
           CustomButton(
             movie: widget.movie, 
             isDarck: isDarck,
@@ -674,6 +623,12 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
             onPressed: () {
               SharePlugin.shareLink(widget.movie.posterPath, 'Mira esta Pelicula');
             },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.share, color: Colors.white,)
+              ],
+            ),
           ),
 
           // * BOTON DE FAVORITOS
@@ -697,6 +652,32 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
               }
               reproducirSonido();
             },
+            child:  isFavoriteFuture.when(
+              data: (isFavorite) => isFavorite == true ?
+              Row(
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon( Icons.favorite, color: Colors.red,),
+                ],
+              )
+              :
+              Row(
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon( Icons.favorite_border_rounded, color: Colors.white,),
+                ],
+              ),
+              error: (_, _) => throw Exception("Error al cargar el estado de favoritos"), 
+              loading: () => Center(
+                child: SizedBox(
+                  width: 10,
+                  height: 10,
+                  child: const CircularProgressIndicator(strokeWidth: 2,)
+                )
+              ),
+            )
           )      
       ],
         // IconButton(

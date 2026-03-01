@@ -1,7 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/storage/index.dart';
 
 class CustomButton extends ConsumerStatefulWidget {
   final Movie movie;
@@ -9,7 +8,7 @@ class CustomButton extends ConsumerStatefulWidget {
   final IconData iconActive;
   final IconData iconNotActive;
   final VoidCallback onPressed;//? recibimos la funcion onpressed, usamos voidCallBack
-  
+  final Widget child;
 
   const CustomButton({
     super.key, 
@@ -17,7 +16,8 @@ class CustomButton extends ConsumerStatefulWidget {
     required this.isDarck, 
     required this.iconActive, 
     required this.onPressed, 
-    required this.iconNotActive
+    required this.iconNotActive, 
+    required this.child
   });
 
   @override
@@ -25,15 +25,10 @@ class CustomButton extends ConsumerStatefulWidget {
 }
 
 class _CustomBottomFavoritesState extends ConsumerState<CustomButton> {
-  
-  
-  
-  //* CONSTRUCCION DEL SNACKBAR SI AGREGA O QUITA DE FAVORITOS
-
 
   @override
   Widget build(BuildContext context) {
-    final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(widget.movie.id));
+    // final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(widget.movie.id));
     final size = MediaQuery.of(context).size;    
     
     return Padding(
@@ -54,36 +49,7 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomButton> {
 
           // ! INCLUSO EL BOTON DE COMPARTIR NO CARGARA HASTA QUE HAYA CARGADO SI ESTA O NO EN LA BASE 
           // ! DE DATOS LOCAL GUARDADA
-          child: isFavoriteFuture.when(
-            data: (isFavorite) => isFavorite == true ?
-            Row(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(widget.iconActive, color: Colors.red,),
-                // SizedBox(width: 5,),
-                // Text('Eliminar', style: TextStyle(color: Colors.white, fontSize: size.width * 0.03),),
-              ],
-            )
-            :
-            Row(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(widget.iconNotActive, color: Colors.white,),
-                // SizedBox(width: 5,),
-                // Text('Agregar', style: TextStyle(color: Colors.white, fontSize: size.width * 0.03),),
-              ],
-            ),
-            error: (_, _) => throw Exception("Error al cargar el estado de favoritos"), 
-            loading: () => Center(
-              child: SizedBox(
-                width: 10,
-                height: 10,
-                child: const CircularProgressIndicator(strokeWidth: 2,)
-              )
-            )
-          ), 
+          child: widget.child
         ),
       ),
     );

@@ -115,7 +115,8 @@ class _Tittle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tittleStyle = Theme.of(context).textTheme.titleMedium;
+    final tittleStyle = Theme.of(context).textTheme.bodySmall;
+    final size = MediaQuery.of(context).size;
 
     return Container(
       padding: const EdgeInsets.only(top: 10, right: 5, left: 5),
@@ -124,7 +125,7 @@ class _Tittle extends StatelessWidget {
         children: [
 
           if(title != null)//todo, una condicion para segurarse que no sea null
-            Text(title!, style: tittleStyle,),
+            Text(title!, style: tittleStyle?.copyWith(fontSize: size.width * 0.055,),),
           
           Spacer(),
 

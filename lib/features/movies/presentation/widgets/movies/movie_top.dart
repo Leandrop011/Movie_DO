@@ -113,7 +113,7 @@ class _GenderView extends StatelessWidget {
 
     return Container(
       alignment: Alignment.center,
-      width: size.width * 0.3,//!DISENO RESPONSIVO UN TAMANO DE CAJA DEPENDIENDO EL DISPOSITIVO
+      width: size.width * 0.4,//!DISENO RESPONSIVO UN TAMANO DE CAJA DEPENDIENDO EL DISPOSITIVO
       height: size.height * 0.04,
       decoration: BoxDecoration(
         color: Colors.black54, 
