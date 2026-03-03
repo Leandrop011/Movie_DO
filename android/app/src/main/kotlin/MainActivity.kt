@@ -1,4 +1,4 @@
-package com.leoVeloper.movies_app
+package com.leoVeloper.moviedo
 
 import io.flutter.embedding.android.FlutterActivity
 

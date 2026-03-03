@@ -6,7 +6,11 @@ final appRouter = GoRouter(
   initialLocation: '/home/0',
   routes: [
 
-
+    // ! PARA QUE EL DEEPLINKING FUNCIONE ES NECESARIO QUE ESTAS RUTAS 
+    // ! ESTEN ESPECIFICADAS EN EL ENLACE DE LA APP WEB
+    // ! EJEMPL https://moviedo.up.railway.app/home/0/movie/$id/
+    // ! NO SOLO MOVIE/:ID, PORQUE ESA RUTA NO ESTA EN NUESTRO ROUTER CUANDO COMIENCE EL PROCESO DE DEEPLINKING
+    // ! LA RUTA QUE EXISTE ES: /home/0/movie/$id
    
     GoRoute(
       path: '/home/:page',
@@ -36,7 +40,21 @@ final appRouter = GoRouter(
       redirect: ( _ , __ ) {
         return '/home/0';
       },
-    )
+    ),
+
+    // // ! LA RUTA PARA EL DEEPLINKING, PARA QUE COMIENCE DESDE /MOVIES/:ID
+    // // ! Y PUEDA CONSTRUIRSE LA RUTA E IR HACIA /home/0/movie/$id
+    // // ! CUANDO SE INTENTE APLICAR EL DEEPLINKING EL APPROUTER SE VA POR ESTA
+    // // ? PORQUE EN SI LA APP COMIENZA DESDE /movies/:id CON ESOS ENLACES
+    // // ? ENTONCES PARA CONSTRUIR TODA LA RUTA SE HACE ESTO
+    // GoRoute(
+    //   path: '/movies/:id',
+    //   redirect: (context, state) {
+    //     final id = state.pathParameters['id'];
+
+    //     return '/home/0/movie/$id';
+    //   },
+    // )
 
   ]
 );

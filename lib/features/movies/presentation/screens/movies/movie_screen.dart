@@ -611,8 +611,6 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
       ),
 
       actions: [//! PARA QUE FUNCIONE LA PARTE DE FAVORITOS, USA LA BASE DE DATOS LOCAL
-          
-          // TODO: IMPLEMENTAR UN PROCESO DE DEEP-LINKING
 
           //* BOTON DE COMPARTIR MOVIE
           CustomButton(
@@ -621,7 +619,10 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
             iconActive: Icons.share,
             iconNotActive: Icons.share_outlined,
             onPressed: () {
-              SharePlugin.shareLink(widget.movie.posterPath, 'Mira esta Pelicula');
+              SharePlugin.shareLink(
+                'https://moviedo.up.railway.app/home/0/movie/${widget.movie.id}', 
+                'Mira esta Pelicula'
+              );
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

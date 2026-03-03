@@ -42,3 +42,10 @@ Adroid AAB
 ```
 flutter build appbundle
 ```
+
+Obtener sha-256 para deep-linking
+```
+cd android
+./gradlew signingReport
+copiar el sha y pegarlo en la app web
+```

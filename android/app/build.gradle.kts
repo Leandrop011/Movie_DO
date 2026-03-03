@@ -14,7 +14,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.leoVeloper.movies_app"
+    namespace = "com.leoVeloper.moviedo"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
@@ -31,7 +31,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.leoVeloper.movies_app"
+        applicationId = "com.leoVeloper.moviedo"
         minSdk = flutter.minSdkVersion
         targetSdk = 34
         versionCode = flutter.versionCode
