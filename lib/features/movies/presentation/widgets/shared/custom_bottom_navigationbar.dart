@@ -5,8 +5,9 @@ import 'package:movies_app/features/movies/presentation/providers/config/index.d
 
 
 class CustomBottomNavigationbar extends ConsumerWidget {
-
+  
   final int currentIndex;
+
   const CustomBottomNavigationbar({
     super.key, 
     required this.currentIndex
@@ -42,7 +43,7 @@ class CustomBottomNavigationbar extends ConsumerWidget {
           :
           Colors.blueAccent,//? cuando no esta seleccionado
           type: BottomNavigationBarType.shifting,//!CUANDO HAY MAS DE 3 ITEMS HAY QUE COLOCAR ESTO PARA QUE MUESTRE SU COLOR 
-          currentIndex: currentIndex,//todo, valor actual(segun la list de las view)
+          currentIndex: currentIndex,//todo, valor actual(segun la list de las view), el numero total
           onTap: (index) {
             onItemTapped(context, index);
           },
@@ -51,9 +52,9 @@ class CustomBottomNavigationbar extends ConsumerWidget {
           items: [//todo, requiere por lo menos 2 hijos 
             BottomNavigationBarItem(//cada icono, debe tener icono y label obligado
               icon: const Icon(Icons.home_max_outlined),
-              label: 'Home',
+              label: 'Inicio',
               backgroundColor: Colors.black87,
-              tooltip: 'Ir a Home'
+              tooltip: 'Seccion Principal'
             ),
         
             BottomNavigationBarItem(
@@ -61,7 +62,7 @@ class CustomBottomNavigationbar extends ConsumerWidget {
               label: 'Populares',
               activeIcon: const Icon(Icons.theater_comedy),
               backgroundColor: Colors.black87,
-              tooltip: 'Ir a la seccion de populares'
+              tooltip: 'Seccion de populares'
             ),
         
             BottomNavigationBarItem(
@@ -69,8 +70,16 @@ class CustomBottomNavigationbar extends ConsumerWidget {
               label: 'Favoritos',
               activeIcon: const Icon(Icons.favorite_rounded),
               backgroundColor: Colors.black87,
-              tooltip: 'Ir a la seccion de favoritos'
+              tooltip: 'Seccion de favoritos'
             ),
+
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined),
+              label: 'Ajustes',
+              activeIcon: Icon(Icons.settings_rounded),
+              backgroundColor: Colors.black87,
+              tooltip: 'Seccion de Configuraciones'
+            )
         
             // BottomNavigationBarItem(
             //   icon: Icon(Icons.settings_outlined),

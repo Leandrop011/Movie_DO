@@ -112,6 +112,8 @@ flutter:
     - assets/loaders/loader_03.gif
     - assets/loaders/loader_04.gif
     - assets/loaders/loader_wrong.png
+    - assets/logo_app/logo_app_without_fount.png
+    - assets/logo_app/logo_app_without_fount_black.png
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/to/resolution-aware-images
     # For details regarding adding assets from package dependencies, see

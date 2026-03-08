@@ -60,11 +60,21 @@ class AppTheme {
       )
     ),
 
+
     brightness: isdarck ? 
                 Brightness.dark
                 : 
                 Brightness.light
     
     
+  );
+  
+  static const LinearGradient accentGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromARGB(255, 75, 74, 74),
+      Color.fromARGB(255, 0, 0, 0),
+    ],
   );
 }

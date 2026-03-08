@@ -1,7 +1,5 @@
 ﻿import 'package:flutter/material.dart';
-
-import 'package:movies_app/features/movies/presentation/providers/index.dart';
-import 'package:movies_app/features/movies/presentation/views/index.dart';
+import 'package:movies_app/features/movies/index.dart';
 //import '../../views/movies_views/home_view.dart';
 
 //todo, dotenv es para mover archivos de entorno hacia la app
@@ -59,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     HomeView(), // <---- Home
     CategoriesView(),  // <--- Categories
     FavoritesView(),  // <--- Favorites
-    // SettingsView(), // <---- Settings
+    ConfigView()// <---- Settings
     // NotificationsView(), // <---- Notifications
   ];
 

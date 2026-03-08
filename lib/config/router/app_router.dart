@@ -33,6 +33,20 @@ final appRouter = GoRouter(
       ]
     ),
 
+    // * RUTAS DE LAS CONFIGURACIONES
+    GoRoute(
+      path: '/theme',
+      builder: (context, state) => ConfigThemeScreen(),
+    ),
+    GoRoute(
+      path: '/fount',
+      builder: (context, state) => ConfigFountScreen(),
+    ),
+    GoRoute(
+      path: '/security',
+      builder: (context, state) => ConfigSecurityScreen(),
+    ),
+
 
     //! Para redireccionar la direccion / a la nueva /home/0
     GoRoute(

@@ -103,7 +103,6 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
   bool get wantKeepAlive => true;
 }
 
-// TODO: MEJORAR EL DISENO
 // ? WIDGET QUE MOSTRARA SI LA LISTA ESTA VACIA 
 class _FavoritesEmptyView extends StatelessWidget {
   const _FavoritesEmptyView({
