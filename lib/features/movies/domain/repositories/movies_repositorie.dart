@@ -1,4 +1,4 @@
-﻿import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
 //todo, el repositorio es al que vamos a llamar, si queremos otro
 //todo, datasource pues solo cambiaremos el repositorie
 abstract class MoviesRepositorie {
@@ -19,3 +19,4 @@ abstract class MoviesRepositorie {
 
   Future<List<Video>> getYoutubeVideosById( int moviId );
 }
+

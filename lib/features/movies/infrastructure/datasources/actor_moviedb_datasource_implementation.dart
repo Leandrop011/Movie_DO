@@ -1,9 +1,9 @@
-﻿import 'package:dio/dio.dart';
-import 'package:movies_app/config/constants/index.dart';
-import 'package:movies_app/features/movies/domain/data_sources/index.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/infrastructure/mappers/index.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
+import 'package:dio/dio.dart';
+import 'package:movies_app/config/constants/constants.dart';
+import 'package:movies_app/features/movies/domain/data_sources/data_sources.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/infrastructure/mappers/mappers.dart';
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb.dart';
 
 //todo, DATASOURCE QUE BRINDA LA DATA DE LOS ACTORES Y AQUI MISMO MAPEAMOS Y ACOPLAMOS
 class ActorMoviedbDatasourceImplementation extends ActorsDatasource{
@@ -35,3 +35,4 @@ class ActorMoviedbDatasourceImplementation extends ActorsDatasource{
 
   
 }
+

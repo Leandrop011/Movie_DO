@@ -1,7 +1,6 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/presentation/providers/config/index.dart';
 
 
 class CustomBottomNavigationbar extends ConsumerWidget {
@@ -21,7 +20,7 @@ class CustomBottomNavigationbar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) { 
     final colors = Theme.of(context).colorScheme;
-    final isDarck = ref.watch(isdarckProvider).fount;
+    // final isDarck = ref.watch(isdarckProvider).fount;
   
     return Container(
       margin: EdgeInsetsDirectional.all(10),
@@ -33,15 +32,9 @@ class CustomBottomNavigationbar extends ConsumerWidget {
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(10),
         child: BottomNavigationBar(//la barra de navegar inferior
-        backgroundColor: Colors.transparent,
-        selectedItemColor: isDarck ?
-          colors.primary
-          :
-          Colors.blueAccent,//? cuando esta seleccionado
-          unselectedItemColor: isDarck ?
-          colors.primary
-          :
-          Colors.blueAccent,//? cuando no esta seleccionado
+          backgroundColor: Colors.transparent,
+          selectedItemColor: colors.primary,//? cuando esta seleccionado
+          unselectedItemColor: colors.primary,//? cuando no esta seleccionado
           type: BottomNavigationBarType.shifting,//!CUANDO HAY MAS DE 3 ITEMS HAY QUE COLOCAR ESTO PARA QUE MUESTRE SU COLOR 
           currentIndex: currentIndex,//todo, valor actual(segun la list de las view), el numero total
           onTap: (index) {
@@ -98,3 +91,4 @@ class CustomBottomNavigationbar extends ConsumerWidget {
     );
   }
 }
+

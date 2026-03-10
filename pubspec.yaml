@@ -59,13 +59,14 @@ dependencies:
   animated_theme_switcher: ^2.0.10
   share_plus: ^12.0.1
   change_app_package_name: ^1.5.0
+  local_auth: ^3.0.1
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/logo_app/logo1.png"
   min_sdk_android: 21
 flutter_native_splash:
-  color: "#FFFFFF"  # Color de fondo
+  color: "#000000" # Color de fondo
   image: "assets/logo_app/logo1.png" # Tu logo (max 200x200px)
   
   # Configuración por plataforma
@@ -75,9 +76,9 @@ flutter_native_splash:
   
   # Android 12+
   android_12:
-    color: "#FFFFFF"
+    color: "#000000"
     image: "assets/logo_app/logo1.png"
-    icon_background_color: "#FFFFFF"
+    icon_background_color: "#000000"
   
   # Mantén el splash hasta que lo remuevas manualmente
   android_gravity: center
@@ -114,6 +115,12 @@ flutter:
     - assets/loaders/loader_wrong.png
     - assets/logo_app/logo_app_without_fount.png
     - assets/logo_app/logo_app_without_fount_black.png
+    - assets/logo_app/logo_app_without_fount_with_words_black.png
+    - assets/logo_app/logo_app_without_fount_with_words_white.png
+    - assets/loaders/loader_movie_do_black.png
+    - assets/loaders/loader_movie_do_white.png
+    - assets/loaders/movie_do-loader.gif
+
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/to/resolution-aware-images
     # For details regarding adding assets from package dependencies, see

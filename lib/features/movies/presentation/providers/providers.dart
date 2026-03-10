@@ -1,13 +1,7 @@
-
-
-export 'movies/movies_providers.dart';
-export 'movies/movies_repository_provider.dart';
-
-export 'package:movies_app/features/movies/presentation/providers/movies/movies_slideshow_proivder.dart';
-export 'package:movies_app/features/movies/presentation/widgets/widgets.dart';
-export 'package:movies_app/features/movies/presentation/providers/movies/initial_loading_provider.dart';
-export 'package:movies_app/features/movies/presentation/providers/movies/visibility_movies_provider.dart';
-
-export 'package:movies_app/features/movies/presentation/providers/actors/actors_bymovie_provider.dart';
-export 'package:movies_app/features/movies/presentation/providers/movies/movie_info_provider.dart';
-export 'search/search_movies_provider.dart';
+export 'actors/actors.dart';
+export 'bottom_navigation/bottom_navigation.dart';
+export 'config/config.dart';
+export 'movies/movies.dart';
+export 'search/search.dart';
+export 'storage/storage.dart';
+export 'local_auth/local_auth_providers.dart';

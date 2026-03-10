@@ -1,24 +1,24 @@
-﻿import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb.dart';
 
 //* MAPA PARA TRANSFORMAR LOS GENEROS DE UNA MOVIE, POR EJEMPLO DE 28 -> A ACCION
 const Map<int, String> generos = {
-  28: "Acción",
+  28: "Accion",
   12: "Aventura",
-  16: "Animación",
+  16: "Animacion",
   35: "Comedia",
   80: "Crimen",
   99: "Documental",
   18: "Drama",
   10751: "Familia",
-  14: "Fantasía",
+  14: "Fantasia",
   36: "Historia",
   27: "Terror",
-  10402: "Música",
+  10402: "Musica",
   9648: "Misterio",
   10749: "Romance",
-  878: "Ciencia ficción",
-  10770: "Película de TV",
+  878: "Ciencia ficcion",
+  10770: "Pelicula TV",
   53: "Suspenso",
   10752: "Guerra",
   37: "Western",
@@ -85,3 +85,4 @@ class MovieMapper {
     voteCount: moviedb.voteCount,
   );
 }
+

@@ -1,4 +1,4 @@
-﻿import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
 
 abstract class LocalStorageRepository {
   Future<void> toggleFavoriteMovie(Movie movie);
@@ -10,3 +10,4 @@ abstract class LocalStorageRepository {
     int offset = 0 //* CUANTAS PELICULAS ME QUIERO SALTAR SEGUN LA PAGINACION
   });
 }
+

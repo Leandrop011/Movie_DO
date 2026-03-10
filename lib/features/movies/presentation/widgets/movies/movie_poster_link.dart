@@ -1,8 +1,8 @@
-﻿import 'package:animate_do/animate_do.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
 
 class MoviePosterLink extends StatelessWidget {
   final Movie movie;
@@ -15,7 +15,7 @@ class MoviePosterLink extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push('/home/0/movie/${movie.id}'), 
       child: FadeInUp(
-        //! ESTO ES LA distancia en pÃ­xeles desde donde comienza la animaciÃ³n
+        //! ESTO ES LA distancia en píxeles desde donde comienza la animación
         from: random.nextInt(100) + 80,//! ESTO CONTROLA MEJOR LA PAGINACION EL CATEGORIES
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
@@ -28,7 +28,7 @@ class MoviePosterLink extends StatelessWidget {
             image: NetworkImage(movie.posterPath),
             //! PARA QUE NO DE ESE SALTO FEO POR QUE NO HAY COMO UN LOADING
             //!SOLO PERMITE IMAGENES
-            placeholder: AssetImage('assets/loaders/bottle-loader.gif'),
+            placeholder: AssetImage('assets/loaders/movie_do-loader.gif'),
             fit: BoxFit.cover,
           ),
         ),
@@ -36,3 +36,4 @@ class MoviePosterLink extends StatelessWidget {
     );
   }
 }
+

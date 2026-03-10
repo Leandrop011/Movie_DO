@@ -1,11 +1,11 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
 
 
 class MovieHorizontalListview extends StatefulWidget {
@@ -184,7 +184,7 @@ class _Slide extends ConsumerWidget {
                   child: FadeInImage(
                     height: size.height * 0.31,
                     fit: BoxFit.cover,
-                    placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+                    placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
                     
                     image: NetworkImage(
                       movie.posterPath,
@@ -236,3 +236,4 @@ class _Slide extends ConsumerWidget {
     );
   }
 }
+

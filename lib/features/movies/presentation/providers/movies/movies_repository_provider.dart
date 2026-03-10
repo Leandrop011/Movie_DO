@@ -1,9 +1,9 @@
-﻿//todo, esto es para proveer la informacion de una lista de peliculas
+//todo, esto es para proveer la informacion de una lista de peliculas
 
 //todo, el provider encargado de proveer ese repositorio
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/features/movies/infrastructure/datasources/index.dart';
-import 'package:movies_app/features/movies/infrastructure/repositories/index.dart';
+import 'package:movies_app/features/movies/infrastructure/datasources/datasources.dart';
+import 'package:movies_app/features/movies/infrastructure/repositories/repositories.dart';
 
 //todo, este provider es de solo lectura, solo provee, pero no puede cambiarse su fuente
 
@@ -14,3 +14,4 @@ final movieRepositoryProvider = Provider((ref) {
   //todo, requiere el datasource, le mandamos un datasource
   return MovieMovieDbRepositoryImplementation( MoviedbDatadourceImplementation() );
 });
+

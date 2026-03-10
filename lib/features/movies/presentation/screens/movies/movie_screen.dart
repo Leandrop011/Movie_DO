@@ -1,9 +1,10 @@
-﻿import 'package:flutter/material.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/index.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/custom_snack_bar.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/index.dart';
-import 'package:movies_app/features/movies/presentation/widgets/videos/index.dart';
+import 'package:flutter/material.dart';
+import 'package:movies_app/features/features.dart';
+// import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
+// import 'package:movies_app/features/movies/presentation/widgets/widgets.dart';
+import 'package:movies_app/config/plugins/share_plugin.dart';
+import 'package:movies_app/features/movies/presentation/widgets/videos/videos_from_movie.dart';
 
 
 import 'package:audioplayers/audioplayers.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:movies_app/config/plugins/share_plugin.dart';
 
 
 //todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
@@ -41,6 +41,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     ref.read(similarMoviesProvider.notifier).loadSimilarMovies(widget.movieId);
 
     
+    
   }
   
   @override
@@ -54,6 +55,8 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     //todo, le mandamos el id
     final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
     // final isDarck = ref.read(isdarckProvider);
+    final securutyActive = ref.watch(securityProvider).activeSecurity;
+    final authAprove = ref.watch(localAuthProvider).didAuthenticate;
     
     
     if(movie == null ){
@@ -64,28 +67,55 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
       );
     }
 
-    return ZoomIn(
-      duration: const Duration(milliseconds: 450),
-      child: Scaffold(
+    return (securutyActive == true) ?
+      (authAprove == true) ?
+      ZoomIn(
+        duration: const Duration(milliseconds: 450),
+        child: Scaffold(
+          
+          body: CustomScrollView(
+            physics: ClampingScrollPhysics(),
+            slivers: [
         
-        body: CustomScrollView(
-          physics: ClampingScrollPhysics(),
-          slivers: [
-      
-            _CustomSliverAppBar(movie: movie),
-      
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => _MovieDetails(movie: movie,),
-                childCount: 1,
-              )
-            ),
-          ],
+              _CustomSliverAppBar(movie: movie),
+        
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => _MovieDetails(movie: movie,),
+                  childCount: 1,
+                )
+              ),
+            ],
+          ),
+        
+          
         ),
-      
+      )
+      :
+      SecurityScreen()
+    :
+    ZoomIn(
+        duration: const Duration(milliseconds: 450),
+        child: Scaffold(
+          
+          body: CustomScrollView(
+            physics: ClampingScrollPhysics(),
+            slivers: [
         
-      ),
-    );
+              _CustomSliverAppBar(movie: movie),
+        
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => _MovieDetails(movie: movie,),
+                  childCount: 1,
+                )
+              ),
+            ],
+          ),
+        
+          
+        ),
+      );
   }
 }
 
@@ -329,6 +359,8 @@ class _PreSimilarMoviesView extends ConsumerWidget {
       padding: const EdgeInsetsGeometry.only(bottom: 2, left: 10, right: 10, top: 1),
       child: Row(
         children: [
+          Icon(Icons.label_important_sharp),
+          SizedBox(width: 4,),
           Text(
             'Recomendaciones', 
             style: textStyle.bodySmall?.copyWith(fontSize: 24),
@@ -427,7 +459,7 @@ class _MovieSimilarView extends StatelessWidget {
                     width: double.infinity,
                     height: double.infinity,
                         
-                    placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+                    placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
                     
                     fit: BoxFit.cover,
                     
@@ -733,7 +765,6 @@ class _ContentSilverAppBar extends StatelessWidget {
 
   final Movie movie;
 
-  //todo, implementar metodo, para no repetir el gradient
 
   @override
   Widget build(BuildContext context) {
@@ -827,6 +858,7 @@ class _CustomGradient extends StatelessWidget {
     );
   }
 }
+
 
 
 

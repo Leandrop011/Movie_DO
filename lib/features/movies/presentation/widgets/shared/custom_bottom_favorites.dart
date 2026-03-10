@@ -1,6 +1,6 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
 
 class CustomButton extends ConsumerStatefulWidget {
   final Movie movie;
@@ -55,3 +55,4 @@ class _CustomBottomFavoritesState extends ConsumerState<CustomButton> {
     );
   }
 }
+

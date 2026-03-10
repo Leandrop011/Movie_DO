@@ -1,5 +1,5 @@
-﻿//todo, esto es para hacer el mapeo y asi manejar la data del datasource
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
+//todo, esto es para hacer el mapeo y asi manejar la data del datasource
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb.dart';
 
 class MovideDbResponse {
     final Dates? dates;
@@ -52,4 +52,5 @@ class Dates {
         "minimum": "${minimum.year.toString().padLeft(4, '0')}-${minimum.month.toString().padLeft(2, '0')}-${minimum.day.toString().padLeft(2, '0')}",
     };
 }
+
 

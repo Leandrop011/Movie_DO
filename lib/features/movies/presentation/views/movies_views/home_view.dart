@@ -1,18 +1,19 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/presentation/delegates/delegates.dart';
+import 'package:movies_app/features/movies/presentation/widgets/widgets.dart';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/presentation/delegates/index.dart';
 
-import 'package:movies_app/features/movies/presentation/providers/index.dart';
-import '../../widgets/movies/movie_top.dart';
 /*
   todo, el StateLes solo sirve para leer y reaccionar a los providers
   todo, miestras que el stateful tienes poder del initsate
   todo, el initsate es el lugar ideal para inicializar cosas que tu widget necesita antes de renderizarse. 
-  todo, el initsate: se ejecuta una sola vez, antes del primer render y es para inicializar lÃ³gica o cargar datos
+  todo, el initsate: se ejecuta una sola vez, antes del primer render y es para inicializar lógica o cargar datos
 */
 
 //todo consumer de un ful para los providers 
@@ -270,3 +271,4 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
   @override
   bool get wantKeepAlive => true;
 }
+

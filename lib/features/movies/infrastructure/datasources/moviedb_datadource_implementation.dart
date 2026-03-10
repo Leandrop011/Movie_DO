@@ -1,9 +1,10 @@
-﻿import 'package:dio/dio.dart';
-import 'package:movies_app/config/constants/index.dart';
-import 'package:movies_app/features/movies/domain/data_sources/index.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/infrastructure/mappers/index.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
+import 'package:dio/dio.dart';
+import 'package:movies_app/config/constants/constants.dart';
+import 'package:movies_app/features/movies/domain/data_sources/data_sources.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/infrastructure/mappers/mappers.dart';
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb.dart';
+
 
 //todo, aqui es la implementacion, si o si debo hacer una implementacion
 class MoviedbDatadourceImplementation extends MoviesDatasource{
@@ -145,3 +146,4 @@ class MoviedbDatadourceImplementation extends MoviesDatasource{
     return videos;//* retornarla
   }  
 }
+

@@ -1,7 +1,7 @@
-﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 //* PARA QUE SE CONSERVE ESA BUSQUEDA DEL USUARIO CUANDO SE VUELVE A HOME Y EL USUARIO QUIERO
 //* BUSCAR DENUEVO YA TIENE ESE STRING CARGADO
 final searchQueryProvider = StateProvider<String>(
@@ -41,3 +41,4 @@ class SearchedMoviesNotifier extends StateNotifier <List<Movie>>{
     return movies;
   }
 }
+

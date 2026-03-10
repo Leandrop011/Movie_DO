@@ -1,7 +1,7 @@
-﻿import 'package:drift/drift.dart' as drift;
-import 'package:movies_app/config/database/favorites/index.dart';
-import 'package:movies_app/features/movies/domain/data_sources/index.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:drift/drift.dart' as drift;
+import 'package:movies_app/config/database/favorites/favorites.dart';
+import 'package:movies_app/features/movies/domain/data_sources/data_sources.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
 
 
 //*DATA SOURCE QUE PROVIENE DE LA BASE DE DATOS LOCALES QUE USAMOS CON DRIFT
@@ -90,3 +90,4 @@ class DriftDatasource extends LocalStorageDatasource {
   }
   
 }
+

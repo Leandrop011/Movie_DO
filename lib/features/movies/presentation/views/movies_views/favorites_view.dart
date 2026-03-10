@@ -1,9 +1,10 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:movies_app/features/movies/presentation/providers/storage/storage.dart';
+import 'package:movies_app/features/movies/presentation/widgets/movies/movies.dart';
+import 'package:movies_app/features/movies/presentation/widgets/shared/shared.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/presentation/providers/storage/index.dart';
-import 'package:movies_app/features/movies/presentation/widgets/movies/index.dart';
-import 'package:movies_app/features/movies/presentation/widgets/shared/index.dart';
 
 class FavoritesView extends ConsumerStatefulWidget {
   const FavoritesView({super.key});
@@ -32,7 +33,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
   //         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
   //         child: AlertDialog(
   //           title: Text('Favoritas'),
-  //           content: Text('En esta secciÃ³n podrÃ¡s ver todas las pelÃ­culas que marcaste como favoritas. Las pelÃ­culas se guardan en tu dispositivo, asÃ­ que siempre estarÃ¡n disponibles incluso sin conexiÃ³n. Puedes agregar o quitar una pelÃ­cula de favoritos desde su pantalla de detalle.'),
+  //           content: Text('En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.'),
   //           actions: [
   //             FilledButton(
   //               onPressed: (){
@@ -73,7 +74,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
               CustomInfomakeShowdialog.infoMake(
                 context, 
                 'Favoritas', 
-                'En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.', 
+                'En esta seccion podras ver todas las peliculas que marcaste como favoritas. Las peliculas se guardan en tu dispositivo, asi que siempre estaran disponibles incluso sin conexion. Puedes agregar o quitar una pelicula de favoritos desde su pantalla de detalle.', 
                 [
                   FilledButton(onPressed: (){
                     context.pop();
@@ -139,3 +140,4 @@ class _FavoritesEmptyView extends StatelessWidget {
     );
   }
 }
+

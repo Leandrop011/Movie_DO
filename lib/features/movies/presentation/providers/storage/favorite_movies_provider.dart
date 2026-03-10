@@ -1,8 +1,8 @@
-﻿
+
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/domain/repositories/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/storage/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/domain/repositories/repositories.dart';
+import 'package:movies_app/features/movies/presentation/providers/storage/storage.dart';
 
 //! ESTE PROVIDER PROVEE LA INFO A LA APP Y TAMBIEN POR PARTE DEL BOTON HACE CAMBIOS EN LA BASE DE DATOS Y EN LA APP
 final favoriteMoviesProvider = StateNotifierProvider(
@@ -69,3 +69,4 @@ class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>>{
   
   
 }
+

@@ -1,9 +1,11 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies_app/features/movies/presentation/providers/config/fount_provider.dart';
 
 
 //todo, WIDGET QUE SE MUESTRA MIENTRAS LA DATA SE ESTA RENDERIZANDO(UN SIMBOLO DE CARGA)
-
-class CustomFullscreenLoading extends StatelessWidget {
+class CustomFullscreenLoading extends ConsumerWidget {
   const CustomFullscreenLoading({super.key});
   
   Stream<String> getLoadingMessages(){//* construir el stream que necesita el streambuilder
@@ -12,7 +14,7 @@ class CustomFullscreenLoading extends StatelessWidget {
       'Cargando Peliculas',
       'Cargando populares',
       'Ya casi...',
-      'Esto esta tardando mas de lo esperado :(',
+      'Esto esta tardando :(',
       'Estamos trabajando en ello...',
     ];
     
@@ -22,8 +24,11 @@ class CustomFullscreenLoading extends StatelessWidget {
   } 
  
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
     final style = Theme.of(context).textTheme;
+    final fount = ref.watch(isdarckProvider).fount;
+    final size = MediaQuery.of(context).size;
 
     return Center(
       child: Column(
@@ -32,7 +37,24 @@ class CustomFullscreenLoading extends StatelessWidget {
           Text('Espere por favor', style: style.titleMedium,),
           const SizedBox(height: 20,),
 
-          const CircularProgressIndicator(strokeWidth: 2,),
+          SizedBox(
+            width: size.width * 0.2,
+            height: size.height * 0.2,
+            child: SpinPerfect(
+              duration: Duration(milliseconds: 1100),
+              infinite: true,
+              spins: 10,
+              child: Image.asset(
+                width: double.infinity,
+                height: double.infinity,
+                (fount) ?
+                'assets/loaders/loader_movie_do_white.png'
+                :
+                'assets/loaders/loader_movie_do_black.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
 
           const SizedBox(height: 10,),
 

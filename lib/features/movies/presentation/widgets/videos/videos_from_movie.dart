@@ -1,8 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/plugins/redirect_yt_plugin.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 // ! EXISTE UN PROBLEMA QUE NO SE PUEDE CONTROLAR, DEBIDO A LAS POLITICAS DE YT QUE RECIENTEMENTE
@@ -55,7 +55,7 @@ class _VideosList extends StatelessWidget {
           child: const Text('Video', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
         ),
         
-        // * Aunque tengo varios videos, sólo quiero mostrar el primero
+        // * Aunque tengo varios videos, s�lo quiero mostrar el primero
         // * SOLO MANDAMOS EL PRIMER VIDEO DE LA LIST QUE RECIBIMOS, MANDAMOS SU YOUTUBE KEY
         _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: videos.first.name, movie: movie, )
         
@@ -291,3 +291,4 @@ class _FailledVideoView extends StatelessWidget {
     );
   }
 }
+

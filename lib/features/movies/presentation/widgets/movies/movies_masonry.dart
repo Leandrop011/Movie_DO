@@ -1,7 +1,7 @@
-﻿import 'package:flutter/material.dart';
-import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:flutter/material.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:movies_app/features/movies/presentation/widgets/movies/index.dart';
+import 'package:movies_app/features/movies/presentation/widgets/movies/movies.dart';
 
 class MoviesMasonry extends StatefulWidget {
 
@@ -80,3 +80,4 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
     );
   }
 }
+

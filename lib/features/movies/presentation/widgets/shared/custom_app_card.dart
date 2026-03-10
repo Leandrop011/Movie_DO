@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/index.dart';
+import 'package:movies_app/config/theme/theme.dart';
 
 class CustomAppCard extends StatelessWidget {
   final Widget child;

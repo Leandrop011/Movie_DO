@@ -1,12 +1,12 @@
-﻿
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:movies_app/config/index.dart';
-import 'package:movies_app/features/movies/presentation/providers/index.dart';
+import 'package:movies_app/config/config.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 // ? rama etapa 06
 Future <void> main()async{ 
   Intl.defaultLocale = 'es_ES';
@@ -45,7 +45,7 @@ Future <void> main()async{
   // await NotificationsBloc.initializeFCM();
   // await LocalNotifications.initializeLocalNotifications();
   //! Inicializar base de datos de notificaciones
-  // Esto asegura que la BD estÃ© lista antes de usarla
+  // Esto asegura que la BD esté lista antes de usarla
   // await dbNotifications.select(dbNotifications.notifications).get();
   
   // FirebaseMessaging.onBackgroundMessage(firebaseMessagingTerminatedHandler);
@@ -82,11 +82,12 @@ class MyApp extends ConsumerWidget {
 
     //* Va a estar pendiente de cualquier cambio, si existe algun cambio pues redibuja
     final isdarck = ref.watch(isdarckProvider).fount;
+    final indexColor = ref.watch(themeProvider).indexTheme; 
 
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme(isdarck: isdarck, indexColor: 0).getTheme(),
+      theme: AppTheme(isdarck: isdarck, indexColor: indexColor).getTheme(),
       // builder: (context, child) => HandleNotificationInteractions(child: child!),
     );
   }
@@ -153,6 +154,7 @@ class MyApp extends ConsumerWidget {
 //     return widget.child;
 //   }
 // }
+
 
 
 

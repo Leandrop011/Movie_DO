@@ -1,8 +1,11 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
+import 'package:movies_app/features/features.dart';
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/features/movies/presentation/providers/config/fount_provider.dart';
+import 'package:go_router/go_router.dart';
 
 
 class ConfigFountScreen extends ConsumerStatefulWidget {
@@ -34,55 +37,98 @@ class _ConfigFountScreenState extends ConsumerState<ConfigFountScreen> {
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
     final fount = ref.watch(isdarckProvider).fount;
+    final colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Fondo'),
+        actions: [
+          IconButton(
+            onPressed: (){
+              CustomInfomakeShowdialog.infoMake(
+                context, 
+                'Informacion', 
+                'Esta opcion te permite cambiar el fondo de la aplicacion, puedes elegir entre un fondo oscuro o claro, simplemente tocando el boton.', 
+                [
+                  FilledButton(
+                    onPressed: (){
+                      context.pop();
+                    }, 
+                    child: Text('Ok')
+                  )
+                ], 
+                textTheme
+              );
+            }, 
+            icon: Icon(Icons.info_outline_rounded),
+          )
+        ],
       ),
-      body: SizedBox(
+      body: FadeInUp(
+        duration: Duration(milliseconds: 350),
+        curve: Curves.linear,
         child: Center(
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 450),
-            curve: Curves.elasticInOut,
-            width: widthNew,
-            height: heigthNew,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(20),
-
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-
-                Icon(
-                  Icons.brightness_6, 
-                  color: Colors.white,
-                  size: size.width * 0.1,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(10),
+            onTap: () => ref.read(isdarckProvider.notifier).setFount(!fount),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 450),
+                curve: Curves.elasticInOut,
+                width: widthNew,
+                height: heigthNew,
+                decoration: BoxDecoration(
+                  color: fount ?
+                  const Color.fromARGB(255, 45, 44, 44)
+                  :
+                  Colors.black,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    width: 0.5,
+                    color: fount ?
+                    Colors.white30
+                    :
+                    Colors.blueAccent,
+                  )
                 ),
-
-                SizedBox(height: 10,),
-
-                Switch(
-                  value: fount, 
-                  
-                  // ! EL VALUE DEL ONCHANGED YA NOS DEVUELVE EL CONTRARIO, NO ES NECESARIO EL !VALUE
-                  onChanged: (value) {
-                    ref.read(isdarckProvider.notifier).setFount(value);
-
-                    changeDimensions(size);
-                  },
-                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
                     
-                SizedBox(height: 10,),
+                    Icon(
+                      fount ?
+                      Icons.brightness_7
+                      :
+                      Icons.brightness_5,
+                      color: colorTheme.primary,
+                      size: size.width * 0.1,
+                    ),
                     
-                Text(
-                  'Cambiar\nFondo',
-                  style: textTheme.titleMedium?.copyWith(color: Colors.white,),
-                  textAlign: TextAlign.center,
+                    SizedBox(height: 10,),
+                    
+                    Switch(
+                      value: fount, 
+                      
+                      // ! EL VALUE DEL ONCHANGED YA NOS DEVUELVE EL CONTRARIO, NO ES NECESARIO EL !VALUE
+                      onChanged: (value) {
+                        ref.read(isdarckProvider.notifier).setFount(value);
+                    
+                        changeDimensions(size);
+                      },
+                    ),
+                        
+                    SizedBox(height: 10,),
+                        
+                    Text(
+                      'Cambiar\nFondo',
+                      style: textTheme.titleMedium?.copyWith(color: Colors.white,),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

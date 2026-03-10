@@ -1,9 +1,9 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
 
 import '../../providers/config/fount_provider.dart';
 
@@ -173,7 +173,7 @@ class _MovieTopView extends ConsumerWidget {
             width: double.infinity,//! DISENO RESPONSIVO
             height: double.infinity,
             
-            placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+            placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
             
             fit: BoxFit.cover,
             image: NetworkImage(
@@ -241,3 +241,4 @@ class _CustomButton extends StatelessWidget {
     );
   }
 }
+

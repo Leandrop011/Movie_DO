@@ -1,2 +1,0 @@
-﻿export 'moviedb/index.dart';
-

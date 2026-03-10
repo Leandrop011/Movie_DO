@@ -1,6 +1,6 @@
-﻿
+
 import 'package:go_router/go_router.dart';
-import 'package:movies_app/features/movies/presentation/screens/index.dart';
+import 'package:movies_app/features/movies/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/home/0',
@@ -123,3 +123,4 @@ final appRouter = GoRouter(
     //   path: '/push-details/:messageId',
     //   builder: (context, state) => DetailsScreen(pushMessageId: state.pathParameters['messageId'] ?? ''),
     // ),
+

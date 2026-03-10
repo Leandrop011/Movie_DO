@@ -1,6 +1,6 @@
-﻿//todo, como quiero que venga los origenes de datos
+//todo, como quiero que venga los origenes de datos
 
-import 'package:movies_app/features/movies/domain/entities/index.dart';
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
 
 abstract class MoviesDatasource {
   //todo, una lista de movie, la info que nos va a dar 
@@ -20,3 +20,4 @@ abstract class MoviesDatasource {
 
   Future<List<Video>> getYoutubeVideosById( int moviId );
 }
+

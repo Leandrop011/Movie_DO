@@ -1,2 +1,0 @@
-﻿export 'infrastructure/index.dart';
-

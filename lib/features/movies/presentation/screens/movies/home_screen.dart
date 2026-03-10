@@ -1,12 +1,15 @@
-﻿import 'package:flutter/material.dart';
-import 'package:movies_app/features/movies/index.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies_app/features/movies/movies.dart';
+import 'package:movies_app/features/movies/presentation/providers/config/security_provider.dart';
+import 'package:movies_app/features/movies/presentation/providers/local_auth/local_auth_providers.dart';
 //import '../../views/movies_views/home_view.dart';
 
 //todo, dotenv es para mover archivos de entorno hacia la app
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:movies_app/config/constants/environment.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
 
   static const String name = 'home_screen';
   final int pageIndex;//* ESTO SE LO EDFINE EN EL ROUTER
@@ -17,11 +20,11 @@ class HomeScreen extends StatefulWidget {
   });
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
 //* Este Mixin es necesario para mantener el estado en el PageView
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
+class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAliveClientMixin {
   
   late final PageController pageController;
 
@@ -65,16 +68,49 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   Widget build(BuildContext context) {
     super.build(context);
 
+    final authAprove = ref.watch(localAuthProvider).didAuthenticate;
+    final securityActive = ref.watch(securityProvider).activeSecurity;
+
+    // if(securityAprove == true){
+    //   Center(); 
+    // }
+
     return Scaffold(
       extendBody: true, //? PARA COLOCAR EL BOTTOMNAVIGATIONBAR ENCIMA DE TODO1, COMO QUE SE EXTIENDE
-      body: PageView(
+      // ? SI LA SEGURIDAD ESTA ACTIVA, PRIMERO HACE LAS CONSIDERACIONES, DE APROVADO O NO
+      // ? SI NO ESTA ACTIVA MUESTRA LA APP NORMAL
+      body:  (securityActive == true) ? 
+        // ? SI LA SEGURIDAD ESTA ACTIVA, PRIMERO VERIFICA SI ESTA APROVADO PARA VER QUE SE MUESTRA
+        (authAprove == true) ?
+        // * APROVADO: MUESTRA LA APP
+        PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: pageController, //* este es el controller que da la animacion cuando se cambia de view
+          children: viewRoutes
+        )
+        // * NO APROVADO: MUESTRA LA PANTALLA DE VERIFICARSE
+        :
+        SecurityScreen()
+      :
+      PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController, //* este es el controller que da la animacion cuando se cambia de view
-        children: viewRoutes,
+        children: viewRoutes
       ),
+      
 
-    
-      bottomNavigationBar: CustomBottomNavigationbar(currentIndex: widget.pageIndex,),
+      // ? HAY QUE PRIMERO HACER UNA CONSIDERACION LUEGO OTRA AUTH AND SECURITY 2 TERNARIOS
+      // ? PRIMERO SI ESTA ACTIVA LA SEGURIDAD Y HACE SUS CONSIDERACIONES
+      bottomNavigationBar: (securityActive == true) ?
+        // ? SI ESTA APROVADO MUESTRA EL BOTTOM, SINO NADA
+        (authAprove == true) ?
+        CustomBottomNavigationbar(currentIndex: widget.pageIndex,)
+        :
+        null
+      :
+      // ? PERO SI NO ESTA ACTIVA LA SEGURIDAD SIMPLEMENTE MUESTRA EL BOTTOM 
+      CustomBottomNavigationbar(currentIndex: widget.pageIndex,),
+      
 
       // drawer: NavigationDrawer(),
     );
@@ -83,3 +119,4 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   @override
   bool get wantKeepAlive => true;
 }
+

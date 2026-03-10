@@ -1,4 +1,4 @@
-﻿import 'package:movies_app/features/shared/infrastructure/services/index.dart';
+import 'package:movies_app/features/shared/infrastructure/services/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ! SIEMPRE SON METODOS SET PAR AGUARDARLO MIENTRAS LA APP CORRE, PARA ESTABLECER VALOR
@@ -25,3 +25,4 @@ class FountValueStorageServiceImpl extends FountValueStorageService {
   }
   
 }
+

@@ -1,6 +1,6 @@
-﻿
+
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:movies_app/features/shared/infrastructure/services/index.dart';
+import 'package:movies_app/features/shared/infrastructure/services/services.dart';
 
 // ! PROVIDER
 final isdarckProvider = StateNotifierProvider.autoDispose<FountNotifier, FountState>((ref) {
@@ -54,3 +54,4 @@ class FountState{
     fount: fount ?? this.fount
   );
 }
+

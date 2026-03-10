@@ -1,7 +1,7 @@
-﻿
 
-import 'package:movies_app/features/movies/domain/entities/index.dart';
-import 'package:movies_app/features/movies/infrastructure/models/moviedb/index.dart';
+
+import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb.dart';
 
 class VideoMapper {
 
@@ -14,3 +14,4 @@ class VideoMapper {
 
 
 }
+
