@@ -6,3 +6,4 @@ export 'movies_repository_provider.dart';
 export 'movies_slideshow_proivder.dart';
 export 'visibility_movies_provider.dart';
 export 'movie_video_provider.dart';
+export 'tutorial_movies_provider.dart';

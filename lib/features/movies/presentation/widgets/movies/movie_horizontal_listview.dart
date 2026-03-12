@@ -72,14 +72,15 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
       // size.height * 0.49,
       child: Column(
         children: [
+          
 
-          //todo, el 'encabezado'
-          if(widget.title != null || widget.subTitle != null)//todo, solo renderiza si es diferente de null lo renderiza
+          // ? el 'encabezado'
+          if(widget.title != null || widget.subTitle != null)// ? solo renderiza si es diferente de null lo renderiza
           _Tittle(title: widget.title, subTittle: widget.subTitle,),
 
-          //todo, el listado de peliculas
+          // ? el listado de peliculas
 
-          Expanded(//todo, porque necesito un tamano especifico para ellistView
+          Expanded(// ? porque necesito un tamano especifico para ellistView
             child: ListView.builder(
               controller: scrollController,
               itemCount: widget.movies.length,
@@ -103,7 +104,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
   }
 }
 
-//todo, encabezado que dice en cines y fecha
+// * Encabezado que dice en cines y fecha
 class _Tittle extends StatelessWidget {
   final String? title;
   final String? subTittle;
@@ -123,6 +124,10 @@ class _Tittle extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10,),
       child: Row(
         children: [
+
+          Icon(Icons.label),
+
+          SizedBox(width: 5,),
 
           if(title != null)//todo, una condicion para segurarse que no sea null
             Text(title!, style: tittleStyle?.copyWith(fontSize: size.width * 0.055,),),
@@ -144,7 +149,7 @@ class _Tittle extends StatelessWidget {
   }
 }
 
-//todo, la cajita de las peliculas //* diseno
+// * La cajita de las peliculas //* diseno
 class _Slide extends ConsumerWidget {
   final Movie movie;
 

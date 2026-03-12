@@ -55,7 +55,7 @@ class _VideosList extends StatelessWidget {
           child: const Text('Video', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
         ),
         
-        // * Aunque tengo varios videos, sólo quiero mostrar el primero
+        // * Aunque tengo varios videos, sï¿½lo quiero mostrar el primero
         // * SOLO MANDAMOS EL PRIMER VIDEO DE LA LIST QUE RECIBIMOS, MANDAMOS SU YOUTUBE KEY
         _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: videos.first.name, movie: movie, )
         
@@ -106,6 +106,7 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
           forceHD: false, //? para determinar si coloca la maxima calidad o se ajusta a su wifi
           enableCaption: false, //? para los subtitulos
           hideControls: false, //?Para activar o no los controles
+          
         ),
         
         //? el listener esta constantemente escuchando los cambios
@@ -144,6 +145,7 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    final colorTheme = Theme.of(context).colorScheme;
 
     // ? ESTO SE MOSTRARA CUANDO EL LISTTENER DEL CONTROLLER DETECTE EN SU CAMBIO 
     // ? QUE EXISTE UN ERROR PUES REDIBUJA ESTO
@@ -167,7 +169,14 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
           // * VIDEO EN YT CON CONTROLLER 
           (start == true) ?
           YoutubePlayer(
+            progressIndicatorColor: colorTheme.primary,
             controller: _controller,
+            // ? LOS CONTROLES QUE ESTARAN DISPONIBLES EN EL VIDEO
+            bottomActions: [
+              CurrentPosition(),
+              ProgressBar(isExpanded: true),
+              // TotalDuration(),
+            ],
             showVideoProgressIndicator: true,
           )
           :

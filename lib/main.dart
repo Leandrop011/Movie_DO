@@ -74,11 +74,25 @@ Future <void> main()async{
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+
+  // Key _appKey = UniqueKey();
+
+// void reiniciar(){
+//   setState(() {
+//     _appKey = UniqueKey();
+//   });
+// }
+
+  @override
+  Widget build(BuildContext context) {
 
     //* Va a estar pendiente de cualquier cambio, si existe algun cambio pues redibuja
     final isdarck = ref.watch(isdarckProvider).fount;
@@ -92,70 +106,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-  
- 
-// //! 9. Noveno Paso Implementar Navegacion desde estado notification Background o Terminated
-// //! Navegue hacia los detalles de la notification
-// //! Metodo para cuando se pulse una notificcacion en estado Background navegue hacia los details
-// class HandleNotificationInteractions extends StatefulWidget {
-  
-//   final Widget child;
-//   const HandleNotificationInteractions({super.key, required this.child});
-
-//   @override
-//   State<HandleNotificationInteractions> createState() => _HandleNotificationInteractionsState();
-// }
-
-// class _HandleNotificationInteractionsState extends State<HandleNotificationInteractions> {
-
-//   Future<void> setupInteractedMessage() async {
-//     // Get any messages which caused the application to open from
-//     // a terminated state.
-//     RemoteMessage? initialMessage =
-//         await FirebaseMessaging.instance.getInitialMessage();
-
-//     // If the message also contains a data property with a "type" of "chat",
-//     // navigate to a chat screen
-//     if (initialMessage != null) {
-//       _handleMessage(initialMessage);
-//     }
-
-//     // Also handle any interaction when the app is in the background via a
-//     // Stream listener
-//     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-//   }
-  
-//   void _handleMessage(RemoteMessage message) {
-//     context.read<NotificationsBloc>().handleRemoteMessage(message);
-//     final messageId = message.messageId?.replaceAll(':', '').replaceAll('%', '');
-
-//     //* Para que navegue mas rapido con la instancia del app router
-//     appRouter.push('/push-details/$messageId');
-
-//     // if (message.data['type'] == 'chat') {
-//     //   Navigator.pushNamed(context, '/chat', 
-//     //     arguments: ChatArguments(message),
-//     //   );
-//     // }
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     // Run code required to handle interacted messages in an async function
-//     // as initState() must not be async
-//     setupInteractedMessage();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return widget.child;
-//   }
-// }
-
-
-
-
-

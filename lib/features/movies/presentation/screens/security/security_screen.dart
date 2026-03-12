@@ -50,7 +50,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
             const Color.fromARGB(255, 122, 121, 121),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              width: 1,
+              width: 0.5,
               color: fount ?
               Colors.white
               :
@@ -62,7 +62,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-          
+                // * IMAGEN
                 SizedBox( 
                   width: size.width * 0.7,
                   height: size.height * 0.4,
@@ -78,12 +78,27 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
                   ),
                 ),
           
+                Divider(
+                  indent: 25,
+                  endIndent: 25,
+                  thickness: 2,
+                  radius: BorderRadius.circular(20),
+                  color: fount ? 
+                  Colors.white
+                  :
+                  Colors.black,
+
+                ),
+
+                // * TEXTO EXPLICATIVO
                 Text(
                   'Autenticacion\nNecesaria',
                   style: textTheme.titleLarge?.copyWith(fontSize: size.width * 0.06, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 10,),
+
+                // * BOTON QUE EJECUTA EL PROCESO DE AUTENTICACION
                 FilledButton.tonal(
                   
                   style: ButtonStyle(
@@ -91,6 +106,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
                       RoundedRectangleBorder(
                         borderRadius: BorderRadiusGeometry.circular(10),
                       ),
+                      
                     ),
                   ),
           

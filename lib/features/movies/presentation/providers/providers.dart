@@ -5,3 +5,4 @@ export 'movies/movies.dart';
 export 'search/search.dart';
 export 'storage/storage.dart';
 export 'local_auth/local_auth_providers.dart';
+

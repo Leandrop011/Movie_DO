@@ -38,7 +38,7 @@ class CustomFullscreenLoading extends ConsumerWidget {
           const SizedBox(height: 20,),
 
           SizedBox(
-            width: size.width * 0.2,
+            width: size.width * 0.3,
             height: size.height * 0.2,
             child: SpinPerfect(
               duration: Duration(milliseconds: 1100),

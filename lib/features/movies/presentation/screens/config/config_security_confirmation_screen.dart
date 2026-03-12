@@ -46,6 +46,7 @@ class ConfigSecurityScreen extends StatelessWidget {
 class _BodyView extends ConsumerStatefulWidget {
 
   final TextTheme textTheme;
+  
 
   const _BodyView({required this.textTheme});
 
@@ -77,6 +78,8 @@ class BodyViewState extends ConsumerState<_BodyView> {
     final colorTheme = Theme.of(context).colorScheme;
     final securityValue = ref.watch(securityProvider).activeSecurity;
     final fountApp = ref.watch(isdarckProvider).fount;
+    // ? VAR ES UN TIPO DE VARIABLE QUE PUEDE CAMBIAR EN CUALQUIER MOMENTO
+    // late var authAprove = ref.watch(securityProvider).activeSecurity;
 
     return Center(
       child: InkWell(
@@ -84,7 +87,13 @@ class BodyViewState extends ConsumerState<_BodyView> {
         onTap: (){
           ref.read(securityProvider.notifier).setSecurity(!securityValue);
 
+          ref.read( localAuthProvider ).copyWith(didAuthenticate: true, status: LocalAuthStatus.authenticated);
+
           changeDimensions(size);
+
+          // if(securityValue == false){
+          //   RestartWidget.restartApp(context);
+          // }
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -126,7 +135,21 @@ class BodyViewState extends ConsumerState<_BodyView> {
                   onChanged: (value) {
                     ref.read(securityProvider.notifier).setSecurity(value);
 
+                    // ? ESTO ES UN INGENIO QUE REALIZAMOS PARA QUE CADA QUE ACTIVA LA SEGURIDAD CON BIOMETRICOS
+                    // ? EL USUARIO, Y VUELVE A LAS VIEWS MUESTRE YA AUTENTICADO Y NO SEA NECESARIO AUTENTICAR CUANDO ESTE EN LA APP
+                    // ? ANTERIORMENTE EXISTIA UN 'BUG' SI SALIAS Y TE AUTENTICABAS EL BOTTOM MARCABA AJUSTES PERO ESTABA EN INICIO
+                    // ? ENTONCES CON ESTO SOLUCIONAMOS ESE PROBLEMA
+                    ref.read(localAuthProvider).copyWith(didAuthenticate: true, status: LocalAuthStatus.authenticated);
+
+                    // widget.reiniciar();
+                    // context.pop();
+                    
+
                     changeDimensions(size);
+                    
+                    // if(securityValue == fal){
+                    //   RestartWidget.restartApp(context);
+                    // }
                   },
                 )
               ],

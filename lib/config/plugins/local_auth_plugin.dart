@@ -40,7 +40,7 @@ class LocalAuthPlugin {
       // ? AUTENTICACION
       final bool didAuthenticate = await auth.authenticate(
         // ? mensaje que indica al user
-        localizedReason: 'Por favor autenticate para continuar.',
+        localizedReason: 'Por favor autenticate para acceder.',
         // ? el biometric only lo recibimos opcional,
         //? por si otros devs quieres acceder a esto pero no tienen acceso al plugin o al provider
         biometricOnly: biometricOnly //* solo permitir el biometrico, nada de pin registrado

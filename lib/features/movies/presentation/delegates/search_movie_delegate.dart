@@ -219,8 +219,8 @@ class _MovieItem extends ConsumerWidget {
                     color: const Color.fromARGB(255, 111, 107, 107),
                     blurRadius: 5,
                     offset: Offset(2, 4)
-                  )
-                ]
+                  ),
+                ],
               ),
               
               child: Row(
@@ -237,20 +237,17 @@ class _MovieItem extends ConsumerWidget {
                         width: double.infinity,
                         height: double.infinity,
 
-                        placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+                        placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
 
                         fit: BoxFit.cover,
 
                         image: NetworkImage(
                         movie.posterPath,
                       ),
-                      ) 
-                      
+                      ),
                     ),
                   ),
-
                   const SizedBox(width: 10,),
-              
                   //* Descripcion
                   SizedBox(
                     //! AQUI ES EL TAMANO MAXIMO DE EL OVERVIEW(LO REDUCIMOS TENEMOS MAS ESPACIO)
@@ -276,15 +273,15 @@ class _MovieItem extends ConsumerWidget {
                             Text(
                               NumberFormat('###.##').format(movie.voteAverage),
                               style: textStyle.bodyMedium!.copyWith(color: Colors.yellow.shade800),
-                            )
+                            ),
                       
                           ],
-                        )
+                        ),
               
               
                       ],
                     ),
-                  )
+                  ),
               
                 ],
               ),
