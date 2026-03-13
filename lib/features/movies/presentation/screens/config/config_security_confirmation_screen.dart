@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:movies_app/features/movies/presentation/presentation.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
@@ -85,6 +86,9 @@ class BodyViewState extends ConsumerState<_BodyView> {
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
         onTap: (){
+
+          HapticFeedback.heavyImpact();
+
           ref.read(securityProvider.notifier).setSecurity(!securityValue);
 
           ref.read( localAuthProvider ).copyWith(didAuthenticate: true, status: LocalAuthStatus.authenticated);
@@ -133,6 +137,9 @@ class BodyViewState extends ConsumerState<_BodyView> {
                 Switch(
                   value: securityValue, 
                   onChanged: (value) {
+
+                    HapticFeedback.heavyImpact();
+
                     ref.read(securityProvider.notifier).setSecurity(value);
 
                     // ? ESTO ES UN INGENIO QUE REALIZAMOS PARA QUE CADA QUE ACTIVA LA SEGURIDAD CON BIOMETRICOS

@@ -1,4 +1,4 @@
-//todo, reglas de negocio
+//! ENTIDAD MOVIE
 class Movie {
   final bool adult;
   final String backdropPath;

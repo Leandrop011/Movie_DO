@@ -146,6 +146,7 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
 
     final size = MediaQuery.of(context).size;
     final colorTheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     // ? ESTO SE MOSTRARA CUANDO EL LISTTENER DEL CONTROLLER DETECTE EN SU CAMBIO 
     // ? QUE EXISTE UN ERROR PUES REDIBUJA ESTO
@@ -164,7 +165,10 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
           // * NOMBRE DEL VIDEO EN YT
           Padding(
             padding: const EdgeInsets.only(left: 3, bottom: 5),
-            child: Text(widget.name),
+            child: Text(
+              widget.name,
+              style: textTheme.titleMedium?.copyWith(fontSize: 15),
+            ),
           ),
           // * VIDEO EN YT CON CONTROLLER 
           (start == true) ?

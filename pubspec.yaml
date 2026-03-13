@@ -109,6 +109,7 @@ flutter:
     - assets/speedometer.webp
     - assets/loaders/bottle-loader.gif
     - assets/sounds/bambu_1.mp3
+    - assets/sounds/favorites_03.mp3
     - assets/sounds/mixkit-select-click-1109.mp3
     - assets/loaders/loader_02.gif
     - assets/loaders/loader_03.gif

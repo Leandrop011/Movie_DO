@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
+import 'package:movies_app/config/config.dart';
 
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
@@ -169,14 +169,19 @@ class _Slide extends ConsumerWidget {
 
     return SizedBox(//! PARA DISENO RESPONSIVO Y QUE MAXIMO OCUPE ESE ESPACIO
       width: size.width * 0.4,
-      height: size.height * 0.5,
+      // height: size.height * 0.5,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
           //context.push('/movie/${movie.id}'); //! Esta ruta ya no existe porque se cambio el router
           //! Antes solo era /movie/${movie.id} porque la direccion raiz era /, ahora es home
-          onTap: () => context.push('/home/0/movie/${movie.id}'),//* Por ser el hijo se une el home 0( la pagina 1), con el hijo movie id
+          onTap: () {
+            // ? PARA QUE EL TELEFONO DE UNA PEQUENA VIBRACION CADA QUE SE HACE EL ONTAP
+            // HapticFeedback.lightImpact();
+
+            context.push('/home/0/movie/${movie.id}');
+          },//* Por ser el hijo se une el home 0( la pagina 1), con el hijo movie id
           
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +190,7 @@ class _Slide extends ConsumerWidget {
               SizedBox(
                 width: double.infinity,//* LO MAXIMO QUE PUEDA OCUPAR
                 child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(20),
+                  borderRadius: BorderRadiusGeometry.circular(10),
                   child: FadeInImage(
                     height: size.height * 0.31,
                     fit: BoxFit.cover,
@@ -204,11 +209,11 @@ class _Slide extends ConsumerWidget {
               //* Titulo
           
               SizedBox(
-                width: 150,
-                height: size.height * 0.03,
+                // width: 150,
+                // height: size.height * 0.03,
                 child: Text(
                   movie.title,
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: textStyle.titleSmall,
                 ),
@@ -218,17 +223,16 @@ class _Slide extends ConsumerWidget {
       
               SizedBox(//todo, para que tenga un limite 
                 width: size.width * 0.35,
-                height: size.height * 0.03,
+                // height: size.height * 0.03,
                 child: Row(
                 
                   children: [
                     Icon(Icons.star_half_outlined, color: Colors.yellow.shade800,),
                     const SizedBox(width: 3,),
-                    Text(NumberFormat('###.#').format(movie.voteAverage), style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
+                    Text(movie.voteAverage.toStringAsFixed(2), style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
                     const Spacer(),
-                    //todo, solucionar problema de no transformacion correcta del numero
-                    // ? concatenamos el valor con una M,
-                    Text('${NumberFormat('###.#').format(movie.popularity)} M', style: textStyle.bodySmall,),
+  
+                    Text(HumanFormats.number(movie.popularity.toDouble()), style: textStyle.bodySmall,),
                     // const Spacer(),
                   ],
                 ),

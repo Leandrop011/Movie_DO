@@ -69,7 +69,7 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
                 end: Alignment.bottomRight,
                 colors: [
                   colors.primary.withOpacity(glassOpacity),
-                  colors.primary.withOpacity(glassOpacity * 0.6),
+                  colors.primary.withOpacity(glassOpacity * 0.7),
                 ],
                 
               ),

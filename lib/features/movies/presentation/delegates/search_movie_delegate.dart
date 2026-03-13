@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -128,6 +129,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
           return FadeIn(
               child: IconButton(
                 onPressed: (){
+                  HapticFeedback.lightImpact();
                   query = '';//* establaecerle al texto que tiene(query) un string vacio 
                 }, 
                 icon: Icon(Icons.clear),

@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:movies_app/features/features.dart';
 import 'dart:math';
@@ -70,7 +71,10 @@ class _ConfigFountScreenState extends ConsumerState<ConfigFountScreen> {
         child: Center(
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
-            onTap: () => ref.read(isdarckProvider.notifier).setFount(!fount),
+            onTap: () {
+              HapticFeedback.lightImpact();
+              ref.read(isdarckProvider.notifier).setFount(!fount);
+            },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: AnimatedContainer(
@@ -80,9 +84,9 @@ class _ConfigFountScreenState extends ConsumerState<ConfigFountScreen> {
                 height: heigthNew,
                 decoration: BoxDecoration(
                   color: fount ?
-                  const Color.fromARGB(255, 45, 44, 44)
+                  Colors.white30
                   :
-                  Colors.black,
+                  Colors.black87,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     width: 0.5,
@@ -113,6 +117,8 @@ class _ConfigFountScreenState extends ConsumerState<ConfigFountScreen> {
                       
                       // ! EL VALUE DEL ONCHANGED YA NOS DEVUELVE EL CONTRARIO, NO ES NECESARIO EL !VALUE
                       onChanged: (value) {
+                        HapticFeedback.lightImpact();
+
                         ref.read(isdarckProvider.notifier).setFount(value);
                     
                         changeDimensions(size);

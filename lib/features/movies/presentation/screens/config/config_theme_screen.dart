@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:movies_app/features/movies/presentation/widgets/widgets.dart';
 import 'package:movies_app/config/theme/theme.dart';
@@ -129,7 +130,9 @@ class _CardView extends ConsumerWidget {
             // ? AQUI CAD AQUE PULSE UN RADIO, HACE UN CAMBIO Y LOS WIDGETS POR EL PROVIDER, HACEN SUS 
             // ? CONSIDERACIONES Y SE REDIBUJAN
             onChanged: (value) {
-              // ? pasamos el index porque es el que siempre lo vamos a tener
+              HapticFeedback.lightImpact();
+
+              // ? pasamos el index del list, y ese es al tema que cambiara
               ref.read(themeProvider.notifier).setTheme(index);
             },
           ),

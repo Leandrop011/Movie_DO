@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/presentation/delegates/delegates.dart';
@@ -116,6 +117,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
             expandedHeight: size.height * 0.08, 
             title: 'Movie DO',
             actions: [
+              // ? BOTON QUE BUSCA PELICULAS
               FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: isDarck ?
@@ -129,6 +131,9 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                 onPressed: (){
                   final searchedMovies = ref.read(searchedMoviesProvider);
                   final searchQuery = ref.read(searchQueryProvider);
+
+                  // ? Vibracion pequena
+                  HapticFeedback.lightImpact();
       
                   showSearch<Movie?>(
                     context: context, 
@@ -169,6 +174,9 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                     )
                   ),
                   onPressed: (){
+
+                    HapticFeedback.lightImpact();
+
                     ref.read(isdarckProvider.notifier).setFount(!isDarck);
                   }, 
                   child: isDarck ?
@@ -179,6 +187,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
               )
             
             ],
+
             leading: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Icon(
@@ -252,7 +261,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                       },
                     ),
 
-                    SizedBox(height: size.height * 0.03,)
+                    SizedBox(height: size.height * 0.05,)
                   ],
                 );
               },

@@ -81,7 +81,7 @@ class _CategoriesViewState extends ConsumerState<CategoriesView> with AutomaticK
             )
           )
         ],
-        blurIntensity: 10, 
+        blurIntensity: 50, 
       ),
       // appBar: AppBar(
       //   title: Text('POPULARES', style: style.titleLarge,),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movies_app/features/features.dart';
 // import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
@@ -169,26 +170,10 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
         if(_showTrailer == true)//? solo cuando se cumpla los 1 segundos esto sera true
           VideosFromMovie(movie: widget.movie,),
         
-        Padding(//* GENEROS DE LA MOVIE
-          padding: const EdgeInsets.all(8),
-          child: SizedBox(
-            width: double.infinity,
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              alignment: WrapAlignment.center,
-              
-              children: [
-                ...widget.movie.genreIds.map((gender) => Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  child: Chip(
-                    label: Text(gender),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
-                ))
-              ],
-            ),
-          ),
-        ),
+        _Genders(widget: widget),
+
+        // * TITULO DE LOS ACTORES
+        _TitleCast(textTheme: textStyle, size: size, movieId: widget.movie.id.toString(),),
         
         //* ACTORES DE LA MOVIE
         _ActorsByMovie(movieId: widget.movie.id.toString()),
@@ -202,6 +187,39 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
         // const SizedBox(height: 20),
         
       ],
+    );
+  }
+}
+
+// * GENEROS DE LA PELICULA
+class _Genders extends StatelessWidget {
+  final _MovieDetails widget;
+  const _Genders({
+    required this.widget,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(//* GENEROS DE LA MOVIE
+      padding: const EdgeInsets.all(8),
+      child: SizedBox(
+        width: double.infinity,
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.center,
+          
+          children: widget.movie.genreIds.map(
+            (gender) => Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: Chip(
+                label: Text(gender),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            )
+          ).toList(),
+        ),
+      ),
     );
   }
 }
@@ -253,18 +271,16 @@ class _ElementsInDetails extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                
                 ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(10),
-                  child: Image.network(
+                  child: FadeInImage(
+                    image: NetworkImage(
+                      movie.posterPath
+                    ),
+                    placeholder: AssetImage('assets/loaders/movie_do-loader.gif'),
                     width: size.width * 0.3,
-                    movie.posterPath,
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if(loadingProgress != null){
-                        return Center(child: CircularProgressIndicator(),);
-                      }
-                      return child;
-                    },
                   ),
                 ),
                 
@@ -304,7 +320,7 @@ class _ElementsInDetails extends StatelessWidget {
                           children: [
                             Icon(Icons.star_half_rounded, color: Colors.yellow.shade900,),
                             const SizedBox(width: 5,),
-                            Text('${movie.voteAverage}', style: TextStyle(color: Colors.yellow.shade900),),
+                            Text(movie.voteAverage.toStringAsFixed(2), style: TextStyle(color: Colors.yellow.shade900),),
                             
                           ],
                         ),
@@ -484,6 +500,46 @@ class _MovieSimilarView extends StatelessWidget {
 }
 
 
+// * TITULO QUE DICE 'ELENCO'
+class _TitleCast extends ConsumerWidget {
+  final TextTheme textTheme; 
+  final String movieId;
+  final Size size;
+
+  const _TitleCast({
+    required this.textTheme, 
+    required this.movieId, 
+    required this.size
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    // ? OBTENEMOS EL VALOR QUE DA EL PROVIDER, EL MAP
+    final actorsById = ref.watch( actorsByMovieProvider );
+    // ? HACEMOS LA TRANSFORMACION DE MAP A LIST, SEGUN EL ID, OBTENEMOS ESOS ACTORS
+    // ? LE DECIMOS QUE ME DE TODOS LOS OBJETOS CON ESE ID DE LA MOVIE
+    final actors = actorsById[movieId] ?? [];
+ 
+    if(actors.isEmpty){
+      return SizedBox();
+    }
+
+    return Row(
+      children: [
+        SizedBox(width: 10,),
+
+        Icon(Icons.person_2, size: size.width * 0.07,),
+
+        SizedBox(width: 5,),
+        Text(
+          'Elenco',
+          style: textTheme.bodySmall?.copyWith(fontSize: 23),
+        ),
+      ],
+    );
+  }
+}
 
 //* ACTORES DE LA PELICULA
 class _ActorsByMovie extends ConsumerWidget {
@@ -554,7 +610,7 @@ class _ActorView extends StatelessWidget {
                   child: FadeInImage(
                     width: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN 
                     height: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN
-                    placeholder: AssetImage('assets/loaders/bottle-loader.gif'), 
+                    placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
                     
                     fit: BoxFit.cover,
                     
@@ -612,8 +668,8 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
   //! UNA FUNCION FUTURA Y TERMINAR EL VALOR CON EL DISPOSE 
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> reproducirSonido() async{
-    await _audioPlayer.setVolume(0.2);//* REGULAR EL VOLUMEN 1 MAXIMO
-    await _audioPlayer.play(AssetSource('sounds/mixkit-select-click-1109.mp3'));
+    await _audioPlayer.setVolume(0.3);//* REGULAR EL VOLUMEN 1 MAXIMO
+    await _audioPlayer.play(AssetSource('sounds/favorites_03.mp3'));
   }
 
   @override
@@ -638,6 +694,8 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
     return SliverAppBar(
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
+
+      
       leading: IconButton(
         onPressed: (){
           //* Es distinto de como apilar y desapilar con el push y pop, este coloca y ya no apila
@@ -655,6 +713,9 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
             iconActive: Icons.share,
             iconNotActive: Icons.share_outlined,
             onPressed: () {
+
+              HapticFeedback.lightImpact();
+
               SharePlugin.shareLink(
                 'https://moviedo.up.railway.app/home/0/movie/${widget.movie.id}', 
                 'Mira esta Pelicula'
@@ -675,6 +736,10 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
             iconActive: Icons.favorite,
             iconNotActive: Icons.favorite_border_rounded,
             onPressed: () async{
+
+              // ? PARA DAR UNA PEQUENA VIBRACION AL PULSAR
+              HapticFeedback.lightImpact();
+
               await ref.read(favoriteMoviesProvider.notifier).toggleFavoriteMovie(widget.movie);
               ref.invalidate(isFavoriteMovieProvider(widget.movie.id));
               final isFav = isFavoriteFuture.value ?? false;//* Obtenemos el valor
@@ -687,6 +752,7 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
                 // ignore: use_build_context_synchronously
                 CustomSnackBar.snackBar(context, isDarck, 'Se agrego a tus Favoritas');
               }
+              // * SONIDO AL PULSAR
               reproducirSonido();
             },
             child:  isFavoriteFuture.when(
@@ -717,29 +783,10 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
             )
           )      
       ],
-        // IconButton(
-        //   //!SOLO SI SE PRESIONA ESE BOTON SE HACEN LOS CAMBIOS EN EL PROVIDER
-        //   onPressed: () async{//!ESTE ASYN ES MUY IMPORTANTA PARA EL AWAIT 
-        //     //* AQUI LEEMOS Y PODEMOS ACTUALIZAR AGREGAR O REMOVER DE FAVORITOS A UNA MOVIE Y TAMBIEN LOS CAMBIOS EN LA BASE DE DATOS
-        //     //* LE MANDAMOS ESA PELICULA Y AHI HACE LA CONSULTA CON LA BASE DE DATOS Y DECICE SI REMOVER O AGREGAR
-        //     await ref.read(favoriteMoviesProvider.notifier).toggleFavoriteMovie(movie);
-        //     ref.invalidate(isFavoriteMovieProvider(movie.id));//* ESTO ES PARA INVALIDAR AL PROVIDER Y ASI CAMBIE EL ICONO(ASI CONSULTA A LA BASE DE DATOS OTRA VEZ)
-        //   },
-        //   //* EL FUTURE DEL PROVIDERFUTURE NOS AYUDA MUCHO PORQUE NOS DEJA TENER LOS 3 ESTADOS
-        //   icon: isFavoriteFuture.when(
-        //     data: (isFavorite) => isFavorite == true ?
-        //     Icon(Icons.favorite, color: Colors.red,)
-        //     :
-        //     Icon(Icons.favorite_outline_rounded),
-        //     error: (_, __) => throw Exception("Error al cargar el estado de favoritos"), 
-        //     loading: () => Center(
-        //       child: CircularProgressIndicator(strokeWidth: 4,)
-        //     )
-        //   ), 
-        // )
 
       expandedHeight: size.height * 0.7,
 
+      // ? IMAGEN
       flexibleSpace: FlexibleSpaceBar(//*contenido
         //* contenido
         background: _ContentSilverAppBar(movie: widget.movie),
@@ -780,15 +827,12 @@ class _ContentSilverAppBar extends StatelessWidget {
           child: ClipRRect(
             child: SizedBox.expand(
              
-              child: Image.network(
-                movie.posterPath,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if(loadingProgress != null){
-                    return Center(child: CircularProgressIndicator(),);
-                  }
-                  return child;
-                },
+              child: FadeInImage(
+                placeholder: AssetImage('assets/loaders/movie_do-loader.gif'),
+                fit: BoxFit.cover, 
+                image: NetworkImage(
+                  movie.posterPath,
+                ),
               ),
             ),
           ),
@@ -821,6 +865,8 @@ class _ContentSilverAppBar extends StatelessWidget {
     );
   }
 }
+
+
 
 
 
