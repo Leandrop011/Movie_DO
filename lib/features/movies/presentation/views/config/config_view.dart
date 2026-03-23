@@ -124,59 +124,56 @@ class _BodyView extends ConsumerWidget {
 
     return SliverPadding(
       padding: EdgeInsetsGeometry.symmetric(vertical: 10),
-      sliver: SliverLayoutBuilder(
-        builder: (context, constraints) {
-          return SliverGrid.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 1.05,
-
-            // ! SEGUN EL VALOR DE QUE SI ES POSIBLE LEER O EL DISPOSITIVO ES CAPAZ POR LA PARTE DEL HARDWARE, DE LEER BIOMETRICOS
-            // ! SEGUN ESO DEVOLVERA SOLO UNO DE LOS MAPS, SI TIENE PUES DEVUELVE EL MAP CON 3 ELEMENTOS, SI NO TIENE BIOMETRICOS O 
-            // ! NO TIENE LA CAPACIDAD DE HARDWARE PUES DEVUELVE UN MAP SOLO CON 2 ELEMEENTOS SIN LA POSIBILIDAD DE AGREGAR SEGURIDAD
-            children: existBiometrics.when(
-              data: (existValue) => existValue ?
-               itemsWithBiometrics.map(
-                (item) => FadeInDown(
-                  duration: const Duration(seconds: 1),
-                  curve: Curves.elasticInOut,
-                  child: _CardView(
-                    title: item.title,
-                    icon: item.icon,
-                    route: item.route,
-                  ),
-                ),
-              ).toList()
-              :
-              itemsWithOutBiometrics.map(
-                (item) => FadeInDown(
-                  duration: const Duration(seconds: 1),
-                  curve: Curves.elasticInOut,
-                  child: _CardView(
-                    title: item.title,
-                    icon: item.icon,
-                    route: item.route,
-                  ),
-                ),
-              ).toList(),
-              error: (error, stackTrace) => [Text('Error: $error')], 
-              loading: () => [CircularProgressIndicator()],
-            ),
+      //* NO USAMOS EL LAYOUT SLIVER PORQUE NO ESTAMOS MOSTRANDO OBJETOS SEGUN EL TAMANO
+      sliver: SliverGrid.count(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 1.05,
       
-            // children: itemsWithBiometrics.map(
-            //   (item) => FadeInDown(
-            //     duration: const Duration(seconds: 1),
-            //     curve: Curves.elasticInOut,
-            //     child: _CardView(
-            //       title: item.title,
-            //       icon: item.icon,
-            //       route: item.route,
-            //     ),
-            //   ),
-            // ).toList(),
-          );
-        },
+        // ! SEGUN EL VALOR DE QUE SI ES POSIBLE LEER O EL DISPOSITIVO ES CAPAZ POR LA PARTE DEL HARDWARE, DE LEER BIOMETRICOS
+        // ! SEGUN ESO DEVOLVERA SOLO UNO DE LOS MAPS, SI TIENE PUES DEVUELVE EL MAP CON 3 ELEMENTOS, SI NO TIENE BIOMETRICOS O 
+        // ! NO TIENE LA CAPACIDAD DE HARDWARE PUES DEVUELVE UN MAP SOLO CON 2 ELEMEENTOS SIN LA POSIBILIDAD DE AGREGAR SEGURIDAD
+        children: existBiometrics.when(
+          data: (existValue) => existValue ?
+           itemsWithBiometrics.map(
+            (item) => FadeInDown(
+              duration: const Duration(seconds: 1),
+              curve: Curves.elasticInOut,
+              child: _CardView(
+                title: item.title,
+                icon: item.icon,
+                route: item.route,
+              ),
+            ),
+          ).toList()
+          :
+          itemsWithOutBiometrics.map(
+            (item) => FadeInDown(
+              duration: const Duration(seconds: 1),
+              curve: Curves.elasticInOut,
+              child: _CardView(
+                title: item.title,
+                icon: item.icon,
+                route: item.route,
+              ),
+            ),
+          ).toList(),
+          error: (error, stackTrace) => [Text('Error: $error')], 
+          loading: () => [CircularProgressIndicator()],
+        ),
+            
+        // children: itemsWithBiometrics.map(
+        //   (item) => FadeInDown(
+        //     duration: const Duration(seconds: 1),
+        //     curve: Curves.elasticInOut,
+        //     child: _CardView(
+        //       title: item.title,
+        //       icon: item.icon,
+        //       route: item.route,
+        //     ),
+        //   ),
+        // ).toList(),
       ),
     );
   }
@@ -288,7 +285,7 @@ class _AppBarView extends ConsumerWidget {
               'Ajustes',
               style: textTheme.titleLarge?.copyWith(color: Colors.white),
             ),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             Text(
               (existBiometrics) ? 'Tema, Fondos y Seguridad': 'Tema y Fondos',
               style: textTheme.bodySmall?.copyWith(color: Colors.white),

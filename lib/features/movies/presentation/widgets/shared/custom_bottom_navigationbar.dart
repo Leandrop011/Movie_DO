@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +14,12 @@ class CustomBottomNavigationbar extends ConsumerWidget {
   });
 
   void onItemTapped(BuildContext context, int index){
+
+    //* Ligera Vibracion cada que pulsa un item de elbottom navigation bar
+    HapticFeedback.lightImpact();
+
     context.go('/home/$index');//! ES LA RUTA DEPENDIENDO EL INDEX QUE NOS DA 
+  
   }
   
 

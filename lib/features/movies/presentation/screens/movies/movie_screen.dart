@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+
 import 'package:movies_app/features/features.dart';
-// import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-// import 'package:movies_app/features/movies/presentation/widgets/widgets.dart';
 import 'package:movies_app/config/plugins/share_plugin.dart';
 import 'package:movies_app/features/movies/presentation/widgets/videos/videos_from_movie.dart';
 
 
-import 'package:audioplayers/audioplayers.dart';
-import 'package:animate_do/animate_do.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 
 //todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
@@ -698,6 +697,9 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
       
       leading: IconButton(
         onPressed: (){
+          //* Ligera vibracion
+          HapticFeedback.heavyImpact();
+
           //* Es distinto de como apilar y desapilar con el push y pop, este coloca y ya no apila
           context.go('/');//es como teletransporstarse hacia otra pantalla, en lugar de ir una por una
         }, 

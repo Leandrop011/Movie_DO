@@ -43,7 +43,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
       () {
         if (widget.loadNextPage == null) return;
         
-        //todo, para saber si esta caso por llegar al final hacer algo
+        //? para saber si esta caso por llegar al final hacer algo
         if( scrollController.position.pixels + 200 >= scrollController.position.maxScrollExtent){
           widget.loadNextPage!();
         }
@@ -53,7 +53,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 
   @override
   void dispose() {
-    scrollController.dispose();//todo, buena practica 
+    scrollController.dispose();//? buena practica 
     super.dispose();
   }
 
@@ -61,7 +61,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return SizedBox(//todo, para que no se desborde
+    return SizedBox(//? para que no se desborde
       //! AQUI ES DONDE DEFINO EL TAMANO MAXIMO DE LOS ELEMENTOS DE ESE SCROLL HORIZONTAL
       //! SI LE DOY MAS, PUES PUEDO AUMENTAR SU TAMANO, DISENO RESPONSIVO
       //! OJO HAY QUE PRIORIZAR QUE FUNCIONE EN OTROS DISPOSITIVOS QUE AL DISENO
@@ -221,7 +221,7 @@ class _Slide extends ConsumerWidget {
           
               //* Rating
       
-              SizedBox(//todo, para que tenga un limite 
+              SizedBox(//? para que tenga un limite 
                 width: size.width * 0.35,
                 // height: size.height * 0.03,
                 child: Row(
@@ -233,6 +233,8 @@ class _Slide extends ConsumerWidget {
                     const Spacer(),
   
                     Text(HumanFormats.number(movie.popularity.toDouble()), style: textStyle.bodySmall,),
+                    SizedBox(width: size.width * 0.008,),
+                    Icon(Icons.visibility, size: size.width * 0.05,),
                     // const Spacer(),
                   ],
                 ),
