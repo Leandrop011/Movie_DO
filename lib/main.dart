@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/config.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-// ? rama etapa 06
+// ? RAMA ETAPA 07 QUICK ACTIONS
 Future <void> main()async{ 
   // Intl.defaultLocale = 'es_ES';
   // initializeDateFormatting('es_ES', null);
