@@ -11,8 +11,12 @@ Future <void> main()async{
   // initializeDateFormatting('es_ES', null);
   // FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
 
-  //!ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
+  // ! ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
   WidgetsFlutterBinding.ensureInitialized();
+
+
+  // ! QUICK ACTIONS INIT
+  QuickActionsPlugin.registerActions();
 
   // await db.into(db.favoritesMovies).insert(//!PARA HACER INCERSIONES DE ELEMENTOS EN LA BASE DE DATOS
   //   FavoritesMoviesCompanion.insert(
