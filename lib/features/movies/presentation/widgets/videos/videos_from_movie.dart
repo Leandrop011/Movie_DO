@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies_app/config/plugins/redirect_yt_plugin.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 
 // ! EXISTE UN PROBLEMA QUE NO SE PUEDE CONTROLAR, DEBIDO A LAS POLITICAS DE YT QUE RECIENTEMENTE
 // ! ACTUALIZARON, NO DE PUEDE REPRODUCIR LOS TRAILERS, NO ES UN PROBLEMA DE LA APP, SINO DE LAS POLITICAS DE YT
@@ -69,7 +68,7 @@ class _VideosList extends StatelessWidget {
 }
 
 //! El que forma el video, es stateful porque necesito un controller
-class _YouTubeVideoPlayer extends StatefulWidget {
+class _YouTubeVideoPlayer extends ConsumerWidget {
 
   final String youtubeId;
   final String name;
@@ -78,84 +77,12 @@ class _YouTubeVideoPlayer extends StatefulWidget {
   const _YouTubeVideoPlayer({ required this.youtubeId, required this.name, required this.movie });
 
   @override
-  State<_YouTubeVideoPlayer> createState() => _YouTubeVideoPlayerState();
-}
-
-class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
-
-  // ? EL CONTROLLER Y BOOL QUE SE INICIALIZARA DESPUES
-  late bool start = false;
-
-  int _errorCode = 0;
-  bool _hasError = false;
-  late final YoutubePlayerController _controller;  
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController(
-        initialVideoId: widget.youtubeId,
-        flags: const YoutubePlayerFlags(
-          hideThumbnail: true, //? para mostrar la miniatura
-          showLiveFullscreenButton: false, //? para el boton de transmision en vivo
-          mute: false, //? para determinar si comienza o no con sonido
-          autoPlay: false, //? para determinar si se coloca play automaticamente o no
-          disableDragSeek: false, //? para determinar si el usuario puede arrastrar la barra
-          loop: false, //? para determinar si se repite el video 
-          isLive: false, //? inidica si es o no una transmision en vivo
-          forceHD: false, //? para determinar si coloca la maxima calidad o se ajusta a su wifi
-          enableCaption: false, //? para los subtitulos
-          hideControls: false, //?Para activar o no los controles
-          
-        ),
-        
-        //? el listener esta constantemente escuchando los cambios
-        // ! CON CONTROLLERS ES MEJOR CREARLO Y MODIFICARLO CON EL ADDLISTENER
-        // ! DENTRO DEL INITSTATE PORQUE SOLO SE LO CREA CUANDO NACE EL WIDGET
-        // ! Y ASI EVITAMOS CREARLO VARIAS VECES 
-      )..addListener((){
-        // * EL ADDLISTENER ES EL QUE CAMBIARA Y REDIBUJARA EL WIDGET CADA QUE 
-        // * EL ESTADO DEL CONTROLLER CAMBIE, ES EL QUE ESTA PENDIENTE DE LOS CAMBIOS 
-        // * DEL CONTROLLER ASI QUE CON AYUDA DEL SETSTATE PODEMOS QUITAR O CAMBIAR 
-        // * EL VIDEO POR OTRO WIDGET
-        final value = _controller.value;
-        final newErrorCode = value.errorCode;
-        final newHasError = value.hasError;
-
-        if (!mounted) return;
-
-        if (_errorCode != newErrorCode || _hasError != newHasError) {
-          setState(() {
-            _errorCode = newErrorCode;
-            _hasError = newHasError;
-          });
-        }
-      });
-  }
-
-
-  @override
-  void dispose() {
-    //* limpiar al salir del widget
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     final size = MediaQuery.of(context).size;
-    final colorTheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-
-    // ? ESTO SE MOSTRARA CUANDO EL LISTTENER DEL CONTROLLER DETECTE EN SU CAMBIO 
-    // ? QUE EXISTE UN ERROR PUES REDIBUJA ESTO
-    if(_hasError){
-      return _FailledVideoView(
-        size: size, 
-        youtubeIdVideo: widget.youtubeId
-      );
-    }
+    final start = ref.watch(videoStartProvider).start;
+    final colors = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -166,33 +93,25 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
           Padding(
             padding: const EdgeInsets.only(left: 3, bottom: 5),
             child: Text(
-              widget.name,
+              name,
               style: textTheme.titleMedium?.copyWith(fontSize: 15),
             ),
           ),
-          // * VIDEO EN YT CON CONTROLLER 
-          (start == true) ?
-          YoutubePlayer(
-            progressIndicatorColor: colorTheme.primary,
-            controller: _controller,
-            // ? LOS CONTROLES QUE ESTARAN DISPONIBLES EN EL VIDEO
-            bottomActions: [
-              CurrentPosition(),
-              ProgressBar(isExpanded: true),
-              // TotalDuration(),
-            ],
-            showVideoProgressIndicator: true,
-          )
-          :
+          // * MINIATURA DEL VIDEO QUE NAVEGA A LA REPRODUCCION DEL VIDEO
           Center(
             child: ClipRRect(
               
               borderRadius: BorderRadiusGeometry.circular(20),
               child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    start = true;
-                  });
+                onTap: (){
+
+                  // * COLOCAMOS EL VALOR BOOL DE SI INICIO EL VIDEO EN TRUE
+                  ref.read(videoStartProvider.notifier).changeStart();
+
+                  
+                  // * Navegar a otra screen donde reproduzca el video, mandamos el youtubeId por la ruta
+                  context.push('/video_movie/${movie.id}/$youtubeId'); 
+
                 },
                 child: SizedBox(
                   height: size.height * 0.3,
@@ -204,10 +123,35 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
                         width: double.infinity,
                         height: double.infinity,
                       
-                        widget.movie.posterPath,
+                        movie.posterPath,
                         fit: BoxFit.fill,
                       ),
                   
+                      (start == true) ?
+                      Container(
+                        width: size.width * 0.45,
+                        height: size.height * 0.2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.black54,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(strokeWidth: 4, ),
+                            SizedBox(height: 5,),
+                            
+                              Center(
+                                child: Text(
+                                  'Cargando....',
+                                  style: textTheme.bodySmall?.copyWith(color: colors.primary, fontSize: 15),
+                                ),
+                              ),
+                            
+                          ],
+                        ),
+                      )
+                      :
                       Icon(
                         Icons.play_arrow_rounded, 
                         color: Colors.white, 
@@ -221,86 +165,6 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
           ),
         ],
       )
-    );
-  }
-}
-
-// ? WIDGET QUE SE MUESTRA SI EXISTE UN ERROR CON EL VIDEO
-class _FailledVideoView extends StatelessWidget {
-  
-  final String youtubeIdVideo;
-  final Size size;
-
-  const _FailledVideoView({
-    required this.size, 
-    required this.youtubeIdVideo,
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    final textTheme = Theme.of(context).textTheme;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(5),
-          onTap: () => RedirectYtPlugin.openYoutube('https://www.youtube.com/watch?v=$youtubeIdVideo'),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.white38
-                    )
-                  ),
-                  child: SizedBox(
-                    height: size.height * 0.3,
-                    width: size.width,
-                    child: ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(20),
-                      child: Image.asset(
-                        width: double.infinity,
-                        height: double.infinity,
-                        'assets/loaders/loader_wrong.png',
-                        fit: BoxFit.fill,
-                      ),
-                  
-                    ),
-                  ),
-                ),
-                
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: SizedBox(
-                    height: size.height * 0.05,
-                    width: size.width * 0.5,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromARGB(255, 51, 109, 210),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Continuar a YouTube',
-                          style: textTheme.titleSmall?.copyWith(color: Colors.black),
-                         )
-                        ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

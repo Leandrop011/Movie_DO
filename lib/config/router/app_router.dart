@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/features/movies/presentation/screens/screens.dart';
 
@@ -48,10 +49,23 @@ final appRouter = GoRouter(
     ),
 
 
+    // * RUTA PARA EL VIDEO DE LA MOVIE, CUANDO SE USE LA RUTA RECIBIREMOS EL ID
+    GoRoute(
+      path: '/video_movie/:movieId/:youtubeId',
+      builder: (context, state){
+        final colors = Theme.of(context).colorScheme;
+        final youtubeId = state.pathParameters['youtubeId'] ?? 'no-id'; 
+        final movieId = state.pathParameters['movieId'] ?? 'no-movieId';
+
+        return VideoMovieScreen(colors: colors, youtubeId: youtubeId, movieId: movieId,);
+      },
+    ), 
+
+
     //! Para redireccionar la direccion / a la nueva /home/0
     GoRoute(
       path: '/',
-      redirect: ( _ , __ ) {
+      redirect: ( _ , _ ) {
         return '/home/0';
       },
     ),

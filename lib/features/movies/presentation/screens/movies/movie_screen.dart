@@ -37,11 +37,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
     ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
 
-    //todo, para peliculas similares
+    // ? para peliculas similares
     ref.read(similarMoviesProvider.notifier).loadSimilarMovies(widget.movieId);
-
-    
-    
+ 
   }
   
   @override
@@ -76,9 +74,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
           body: CustomScrollView(
             physics: ClampingScrollPhysics(),
             slivers: [
-        
+              // * Apppbar
               _CustomSliverAppBar(movie: movie),
-        
+              // * Contenido
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => _MovieDetails(movie: movie,),
@@ -102,9 +100,9 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
           body: CustomScrollView(
             physics: ClampingScrollPhysics(),
             slivers: [
-        
+              //* Appbar
               _CustomSliverAppBar(movie: movie),
-        
+              //* Contenido
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => _MovieDetails(movie: movie,),
@@ -224,7 +222,7 @@ class _Genders extends StatelessWidget {
 }
 
 //* ELEMENTOS QUE ESTARAN DENTRO DE LA CAJA DE PELICULA(like overview), TITLE, DETAILS
-class _ElementsInDetails extends StatelessWidget {
+class _ElementsInDetails extends ConsumerStatefulWidget {
   const _ElementsInDetails({
     required this.isDarck,
     required this.size,
@@ -238,31 +236,51 @@ class _ElementsInDetails extends StatelessWidget {
   final TextTheme textStyle;
 
   @override
+  ConsumerState<_ElementsInDetails> createState() => _ElementsInDetailsState();
+}
+
+class _ElementsInDetailsState extends ConsumerState<_ElementsInDetails> {
+
+  var enabledValue = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    enabledValue = ref.read(valueInformationMovieProvider(widget.movie.overview.length)).enabled;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    
     final textStyle = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
+    final informationMovieLength = widget.movie.overview.length;
+    final linesState = ref.watch(valueInformationMovieProvider(informationMovieLength)).linesInformation;
+    final activeStatus = ref.watch(valueInformationMovieProvider(informationMovieLength)).active;
 
     return Padding(
       padding: const EdgeInsetsGeometry.all(8),
       child: SizedBox(
-        width: size.width,
+        width: widget.size.width,
         // ! QUITAMOS EL HEIGHT PARA DECIRLE AL WIDGET QUE COJA TODO1 EL HEIGHT QUE NECESITE 
         // height: size.height * 0.42,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: isDarck ?
+            color: widget.isDarck ?
             const Color.fromARGB(255, 42, 42, 42)
             :
             const Color.fromARGB(255, 225, 224, 224),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: isDarck ?
+                color: widget.isDarck ?
                 const Color.fromARGB(255, 73, 72, 72)
                 :
                 const Color.fromARGB(255, 134, 132, 132), 
                 blurRadius: 6,
                 offset: Offset(1, 3)
-              )
+              ),
             ]
           ),
           child: Padding(
@@ -275,10 +293,10 @@ class _ElementsInDetails extends StatelessWidget {
                   borderRadius: BorderRadiusGeometry.circular(10),
                   child: FadeInImage(
                     image: NetworkImage(
-                      movie.posterPath
+                      widget.movie.posterPath
                     ),
                     placeholder: AssetImage('assets/loaders/movie_do-loader.gif'),
-                    width: size.width * 0.3,
+                    width: widget.size.width * 0.3,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -286,14 +304,14 @@ class _ElementsInDetails extends StatelessWidget {
                 const SizedBox(width: 10,),
             
                 SizedBox(
-                  width: size.width * 0.6,
+                  width: widget.size.width * 0.6,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         width: double.infinity,
                         child: Text(
-                          movie.title, 
+                          widget.movie.title, 
                           style: textStyle.titleMedium,
                         ),
                       ),
@@ -304,14 +322,47 @@ class _ElementsInDetails extends StatelessWidget {
                         // height: size.height * 0.17,
                         width: double.infinity,
                         child: Text(
-                          movie.overview, 
+                          widget.movie.overview, 
                           style: textStyle.titleSmall,
-                          maxLines: 7,
+                          maxLines: linesState,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
 
-                      SizedBox(height: size.height * 0.01,),
+                      SizedBox(height: widget.size.height * 0.01,),
+
+                     
+                      (enabledValue == true) ? 
+                      SizedBox(
+                        width: widget.size.width * 0.3,
+                        height: widget.size.height * 0.05,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(5),
+                          onTap: () {
+
+                            ref.read(valueInformationMovieProvider(informationMovieLength).notifier).changeValueInformation(!activeStatus, );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                              color: colors.primary,
+                              borderRadius: BorderRadius.circular(5),
+                              
+                            ),
+                            child: Center(
+                              child: Text(
+                                (activeStatus) ? 'Leer menos' : 'Leer mas....', 
+                                style: textStyle.bodySmall?.copyWith( color: Colors.black, fontSize: widget.size.width * 0.035),
+                                
+                              ),
+                            ),
+                          ),
+                        )
+                      ):
+                      SizedBox(),
+
+                      SizedBox(height: widget.size.height * 0.01,),
 
                       SizedBox(
                         width: double.infinity,
@@ -319,7 +370,7 @@ class _ElementsInDetails extends StatelessWidget {
                           children: [
                             Icon(Icons.star_half_rounded, color: Colors.yellow.shade900,),
                             const SizedBox(width: 5,),
-                            Text(movie.voteAverage.toStringAsFixed(2), style: TextStyle(color: Colors.yellow.shade900),),
+                            Text(widget.movie.voteAverage.toStringAsFixed(2), style: TextStyle(color: Colors.yellow.shade900),),
                             
                           ],
                         ),
@@ -328,8 +379,8 @@ class _ElementsInDetails extends StatelessWidget {
                         width: double.infinity,
                         child: Row(
                           children: [
-                            Text('Estreno: ', style: textStyle.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 15)),
-                            Text(DateFormat('yyyy/MM/dd').format(movie.releaseDate), style: textStyle.bodySmall?.copyWith(fontSize: 14),),
+                            Text('Estreno: ', style: textStyle.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 15),),
+                            Text(DateFormat('yyyy/MM/dd').format(widget.movie.releaseDate), style: textStyle.bodySmall?.copyWith(fontSize: 14),),
                           ],
                         ),
                       )
@@ -562,12 +613,12 @@ class _ActorsByMovie extends ConsumerWidget {
 
 
     return SizedBox(
-      height: size.height * 0.4,
+      height: size.height * 0.45,
       width: double.infinity,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: actors.length,
-        addAutomaticKeepAlives: false,//TODO, hacer en los demas
+        addAutomaticKeepAlives: false, //* PARA QUE NO GUARDE EL ESTADO DE LOS WIDGETS SI SE HACE SCROLL SE DESTRUYE
         itemBuilder: (context, index) {
           final actor = actors[index];
 
@@ -590,11 +641,9 @@ class _ActorView extends StatelessWidget {
 
     return SizedBox(//? DEFINE EL TAMANO DE TODA LA 'TARJETA' CON IMAGEN NOMBRE
       width: size.width * 0.33,
-      height: size.height * 0.35,
       child: Container(
         padding: const EdgeInsets.all(8),
         width: double.infinity,
-        height: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -608,7 +657,7 @@ class _ActorView extends StatelessWidget {
                   height: size.height * 0.265,
                   child: FadeInImage(
                     width: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN 
-                    height: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN
+                    // height: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN
                     placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
                     
                     fit: BoxFit.cover,
@@ -687,6 +736,8 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
 
     final isFavoriteFuture = ref.watch(isFavoriteMovieProvider(widget.movie.id));
 
+    final colors = Theme.of(context).colorScheme;
+
     //! toma el color blacno o negro dependiendo del contexto del theme
     //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     
@@ -735,7 +786,7 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
           CustomButton(//* BOBTON A PARTE PERSONALIZADO
             movie: widget.movie, 
             isDarck: isDarck,
-            iconActive: Icons.favorite,
+            iconActive: Icons.favorite_rounded,
             iconNotActive: Icons.favorite_border_rounded,
             onPressed: () async{
 
@@ -760,10 +811,9 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
             child:  isFavoriteFuture.when(
               data: (isFavorite) => isFavorite == true ?
               Row(
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon( Icons.favorite, color: Colors.red,),
+                  Icon( Icons.favorite_rounded, color: colors.primary,),
                 ],
               )
               :
@@ -789,7 +839,7 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
       expandedHeight: size.height * 0.7,
 
       // ? IMAGEN
-      flexibleSpace: FlexibleSpaceBar(//*contenido
+      flexibleSpace: FlexibleSpaceBar(
         //* contenido
         background: _ContentSilverAppBar(movie: widget.movie),
 

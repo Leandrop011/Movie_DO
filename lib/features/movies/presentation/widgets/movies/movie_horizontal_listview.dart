@@ -65,7 +65,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
       //! AQUI ES DONDE DEFINO EL TAMANO MAXIMO DE LOS ELEMENTOS DE ESE SCROLL HORIZONTAL
       //! SI LE DOY MAS, PUES PUEDO AUMENTAR SU TAMANO, DISENO RESPONSIVO
       //! OJO HAY QUE PRIORIZAR QUE FUNCIONE EN OTROS DISPOSITIVOS QUE AL DISENO
-      height: size.height * 0.5,
+      height: size.height * 0.55,
       // widget.heightN! ? 
       // size.height * 0.57
       // :

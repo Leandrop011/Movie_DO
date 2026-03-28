@@ -22,7 +22,9 @@ class _ConfigViewState extends ConsumerState<ConfigView> with AutomaticKeepAlive
     final size = MediaQuery.of(context).size;
     final fount = ref.watch(isdarckProvider).fount;
 
-    return FadeInDown(
+    return FadeInRight(
+      duration: Duration(milliseconds: 500),
+      curve: Curves.elasticInOut,
       child: Scaffold(
         body: Stack(
           alignment: Alignment.center,
@@ -137,14 +139,10 @@ class _BodyView extends ConsumerWidget {
         children: existBiometrics.when(
           data: (existValue) => existValue ?
            itemsWithBiometrics.map(
-            (item) => FadeInDown(
-              duration: const Duration(seconds: 1),
-              curve: Curves.elasticInOut,
-              child: _CardView(
-                title: item.title,
-                icon: item.icon,
-                route: item.route,
-              ),
+            (item) => _CardView(
+              title: item.title,
+              icon: item.icon,
+              route: item.route,
             ),
           ).toList()
           :

@@ -54,3 +54,11 @@ class TutorialMoviesState {
   );
   
 }
+
+
+// // * 
+// final lengthInformationProvider = StateProvider.autoDispose<int>((ref) {
+//   final int legth = 0;
+
+//   return legth;
+// });
