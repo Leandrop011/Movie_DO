@@ -6,6 +6,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:movies_app/config/config.dart';
 
 import 'package:movies_app/features/features.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
@@ -39,14 +40,12 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
     // ? para peliculas similares
     ref.read(similarMoviesProvider.notifier).loadSimilarMovies(widget.movieId);
- 
+
+    // ?  
+    ref.read(lastMovieIdQuickActionProvider.notifier).setMovieIdValueQuickAction(widget.movieId);
+
   }
   
-  @override
-  void dispose() {
-    
-    super.dispose();
-  }
   @override
   Widget build(BuildContext context) {
     
@@ -64,6 +63,10 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
         )
       );
     }
+
+    
+
+    QuickActionsPlugin.registerActions( movieId: movie.id.toString(), titleMovie: movie.title);
 
     return (securutyActive == true) ?
       (authAprove == true) ?
@@ -456,11 +459,11 @@ class _MoviesSimilars extends ConsumerWidget {
       return const CircularProgressIndicator();
     }
 
+    // * SI NO HAY MOVIES SIMILARES 
     if(moviesSimilars.isEmpty){
       return const SizedBox();
     }
-
-    // ! ESTA ES UNA MEDIDA TEMPORAL, HASTA QUE SE ENCUENTRE MOSTRAR TODOS LOS OBJETOS 
+    // * CONDICONAL DEPENDIENDO EL TOTAL DE MOVIES
     if(totalMoviesSmilisar >= 9) {
       totalMoviesSmilisar = 9;
     }else{

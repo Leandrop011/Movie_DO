@@ -14,9 +14,12 @@ Future <void> main()async{
   // ! ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
   WidgetsFlutterBinding.ensureInitialized();
 
+  // ! PARA ACCEDER A LOS PROVIDERS DESDE EL MAIN
+  final ref = ProviderContainer();
 
-  // ! QUICK ACTIONS INIT
-  QuickActionsPlugin.registerActions();
+  final valueMovieId = await ref.read(lastMovieIdQuickActionProvider.notifier).getMovieIdValueQuickAction();
+
+  QuickActionsPlugin.registerActions(movieId: valueMovieId);
 
   // await db.into(db.favoritesMovies).insert(//!PARA HACER INCERSIONES DE ELEMENTOS EN LA BASE DE DATOS
   //   FavoritesMoviesCompanion.insert(
@@ -84,6 +87,18 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    // final String valueMovie = ref.read(lastMovieIdQuickActionProvider).movieId ?? 'no-id';
+
+    // // ! QUICK ACTIONS INIT
+    // QuickActionsPlugin.registerActions(movieId: valueMovie);
+
+  }
 
   // Key _appKey = UniqueKey();
 

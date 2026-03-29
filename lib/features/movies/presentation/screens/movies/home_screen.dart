@@ -36,6 +36,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
       keepPage: true,
       initialPage: widget.pageIndex,
     );
+
+    
   }
 
   @override

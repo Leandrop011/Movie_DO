@@ -8,3 +8,4 @@ export 'visibility_movies_provider.dart';
 export 'movie_video_provider.dart';
 export 'tutorial_movies_provider.dart';
 export 'value_information_movie_provider.dart';
+export 'last_movie_id_quick_action_provider.dart';
