@@ -18,7 +18,7 @@ class CustomFullscreenLoading extends ConsumerWidget {
       'Estamos trabajando en ello...',
     ];
     
-    return Stream.periodic(Duration(seconds: 2), (step){
+    return Stream.periodic(const Duration(seconds: 2), (step){
       return messages[ step ];
     }).take(messages.length);
   } 
@@ -53,7 +53,7 @@ class CustomFullscreenLoading extends ConsumerWidget {
               width: size.width * 0.3,
               height: size.height * 0.2,
               child: SpinPerfect(
-                duration: Duration(milliseconds: 1100),
+                duration: const Duration(milliseconds: 1100),
                 infinite: true,
                 spins: 10,
                 child: Image.asset(

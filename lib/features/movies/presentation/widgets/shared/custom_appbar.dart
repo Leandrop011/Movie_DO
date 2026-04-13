@@ -30,7 +30,7 @@ class CustomAppbar extends ConsumerWidget {
             ),
             
       
-            Spacer(),//todo, que tome todo el espacio disponibleentre esos widgets
+            const Spacer(),//todo, que tome todo el espacio disponibleentre esos widgets
             //todo, por ende lo mueve hasta el final
             
             Padding(

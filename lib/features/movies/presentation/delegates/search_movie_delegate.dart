@@ -6,9 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
 
-import '../providers/config/fount_provider.dart';
 
 
 typedef SearchMoviesCallBack = Future<List<Movie>> Function(String query);
@@ -69,6 +67,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   //* ES UN WIDGET QUE DEVUELVE LA MISMA DATA PERO ES UNO PARA CUANDO ESCRIBE Y 
   //* OTRO CUANDO PULSA EN BUSCAR, AMBOS SE APLICAN DE LA MISMA FORMA
   Widget buildResultsAndSuggestions(){
+
+
     return StreamBuilder(
       //* LAS PELICULAS INICIADAS AHORA LAS GUARDO EN EL DEBOUNCE ENTONCES SE CARGA CUANDO DOY EN BUSCAR
       initialData: initialMovies,
@@ -76,7 +76,25 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       builder: (context, snapshot) {
         final movies = snapshot.data ?? [];
 
-        return ListView.builder(
+        final size = MediaQuery.of(context).size;
+        final textTheme = Theme.of(context).textTheme;
+
+        return (movies.isEmpty) ?
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.movie_filter_rounded, size: size.width * 0.3,),
+              const SizedBox(height: 10,),
+              Text(
+                'Ingresa lo que deseas ver...', 
+                style: textTheme.bodySmall?.copyWith(fontSize: size.width * 0.04)
+              ),
+            ],
+          ),
+        )
+        :
+        ListView.builder(
           itemCount: movies.length,
           itemBuilder: (context, index) {
             final movie = movies[index];
@@ -109,19 +127,19 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
         initialData: false,
         builder: (context, snapshot) {
           if(query.isEmpty){
-            return SizedBox();
+            return const SizedBox();
           }
           
           if(snapshot.data ?? false){
             return SpinPerfect(
-              duration: Duration(seconds: 1),
+              duration: const Duration(seconds: 1),
               spins: 10,
               infinite: true,
               child: IconButton(
                 onPressed: (){
                   //query = '';
                 }, 
-                icon: Icon(Icons.refresh),
+                icon: const Icon(Icons.refresh),
               ),
             );
           }
@@ -132,7 +150,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
                   HapticFeedback.lightImpact();
                   query = '';//* establaecerle al texto que tiene(query) un string vacio 
                 }, 
-                icon: Icon(Icons.clear),
+                icon: const Icon(Icons.clear),
               ),
           );
 
@@ -150,7 +168,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
         cleanup();
         close(context, null);
       }, 
-      icon: Icon(Icons.arrow_back_ios_new)
+      icon: const Icon(Icons.arrow_back_ios_new)
     );
   }
 
@@ -190,103 +208,84 @@ class _MovieItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textStyle = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
-    final isDarck = ref.read(isdarckProvider).fount;
+    // final isDarck = ref.read(isdarckProvider).fount;
 
-    return FadeInRight(
-      from: random.nextInt(100) + 80,//! PARA QUE EN UNOS PIXELES YA CARGUE LA ANIMACION 
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
           onMovieSelected(context, movie);
         },
         child: Padding(
-          padding: EdgeInsets.symmetric( horizontal: 10, vertical: 10,),
+          padding: const EdgeInsets.symmetric( horizontal: 10, vertical: 10,),
         
           child: SizedBox(
             //* MAXIMOS
             height: size.height * 0.3,
             width: size.width * 0.5,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: isDarck ? 
-                const Color.fromARGB(255, 66, 67, 67)
-                :
-                const Color.fromARGB(255, 251, 251, 251),
-                  
-                boxShadow: [
-                  
-                  BoxShadow(
-                    color: const Color.fromARGB(255, 111, 107, 107),
-                    blurRadius: 5,
-                    offset: Offset(2, 4)
-                  ),
-                ],
-              ),
-              
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //* Image
-                  SizedBox(
-                    width: size.width * 0.265,
-                    height: size.height * 0.25,
-                    child: ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(20),
-                      child: FadeInImage(
-                        
-                        width: double.infinity,
-                        height: double.infinity,
-
-                        placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
-
-                        fit: BoxFit.cover,
-
-                        image: NetworkImage(
-                        movie.posterPath,
-                      ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10,),
-                  //* Descripcion
-                  SizedBox(
-                    //! AQUI ES EL TAMANO MAXIMO DE EL OVERVIEW(LO REDUCIMOS TENEMOS MAS ESPACIO)
-                    width: size.width * 0.55,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(movie.title, style: textStyle.titleMedium, maxLines: 2,),
-                        const SizedBox(height: 5,),
-                        
-                        (movie.overview != '') ?
-                        Text(movie.overview, maxLines: 4, overflow: TextOverflow.ellipsis,)
-                        :
-                        const Text('No Description'),
-              
-                        SizedBox(height: 5,),
-              
-                        Row(
-                          children: [
-                            Icon(Icons.star_half_rounded, color: Colors.yellow.shade800,),
-                            const SizedBox(width: 5,),
-                            Text(
-                              NumberFormat('###.##').format(movie.voteAverage),
-                              style: textStyle.bodyMedium!.copyWith(color: Colors.yellow.shade800),
-                            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //* Image
+                SizedBox(
+                  width: size.width * 0.265,
+                  height: size.height * 0.25,
+                  child: ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(5),
+                    child: FadeInImage(
                       
-                          ],
-                        ),
-              
-              
-                      ],
+                      width: double.infinity,
+                      height: double.infinity,
+            
+                      placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
+            
+                      fit: BoxFit.cover,
+            
+                      image: NetworkImage(
+                      movie.posterPath,
+                    ),
                     ),
                   ),
-              
-                ],
-              ),
+                ),
+                const SizedBox(width: 10,),
+                //* Descripcion
+                SizedBox(
+                  //! AQUI ES EL TAMANO MAXIMO DE EL OVERVIEW(LO REDUCIMOS TENEMOS MAS ESPACIO)
+                  width: size.width * 0.55,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(movie.title, style: textStyle.titleMedium, maxLines: 2,),
+                      const SizedBox(height: 5,),
+                      
+                      (movie.overview != '') ?
+                      Text(movie.overview, maxLines: 4, overflow: TextOverflow.ellipsis, style: textStyle.titleSmall,)
+                      :
+                      const Text('No Description'),
+            
+                      const SizedBox(height: 5,),
+            
+                      Row(
+                        children: [
+                          Icon(Icons.star_half_rounded, color: Colors.yellow.shade800,),
+                          const SizedBox(width: 5,),
+                          Text(
+                            NumberFormat('###.##').format(movie.voteAverage),
+                            style: textStyle.bodyMedium!.copyWith(color: Colors.yellow.shade800),
+                          ),
+                    
+                        ],
+                      ),
+            
+            
+                    ],
+                  ),
+                ),
+            
+              ],
             ),
           ),
         ),

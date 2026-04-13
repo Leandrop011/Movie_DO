@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 
-import '../../providers/config/fount_provider.dart';
 
 class MovieTop extends ConsumerWidget {
   
@@ -16,20 +16,36 @@ class MovieTop extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    //final isDarck = ref.watch(isdarckProvider);//! watch porque tiene que estar pendientes de los cambios
+    // final fount = ref.watch(isdarckProvider).fount; //! watch porque tiene que estar pendientes de los cambios
+    final moviesFromVideo = ref.watch(videosFromMovieProvider(movie.id));
 
-    // if(movie.posterPath.isEmpty){//* para animacion de carga 
-    //   return Shimmer(
-    //     duration: Duration(seconds: 2),
-    //     color: Colors.white,
-    //     colorOpacity: 1,
-    //     enabled: true,
-    //     direction: ShimmerDirection.fromLBRT(),
+    final videos = moviesFromVideo.value;
+    // * LO QUE HACE EL FIRSTORNULL ES QUE SI LA LISTA DA VACIA NOS DA UN NULO EN LUGAR DE EXCEPCION
+    final youtubeId = videos?.firstOrNull?.youtubeKey;
 
-    //     child: SizedBox()
-    //   );
-    // }
-    
+    // * SI NO HAY VIDEOS RELACIONADOS O EL YOUTUBE ID ES NULO
+    if(videos == null || youtubeId == null){
+      return _MovieTopViewWithOutVideo(movie: movie, size: size);
+    }else{
+      // * SI EXISTE UN YOUTUBE ID PUES CONSTRUYE ESTE WIDGET 
+      return _MovieTopViewWithVideo(movie: movie, size: size, youtubeId: youtubeId);
+    }
+  }
+}
+
+
+// * VIEW DE LA CAJA DE LA TOP MOVIE SI NO EXISTE UN VIDEO
+class _MovieTopViewWithOutVideo extends StatelessWidget {
+  const _MovieTopViewWithOutVideo({
+    required this.movie,
+    required this.size,
+  });
+
+  final Movie movie;
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
@@ -52,45 +68,141 @@ class MovieTop extends ConsumerWidget {
               alignment: Alignment.bottomCenter,
               
               children: [
-
+    
                 //* IMAGE MOVIE AND STYLES
-                _MovieTopView(movie: movie),
-
-                //* GENEROS DE LA MOVIE
+                _MovieTopViewPosterPath(movie: movie),
+    
+                //* GENEROS DE LA MOVIE Y BOTON
                 Padding(
-                  padding: EdgeInsetsGeometry.only(
-                    bottom: size.height * 0.097//!DISENO RESPONSIVO
-                  ),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
+                  padding: EdgeInsets.only(bottom: size.height * 0.02),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ...movie.genreIds.map(
-                        (gender) => Container(
-                          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                          child: _GenderView(gender: gender),
-                        )
-                      )
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        children: [
+                          ...movie.genreIds.map(
+                            (gender) => Container(
+                              margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                              child: _GenderView(gender: gender),
+                            )
+                          )
+                        ],
+                      ),
+                      // *  BOTON DE LA MOVIE FOR VIEW MORE DETAILES  
+                      Padding(
+                        padding: EdgeInsets.only(bottom: size.height * 0.015, top: size.height * 0.01),
+                        
+                        child: GestureDetector(
+                          onTap: () => context.push('/home/0/movie/${movie.id}'),
+                          child: const _CustomButton(text: 'Ver Detalles', color: Colors.black54,),
+                        ),
+                        
+                      ),
                     ],
                   ),
                 ),
-
-                //*  BOTON DE LA MOVIE FOR VIEW MORE DETAILES  
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 25, left: 10, right: 10),
-                  
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: () {
-                      context.push('/movie/${movie.id}');
-                    },
-                    child: _CustomButton()
-                  ),
-                  
-                ),
-
-                //*  GRADIENT OF CONTAINER
+                // *  GRADIENT OF CONTAINER
                 _GradientView(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
+// * VIEW DE LA CAJA DE TOP MOVIE SI EXISTE VIDEO
+class _MovieTopViewWithVideo extends ConsumerWidget {
+  const _MovieTopViewWithVideo({
+    required this.movie,
+    required this.size,
+    required this.youtubeId,
+  });
+
+  final Movie movie;
+  final Size size;
+  final String youtubeId;
+
+  @override
+  Widget build(BuildContext context, ref) {
+
+    final valueOnTapMovie = ref.watch(movieTapValueChangeProvider).isTaped;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: () {
+        context.push('/home/0/movie/${movie.id}');
+        ref.read(movieTapValueChangeProvider.notifier).changeValue(true);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 10, 
+          right: 10,
+          left: 10, 
+          bottom: 10,
+        ),
+        child: FadeInDown(
+          duration: const Duration(seconds: 3),
+          curve: Curves.elasticOut,
+          child: SizedBox(
+            width: size.width * 0.9,
+            height: size.height * 0.6,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              
+              children: [
+    
+                //* IMAGE MOVIE AND STYLES
+                _MovieTopViewPosterPath(movie: movie),
+
+                // *  GRADIENT OF CONTAINER SE COLOCA AQUI PARA QUE NO ESTE POR ENCIMA DE LOS BOTONES
+                _GradientView(),
+    
+                //* GENEROS DE LA MOVIE Y BOTONES
+                Padding(
+                  padding: EdgeInsets.only(bottom: size.height * 0.02),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        children: [
+                          ...movie.genreIds.map(
+                            (gender) => Container(
+                              margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                              child: _GenderView(gender: gender),
+                            )
+                          )
+                        ],
+                      ),
+                      // *  BOTON DE LA MOVIE FOR VIEW MORE DETAILES  
+                      Padding(
+                        padding: EdgeInsets.only(bottom: size.height * 0.015, top: size.height * 0.01),
+                        
+                        child: GestureDetector(
+                          onTap: () => context.push('/home/0/movie/${movie.id}'),
+                          child: const _CustomButton(text: 'Ver Detalles', color: Colors.black54,),
+                        ),
+                        
+                      ),
+                      // * BOTON QUE REDIRIGUE HACIA LA REPRODUCCION DE ESA MOVIE
+                      GestureDetector(
+                        onTap: () {
+                          context.push('/video_movie/${movie.id}/$youtubeId');
+                          ref.read(movieTapValueChangeProvider.notifier).changeValue(true);
+                        },
+                        child:  _CustomButton(
+                          text: valueOnTapMovie ? 'Cargando...' : 'Reproducir',
+                          color: Colors.white,
+                          colorText: Colors.black,
+                          icon: valueOnTapMovie ? Icons.change_circle : Icons.play_arrow_rounded,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -113,11 +225,11 @@ class _GenderView extends StatelessWidget {
 
     return Container(
       alignment: Alignment.center,
-      width: size.width * 0.4,//!DISENO RESPONSIVO UN TAMANO DE CAJA DEPENDIENDO EL DISPOSITIVO
-      height: size.height * 0.04,
+      width: size.width * 0.3,//!DISENO RESPONSIVO UN TAMANO DE CAJA DEPENDIENDO EL DISPOSITIVO
+      height: size.height * 0.03,
       decoration: BoxDecoration(
         color: Colors.black54, 
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           width: 1, 
           color: const Color.fromARGB(255, 162, 159, 159)
@@ -125,8 +237,9 @@ class _GenderView extends StatelessWidget {
       ),
       child: Text(
         gender,
-        style: style.titleSmall?.copyWith(//*EL ? ES PORQUE AVECES NO LLEGA EL TITLLESMALL POR EL CONTEXTO
-          color: Colors.white
+        style: style.bodyMedium?.copyWith(//*EL ? ES PORQUE AVECES NO LLEGA EL TITLLESMALL POR EL CONTEXTO
+          color: Colors.white,
+          fontSize: size.width * 0.035,
         ),
         //maxLines: 1,
       ),
@@ -135,8 +248,8 @@ class _GenderView extends StatelessWidget {
 }
 
 //*IMAGEN DE LA MOVIE TOP Y SUS DECORACIONES
-class _MovieTopView extends ConsumerWidget {
-  const _MovieTopView({
+class _MovieTopViewPosterPath extends ConsumerWidget {
+  const _MovieTopViewPosterPath({
     required this.movie,
   });
 
@@ -160,7 +273,7 @@ class _MovieTopView extends ConsumerWidget {
             :
             Colors.black87,
             blurRadius: 5, 
-            offset: Offset(3, 3)
+            offset: const Offset(3, 3)
           )
         ],
       ),
@@ -173,7 +286,7 @@ class _MovieTopView extends ConsumerWidget {
             width: double.infinity,//! DISENO RESPONSIVO
             height: double.infinity,
             
-            placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
+            placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
             
             fit: BoxFit.cover,
             image: NetworkImage(
@@ -195,10 +308,10 @@ class _GradientView extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topCenter,//* inicio
             end: Alignment.bottomCenter,//* final
-            stops: const [0.93, 1.2],
+            stops: [0.93, 1.2],
             colors: [
               Colors.transparent,
               Colors.black87
@@ -213,6 +326,17 @@ class _GradientView extends StatelessWidget {
 
 //* BOTON PERSONALIZADO
 class _CustomButton extends StatelessWidget {
+  final String text;
+  final Color? color;
+  final Color? colorText;
+  final IconData? icon;
+
+  const _CustomButton({
+    required this.text, 
+    required this.color, 
+    this.colorText, 
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -222,19 +346,25 @@ class _CustomButton extends StatelessWidget {
       height: size.height * 0.06,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.black54,
+          color: color ?? Colors.black54,
           borderRadius: BorderRadius.circular(5),
           border: Border.all(
-            width: 0.3,
-            color: Colors.white
+            width: 0.5,
+            color: colorText ?? Colors.white54
           )
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.info_outline, color: Colors.white,),
+            Icon( icon ?? Icons.info_outline, color: colorText ?? Colors.white,),
             const SizedBox(width: 10,),
-            Text('Ver Detalles', style: TextStyle(color: Colors.white),),
+            Text(
+              text, 
+              style: TextStyle(
+                color: colorText ?? Colors.white, 
+                fontSize: size.width * 0.045
+              ),
+            ),
           ],
         ),
       )

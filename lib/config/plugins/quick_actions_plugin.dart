@@ -10,7 +10,7 @@ class QuickActionsPlugin {
 
 
     //* INSTANCIA DEL PAQUETE 
-    final QuickActions quickActions = const QuickActions();
+    const QuickActions quickActions = QuickActions();
 
 
     //* NAVEGACION DEPENDIENDO DEL QUICK ACTION TYPE

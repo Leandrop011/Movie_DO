@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
 
 import '../../providers/config/fount_provider.dart';
-//todo, usaremos un SWIPER, para el carrucel => card_swiper
+// ? usaremos un SWIPER, para el carrucel => card_swiper
 class MoviesSlideshow extends StatelessWidget {
 
   final List<Movie> movies; 
@@ -22,14 +22,14 @@ class MoviesSlideshow extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Column(
       children: [
-        SizedBox(//todo,  porque quiero un ancho para cada elemento
+        SizedBox(// ? porque quiero un ancho para cada elemento
           height: size.height * 0.3,//? AQUI ES DONDE SE LE DA TAMANO DE ALTO
           width: double.infinity,
           child: Swiper(
-            viewportFraction: 0.75,//todo, para ver como el pre visualizer del slide anteriori y el sigueinte
-            scale: 0.85,//todo, es para que en el actual sea mas grande y los de adelante y atras sean mas pequenos
-            autoplay: true,//todo, es para que se mueva solo 
-            pagination: SwiperPagination(//todo, para que coloque esos puntitos de cuantas movies hay
+            viewportFraction: 0.75,// ? para ver como el pre visualizer del slide anteriori y el sigueinte
+            scale: 0.85,// ? es para que en el actual sea mas grande y los de adelante y atras sean mas pequenos
+            autoplay: true,// ? es para que se mueva solo 
+            pagination: SwiperPagination(// ? para que coloque esos puntitos de cuantas movies hay
               // margin: EdgeInsetsGeometry.only(top: 0),
               builder: DotSwiperPaginationBuilder(
                 activeColor: colors.primary,
@@ -51,7 +51,7 @@ class MoviesSlideshow extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: _Slide(movie: movie),
                 )
-              );//todo, construye todas, cuando avanza y se consulta el index
+              );// ? construye todas, cuando avanza y se consulta el index
             },
           ),
         
@@ -62,7 +62,7 @@ class MoviesSlideshow extends StatelessWidget {
   }
 }
 
-//todo, diseno de cada elemento del carrucel
+// ? diseno de cada elemento del carrucel
 class _Slide extends ConsumerWidget {
 
   final Movie movie;
@@ -70,15 +70,18 @@ class _Slide extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
+
+    final textTheme = Theme.of(context).textTheme;
+    // final fount = ref.watch(isdarckProvider).fount;
+
     //* Hasta que cargue
     final decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      boxShadow: [//todo, para como sobreado
+      boxShadow: const [//? para como sombreado
         BoxShadow(
           color: Colors.black45,
           blurRadius: 10,
-          offset: const Offset(0, 8)
+          offset: Offset(0, 8)
         )
       ],
     );
@@ -123,7 +126,7 @@ class _Slide extends ConsumerWidget {
                   //todo, esto es como para que mientras carga se coloque algo
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress != null) {
-                      return DecoratedBox(
+                      return const DecoratedBox(
                         decoration: BoxDecoration(
                           color: Colors.black12
                         )
@@ -144,10 +147,10 @@ class _Slide extends ConsumerWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     begin: Alignment.topCenter,//* inicio
                     end: Alignment.bottomCenter,//* final
-                    stops: const [0.7, 1.0],
+                    stops: [0.7, 1.0],
                     colors: [
                       Colors.transparent,
                       Colors.black87
@@ -162,11 +165,7 @@ class _Slide extends ConsumerWidget {
             padding: const EdgeInsetsGeometry.only(left: 10, bottom: 10),
             child: Text(
               movie.title,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16
-              )
+              style: textTheme.bodySmall?.copyWith(color: Colors.white, fontSize: 15),
             ),
       
           )

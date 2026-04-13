@@ -17,7 +17,7 @@ class CustomCategoriesMasonry extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: MasonryGridView.count(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         crossAxisCount: 2, 
         itemCount: 4,
         mainAxisSpacing: 10,

@@ -60,7 +60,7 @@ class _MoviesMasonryState extends State<MoviesMasonry> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: MasonryGridView.count(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         controller: scrollController,
         crossAxisCount: 3, //* Numero de Columnas
         mainAxisSpacing: 10,//* separacion en y

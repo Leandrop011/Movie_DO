@@ -11,12 +11,11 @@ import 'package:movies_app/config/config.dart';
 import 'package:movies_app/features/features.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:movies_app/config/plugins/share_plugin.dart';
-import 'package:movies_app/features/movies/presentation/widgets/videos/videos_from_movie.dart';
 
 
 
 
-//todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, Y GENEROS DE LA PELICULA SELECCIONADA
+//todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, GENEROS, VIDEO DE LA PELICULA SELECCIONADA
 class MovieScreen extends ConsumerStatefulWidget {
 
   static const String name = 'movie-screen';
@@ -41,15 +40,21 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     // ? para peliculas similares
     ref.read(similarMoviesProvider.notifier).loadSimilarMovies(widget.movieId);
 
-    // ?  
+    // ? PARA INICIALIZAR EL VALOR DEL ID APENAS ENTRE A LA MOVIE PARA LA QUICK DYNAMIC
     ref.read(lastMovieIdQuickActionProvider.notifier).setMovieIdValueQuickAction(widget.movieId);
 
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
   
   @override
   Widget build(BuildContext context) {
     
-    //todo, le mandamos el id
+    // ? Le mandamos el id
     final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
     // final isDarck = ref.read(isdarckProvider);
     final securutyActive = ref.watch(securityProvider).activeSecurity;
@@ -57,7 +62,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     
     
     if(movie == null ){
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: CustomFullscreenLoading()
         )
@@ -70,23 +75,14 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
     return (securutyActive == true) ?
       (authAprove == true) ?
-      ZoomIn(
-        duration: const Duration(milliseconds: 450),
+      ZoomInDown(
         child: Scaffold(
           
-          body: CustomScrollView(
-            physics: ClampingScrollPhysics(),
-            slivers: [
-              // * Apppbar
-              _CustomSliverAppBar(movie: movie),
-              // * Contenido
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => _MovieDetails(movie: movie,),
-                  childCount: 1,
-                ),
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              _HomeView(movie: movie),
                 
-              ),
             ],
           ),
         
@@ -94,30 +90,56 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
         ),
       )
       :
-      SecurityScreen()
+      const SecurityScreen()
     :
-    ZoomIn(
-        duration: const Duration(milliseconds: 450),
-        child: Scaffold(
-          
-          body: CustomScrollView(
-            physics: ClampingScrollPhysics(),
-            slivers: [
-              //* Appbar
-              _CustomSliverAppBar(movie: movie),
-              //* Contenido
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => _MovieDetails(movie: movie,),
-                  childCount: 1,
-                )
-              ),
-            ],
-          ),
+    ZoomInDown(
+      child: Scaffold(
         
-          
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            _HomeView(movie: movie),
+            
+          ],
         ),
-      );
+      
+        
+      ),
+    );
+  }
+}
+// * VIEW DEL HOME VIEW
+class _HomeView extends StatelessWidget {
+  const _HomeView({
+    required this.movie,
+  });
+
+  final Movie? movie;
+
+  @override
+  Widget build(BuildContext context) {
+
+    if(movie == null){
+      return const SizedBox();
+    }
+
+    return Expanded(
+      child: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          // * Apppbar
+          _CustomSliverAppBar(movie: movie!),
+          // * Contenido
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => _MovieDetails(movie: movie!,),
+              childCount: 1,
+            ),
+            
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -156,27 +178,27 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final textStyle = Theme.of(context).textTheme;
-    final isDarck = ref.read(isdarckProvider).fount;
+    final fount = ref.read(isdarckProvider).fount;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         
         //* INFORMACION DE LA MOVIE
-        _ElementsInDetails(isDarck: isDarck, size: size, movie: widget.movie, textStyle: textStyle),
+        _ElementsInDetails(isDarck: fount, size: size, movie: widget.movie, textStyle: textStyle),
 
-        //* VIDEO DE LA MOVIE
-        
+        //* VIDEO DE LA MOVIE SOLO SI EL TIEMPO PASO
         if(_showTrailer == true)//? solo cuando se cumpla los 1 segundos esto sera true
           VideosFromMovie(movie: widget.movie,),
         
+        // * GENERO DE LA MOVIE
         _Genders(widget: widget),
 
         // * TITULO DE LOS ACTORES
         _TitleCast(textTheme: textStyle, size: size, movieId: widget.movie.id.toString(),),
         
         //* ACTORES DE LA MOVIE
-        _ActorsByMovie(movieId: widget.movie.id.toString()),
+        _ActorsByMovie(movieId: widget.movie.id.toString(), fount: fount,),
 
         //* TITULO DE SIMILARES
         _PreSimilarMoviesView(size: size, textStyle: textStyle, movieId: widget.movie.id.toString(),),
@@ -187,6 +209,26 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
         // const SizedBox(height: 20),
         
       ],
+    );
+  }
+}
+
+// * WIDGET DIVIDER QUE LO USAMOS REPETIDAMENTE EN LA SCREEN
+class _DividerSectionsView extends StatelessWidget {
+  const _DividerSectionsView({
+    required this.fount,
+  });
+
+  final bool fount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      endIndent: 10,
+      indent: 10,
+      thickness: 1,
+      color: fount ? Colors.white38 : Colors.black45,
+      radius: BorderRadius.circular(50),
     );
   }
 }
@@ -214,7 +256,7 @@ class _Genders extends StatelessWidget {
               margin: const EdgeInsets.only(right: 10),
               child: Chip(
                 label: Text(gender),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
               ),
             )
           ).toList(),
@@ -282,7 +324,7 @@ class _ElementsInDetailsState extends ConsumerState<_ElementsInDetails> {
                 :
                 const Color.fromARGB(255, 134, 132, 132), 
                 blurRadius: 6,
-                offset: Offset(1, 3)
+                offset: const Offset(1, 3)
               ),
             ]
           ),
@@ -298,7 +340,7 @@ class _ElementsInDetailsState extends ConsumerState<_ElementsInDetails> {
                     image: NetworkImage(
                       widget.movie.posterPath
                     ),
-                    placeholder: AssetImage('assets/loaders/movie_do-loader.gif'),
+                    placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'),
                     width: widget.size.width * 0.3,
                     fit: BoxFit.cover,
                   ),
@@ -416,7 +458,7 @@ class _PreSimilarMoviesView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    // final isDarck = ref.read(isdarckProvider).fount;
+    final fount = ref.read(isdarckProvider).fount;
     // ? POR SI NO HAY PELICULAS NO MOSTRAR ESTE TITULO
     final moviesById = ref.watch(similarMoviesProvider);
     final movies = moviesById[movieId] ?? [];
@@ -427,16 +469,23 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     
     return Padding(
       padding: const EdgeInsetsGeometry.only(bottom: 2, left: 10, right: 10, top: 1),
-      child: Row(
+      child: Column(
         children: [
-          Icon(Icons.label_important_sharp),
-          SizedBox(width: 4,),
-          Text(
-            'Recomendaciones', 
-            style: textStyle.bodySmall?.copyWith(fontSize: 24),
+          // * DIVIDER DE SECTIONS
+          _DividerSectionsView(fount: fount),
+
+          Row(
+            children: [
+              const Icon(Icons.label_important_sharp),
+              const SizedBox(width: 4,),
+              Text(
+                'Recomendaciones', 
+                style: textStyle.bodyMedium?.copyWith(fontSize: 24),
+              ),
+              const Spacer(),
+              Icon(Icons.recommend, size: size.width * 0.1,),
+            ],
           ),
-          const Spacer(),
-          Icon(Icons.recommend, size: size.width * 0.1,),
         ],
       ),
     );
@@ -498,6 +547,7 @@ class _MoviesSimilars extends ConsumerWidget {
     );
   }
 }
+
 // ! ALGO MUY IMPORTANTE USAR EL SIZEDBOX PARA DEFINIR MAXIMOS TAMANOS Y NO EXISTA EL DESVORDAMIENTO
 //* WIDGET QUE LE DA DISENO A CADA PELICULA SIMILAR DE LA LISTA DE ARRIBA
 class _MovieSimilarView extends StatelessWidget {
@@ -516,36 +566,33 @@ class _MovieSimilarView extends StatelessWidget {
       size.height * 0.25
       : 
       size.height * 0.3,
-      child: FadeInDown(
-        child: InkWell(
-          borderRadius: BorderRadius.circular(5),
-          onTap: () {
-            //! LA DIRECCION DE LA RUTA CAMBIO PORQUE AHORA ES /HOME, YA NO ES DE DIRECCION RAIZ /
-            context.push('/home/0/movie/${movie.id}');
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(5),
-            child: SizedBox(
+      child: GestureDetector(
+        onTap: () {
+          //! LA DIRECCION DE LA RUTA CAMBIO PORQUE AHORA ES /HOME, YA NO ES DE DIRECCION RAIZ /
+          context.push('/home/0/movie/${movie.id}');
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadiusGeometry.circular(5),
+          child: SizedBox(
+            width: double.infinity,
+            height: height ?
+            size.height * 0.24
+            :
+            size.height * 0.29,//* le decimos que tome solo una parte no todo
+            child: FadeInImage(
               width: double.infinity,
-              height: height ?
-              size.height * 0.24
-              :
-              size.height * 0.29,//* le decimos que tome solo una parte no todo
-              child: FadeInImage(
-                width: double.infinity,
-                height: double.infinity,
-                    
-                placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
-                
-                fit: BoxFit.cover,
-                
-                image:  NetworkImage(
-                  movie.posterPath,
-                ),
+              height: double.infinity,
+                  
+              placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
+              
+              fit: BoxFit.cover,
+              
+              image:  NetworkImage(
+                movie.posterPath,
               ),
-            ) 
-           
-          ),
+            ),
+          ) 
+         
         ),
       ),
     );
@@ -573,21 +620,30 @@ class _TitleCast extends ConsumerWidget {
     // ? HACEMOS LA TRANSFORMACION DE MAP A LIST, SEGUN EL ID, OBTENEMOS ESOS ACTORS
     // ? LE DECIMOS QUE ME DE TODOS LOS OBJETOS CON ESE ID DE LA MOVIE
     final actors = actorsById[movieId] ?? [];
+    final fount = ref.watch(isdarckProvider).fount;
  
     if(actors.isEmpty){
-      return SizedBox();
+      return const SizedBox();
     }
 
-    return Row(
+    return Column(
       children: [
-        SizedBox(width: 10,),
 
-        Icon(Icons.person_2, size: size.width * 0.07,),
+        // * DIVIDER
+        _DividerSectionsView(fount: fount),
 
-        SizedBox(width: 5,),
-        Text(
-          'Elenco',
-          style: textTheme.bodySmall?.copyWith(fontSize: 23),
+        Row(
+          children: [
+            const SizedBox(width: 10,),
+        
+            Icon(Icons.person_2, size: size.width * 0.07,),
+        
+            const SizedBox(width: 5,),
+            Text(
+              'Elenco',
+              style: textTheme.bodyMedium?.copyWith(fontSize: 23),
+            ),
+          ],
         ),
       ],
     );
@@ -599,8 +655,12 @@ class _ActorsByMovie extends ConsumerWidget {
   
 
   final String movieId;
+  final bool fount;
 
-  const _ActorsByMovie({required this.movieId});
+  const _ActorsByMovie({
+    required this.movieId, 
+    required this.fount
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -625,7 +685,7 @@ class _ActorsByMovie extends ConsumerWidget {
         itemBuilder: (context, index) {
           final actor = actors[index];
 
-          return _ActorView(actor: actor);
+          return _ActorView(actor: actor, fount: fount,);
         },
       ),
     );
@@ -636,7 +696,11 @@ class _ActorsByMovie extends ConsumerWidget {
 class _ActorView extends StatelessWidget {
 
   final Actor actor;
-  const _ActorView({required this.actor});
+  final bool fount;
+  const _ActorView({
+    required this.actor, 
+    required this.fount
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -653,20 +717,29 @@ class _ActorView extends StatelessWidget {
 
             //* Foto de el Actor
             FadeInRight(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: SizedBox(//* DEFINE EL TAMANO QUE LA IMAGEN PUEDE TOMAR
-                  width: double.infinity,//* TOMA TODO1 EL TAMANO QUE PUEED
-                  height: size.height * 0.265,
-                  child: FadeInImage(
-                    width: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN 
-                    // height: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN
-                    placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
-                    
-                    fit: BoxFit.cover,
-                    
-                    image: NetworkImage(
-                      actor.profilePath,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    width: 0.5,
+                    color: fount ? Colors.white38 : Colors.black54, 
+                  )
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(//* DEFINE EL TAMANO QUE LA IMAGEN PUEDE TOMAR
+                    width: double.infinity,//* TOMA TODO1 EL TAMANO QUE PUEED
+                    height: size.height * 0.265,
+                    child: FadeInImage(
+                      width: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN 
+                      // height: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN
+                      placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
+                      
+                      fit: BoxFit.cover,
+                      
+                      image: NetworkImage(
+                        actor.profilePath,
+                      ),
                     ),
                   ),
                 ) 
@@ -686,7 +759,7 @@ class _ActorView extends StatelessWidget {
             Text(
               actor.character ?? '', 
               maxLines: 1,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 overflow: TextOverflow.ellipsis
               ),
@@ -741,6 +814,8 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
 
     final colors = Theme.of(context).colorScheme;
 
+    final textTheme = Theme.of(context).textTheme;
+
     //! toma el color blacno o negro dependiendo del contexto del theme
     //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     
@@ -757,7 +832,7 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
           //* Es distinto de como apilar y desapilar con el push y pop, este coloca y ya no apila
           context.go('/');//es como teletransporstarse hacia otra pantalla, en lugar de ir una por una
         }, 
-        icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)
+        icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white,)
       ),
 
       actions: [//! PARA QUE FUNCIONE LA PARTE DE FAVORITOS, USA LA BASE DE DATOS LOCAL
@@ -777,7 +852,7 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
                 'Mira esta Pelicula'
               );
             },
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.share, color: Colors.white,)
@@ -802,11 +877,11 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
               
               if(isFav == true){//* Significa que es un favorito, si lo pulsa de debe mostrar mensaje de se quito
                 // ignore: use_build_context_synchronously
-                CustomSnackBar.snackBar(context, isDarck, 'Se quito de tus Favoritas');
+                CustomSnackBar.snackBar(context, isDarck, 'Se quito de tus Favoritas', textTheme);
                 
               }else{
                 // ignore: use_build_context_synchronously
-                CustomSnackBar.snackBar(context, isDarck, 'Se agrego a tus Favoritas');
+                CustomSnackBar.snackBar(context, isDarck, 'Se agrego a tus Favoritas', textTheme);
               }
               // * SONIDO AL PULSAR
               reproducirSonido();
@@ -820,7 +895,7 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
                 ],
               )
               :
-              Row(
+              const Row(
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -828,11 +903,11 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
                 ],
               ),
               error: (_, _) => throw Exception("Error al cargar el estado de favoritos"), 
-              loading: () => Center(
+              loading: () => const Center(
                 child: SizedBox(
                   width: 10,
                   height: 10,
-                  child: const CircularProgressIndicator(strokeWidth: 2,)
+                  child: CircularProgressIndicator(strokeWidth: 2,)
                 )
               ),
             )
@@ -849,10 +924,10 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
         //! ESTO ES PARA QEU EL GRADIENTE PARA QUE SE VEA EL TITULO EN PELICUALS CON FONDO BLANCO
         //! SE MUEVA INCLUSO SI BAJO LA PANTALLA  
         titlePadding: const EdgeInsets.only(bottom: 0),
-        title:  _CustomGradient(
+        title:  const _CustomGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          stops: const [0.8, 1],
+          stops: [0.8, 1],
           colors: [
             Colors.transparent,
             Colors.black87
@@ -883,7 +958,7 @@ class _ContentSilverAppBar extends StatelessWidget {
             child: SizedBox.expand(
              
               child: FadeInImage(
-                placeholder: AssetImage('assets/loaders/movie_do-loader.gif'),
+                placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'),
                 fit: BoxFit.cover, 
                 image: NetworkImage(
                   movie.posterPath,
@@ -902,17 +977,17 @@ class _ContentSilverAppBar extends StatelessWidget {
         // ),
 
         //*GRADIENTE DE LA FLECHA DE REGRESO
-        _CustomGradient(
+        const _CustomGradient(
           begin: Alignment.topLeft, 
-          stops: const [0.0, 0.4],
+          stops: [0.0, 0.4],
           colors: [Colors.black87, Colors.transparent]
         ),
 
         //*GRADIENTE DE EL BOTON DE FAVORITOS
-        _CustomGradient(
+        const _CustomGradient(
           begin: Alignment.topRight, 
           end: Alignment.bottomCenter, 
-          stops: const [0.0, 0.2],
+          stops: [0.0, 0.2],
           colors: [Colors.black87, Colors.transparent]
         ),
         

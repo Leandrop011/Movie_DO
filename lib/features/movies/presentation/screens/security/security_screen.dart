@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/features/features.dart';
-import 'package:movies_app/features/movies/presentation/providers/config/config.dart';
-import 'package:movies_app/features/movies/presentation/providers/local_auth/local_auth_providers.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 
 class SecurityScreen extends ConsumerStatefulWidget {
   const SecurityScreen({super.key});
@@ -18,24 +17,16 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
   void initState(){
     super.initState();
     ref.read(localAuthProvider.notifier).authenticateUser();
-    // final fount = ref.watch(isdarckProvider).fount;
-
-    // if(ref.read(localAuthProvider).didAuthenticate == false){
-    //   CustomSnackBar.snackBar(context, fount, 'La Autenticacion Fallo :(');
-    // }
-
-    // if(didAuthenticate == false){
-    //   CustomSnackBar.snackBar(context, fount, message);
-    // }
   }
 
   @override
   Widget build(BuildContext context) {
 
     final textTheme = Theme.of(context).textTheme;
-    // final colorTheme = Theme.of(context).colorScheme; 
+    final colors = Theme.of(context).colorScheme; 
     final fount = ref.watch(isdarckProvider).fount;
     final size = MediaQuery.of(context).size;
+    final valueBiometricsEnabled = ref.watch(existBiometricProvider).value;
 
     return Scaffold(
 
@@ -96,51 +87,142 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
                   style: textTheme.titleLarge?.copyWith(fontSize: size.width * 0.06, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
 
-                // * BOTON QUE EJECUTA EL PROCESO DE AUTENTICACION
-                FilledButton.tonal(
-                  
-                  style: ButtonStyle(
-                    shape: WidgetStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(10),
-                      ),
-                      
-                    ),
-                  ),
-          
-                  onPressed: () async{
-                    final (didAuthenticate, message) = await ref.read(localAuthProvider.notifier).authenticateUser();
-                  
-                    if(didAuthenticate == true){
-                      CustomSnackBar.snackBar(context, fount, 'Se Autentico con Exito :D');
-                    }else{
-                      CustomSnackBar.snackBar(context, fount, 'La Autenticacion Fallo :(');
-                    }
-                  }, 
-                  child: SizedBox(
-                    width: size.width * 0.4,
-                    height: size.height * 0.08,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Verificar',
-                          style: textTheme.bodySmall?.copyWith(fontSize: size.width * 0.05),
-                        ),
-                        SizedBox(width: 5,),
-                        Icon(Icons.fingerprint, size: size.width * 0.07,),
-                      ],
-                    ),
-                  ),
-                  
-                ),
+                // * BOTON QUE EJECUTA EL PROCESO DE AUTENTICACION CON HUELLA
+                (valueBiometricsEnabled == true ) ? 
+                _ButtonVerificationBiometricsView(size: size, textTheme: textTheme, colors: colors, ref: ref, fount: fount)
+                :
+                const SizedBox(),
+
+                // const SizedBox(height: 10,),
+
+                // // * BOTON QUE EJECUTA EL PROCESO DE AUTENTICACION CON CODIGO
+                // (valuePinEnabled == true) ? 
+                // _ButtonVerificationPinView(size: size, colors: colors, textTheme: textTheme, fount: fount)
+                // :
+                // const SizedBox(),                  
+                // ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+// class _ButtonVerificationPinView extends ConsumerWidget {
+//   const _ButtonVerificationPinView({
+//     required this.size,
+//     required this.colors,
+//     required this.textTheme,
+//     required this.fount,
+//   });
+
+//   final Size size;
+//   final ColorScheme colors;
+//   final TextTheme textTheme;
+//   final bool fount;
+
+//   @override
+//   Widget build(BuildContext context, ref) {
+
+//     final errors = ref.watch(pinFormProvider).pinInput.errorMessage;
+//     final valuePinTemporal = ref.watch(valuePinProvider);
+
+//     return Center(
+//       child: Container(
+//         decoration: BoxDecoration(
+//           color: Colors.grey,
+//           borderRadius: BorderRadius.circular(10),
+//         ),
+//         child: Column(
+//           children: [
+//             const Text('Ingrese el Pin'),
+//             CustomFormPIN(
+//               onChanged: (value) {
+//                 ref.read(pinFormProvider.notifier).onInputChanged(int.tryParse(value) ?? -1);
+
+//                 ref.read(valuePinProvider.notifier).state = (int.tryParse(value) ?? -1);
+//               },
+//               errorMessage: errors,
+//             ),
+//             FilledButton(
+//               onPressed: () async{ 
+
+//                 final isValid = await ref.read(pinFormProvider.notifier).verificationPin(valuePinTemporal);
+                
+//                 if(isValid == true){
+//                   CustomSnackBar.snackBar(
+//                     // ignore: use_build_context_synchronously
+//                     context, 
+//                     fount, 
+//                     'Verificacion con exito', 
+//                     textTheme,
+//                   );
+//                 }else{
+//                   CustomSnackBar.snackBar(
+//                     // ignore: use_build_context_synchronously
+//                     context, 
+//                     fount, 
+//                     'Verificacion fallida :(', 
+//                     textTheme,
+//                   );
+
+//                 }
+//               }, 
+//               child: const Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Icon(Icons.verified),
+//                   SizedBox(width: 5,),
+//                   Text('Verificar')
+//                 ],
+//               )
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class _ButtonVerificationBiometricsView extends StatelessWidget {
+  const _ButtonVerificationBiometricsView({
+    required this.size,
+    required this.textTheme,
+    required this.colors,
+    required this.ref,
+    required this.fount,
+  });
+
+  final Size size;
+  final TextTheme textTheme;
+  final ColorScheme colors;
+  final WidgetRef ref;
+  final bool fount;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomButtonAuthenticated(
+      width: size.width * 0.45, 
+      height: size.height * 0.08, 
+      text: 'Huella', 
+      icon: Icons.fingerprint_rounded, 
+      textTheme: textTheme, 
+      colors: colors,
+      // ignore: void_checks
+      onPressed: () async{
+        final (didAuthenticate, message) = await ref.read(localAuthProvider.notifier).authenticateUser();
+      
+        if(didAuthenticate == true){
+          CustomSnackBar.snackBar(context, fount, 'Se Autentico con Exito :D', textTheme);
+        }else{
+          CustomSnackBar.snackBar(context, fount, 'La Autenticacion Fallo :(', textTheme);
+        }
+      }, 
+      size: size
     );
   }
 }

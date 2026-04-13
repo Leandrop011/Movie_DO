@@ -115,7 +115,7 @@ class _CardView extends ConsumerWidget {
 
             title: Text(
               colorName,
-              style: textTheme.bodySmall?.copyWith(fontSize: 20),
+              style: textTheme.bodyMedium?.copyWith(fontSize: 20, fontWeight: FontWeight.normal),
 
             ),
             // subtitle: Text('${color.hashCode}'),

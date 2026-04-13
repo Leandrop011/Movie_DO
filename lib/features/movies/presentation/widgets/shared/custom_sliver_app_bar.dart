@@ -32,8 +32,8 @@ class GlassSliverAppBar extends StatelessWidget {
       expandedHeight: expandedHeight,
       floating: false,
       pinned: true,
-      leading: leading,
       actions: actions,
+      leading: leading,
       backgroundColor: Colors.transparent,
       elevation: 0,
       flexibleSpace: ClipRRect(
@@ -55,7 +55,7 @@ class GlassSliverAppBar extends StatelessWidget {
                   glassColor.withOpacity(glassOpacity * 0.5),
                 ],
               ),
-              border: Border(
+              border: const Border(
                 bottom: BorderSide(
                   //color: Colors.white.withOpacity(0.2),
                   width: 1
@@ -63,16 +63,13 @@ class GlassSliverAppBar extends StatelessWidget {
               ),
             ),
             child: FlexibleSpaceBar(
-              title: Padding(
-                padding: const EdgeInsetsGeometry.only(),
-                child: Text(
-                  title,
-
-                  style: TextStyle(
-                    color: colors.primary,
-                    fontWeight: FontWeight.w500,
-                    fontSize: size.width * 0.04,
-                  ),
+              title: Text(
+                title,
+              
+                style: TextStyle(
+                  color: colors.primary,
+                  fontWeight: FontWeight.w500,
+                  fontSize: size.width * 0.04,
                 ),
               ),
             ),

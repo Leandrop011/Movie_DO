@@ -23,34 +23,6 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
     
   }
 
-  //* SHOW DIALOG PARA DAR INFORMACION DE LA PANTALLA FAVORITAS MOVIES
-  // void _infoMake(BuildContext context){
-  //   showDialog(
-  //     context: context, 
-  //     barrierColor: Colors.black.withOpacity(0.5),
-      
-  //     builder: (context) {
-  //       return BackdropFilter(
-  //         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-  //         child: AlertDialog(
-  //           title: Text('Favoritas'),
-  //           content: Text('En esta sección podrás ver todas las películas que marcaste como favoritas. Las películas se guardan en tu dispositivo, así que siempre estarán disponibles incluso sin conexión. Puedes agregar o quitar una película de favoritos desde su pantalla de detalle.'),
-  //           actions: [
-  //             FilledButton(
-  //               onPressed: (){
-  //                 context.pop();
-  //               }, 
-  //               child: Text('OK')
-  //             )
-  //           ],
-            
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -89,7 +61,8 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
               child: Icon(Icons.info_outline, size: size.width * 0.065),
             )
           )
-        ]
+        ],
+        blurIntensity: 50,
       ),
       
       body: MoviesMasonry( 

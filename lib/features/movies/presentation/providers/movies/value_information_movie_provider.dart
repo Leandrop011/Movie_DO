@@ -14,12 +14,12 @@ class ValueInformationMovieNotifier extends StateNotifier<ValueInformationMovieS
   final int lengthDescription;
 
   ValueInformationMovieNotifier({required this.lengthDescription}): super(ValueInformationMovieState()){
-    if(lengthDescription < 160){
+    if(lengthDescription < 155){
       state = state.copyWith(
         enabled: false,
       );
       return;
-    }else if(lengthDescription > 160){
+    }else if(lengthDescription >= 160){
       state = state.copyWith(enabled: true);
       return;
     }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomSnackBar {
-  static void snackBar(BuildContext context, bool isDarck, String message){
+  static void snackBar(BuildContext context, bool isDarck, String message, TextTheme textTheme){
     ScaffoldMessenger.of(context).clearSnackBars();
     final snackBar = SnackBar(//* crea el nuevo
-      content: Text(message),
+      content: Text(message, style: textTheme.titleSmall?.copyWith(color: isDarck ? Colors.black : Colors.white),),
       behavior: SnackBarBehavior.floating,//* efecto de estar flotando en la pantalla
       backgroundColor: isDarck ?
       Colors.white70

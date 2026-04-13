@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 final List<Color> colorsTheme = [
   Colors.blue,
-  Colors.purple,
   Colors.purpleAccent,
   Colors.green,
   Colors.orange,
@@ -14,14 +13,11 @@ final List<Color> colorsTheme = [
   Colors.cyan,
   Colors.amber,
   Colors.indigo,
-  Colors.lime,
-  Colors.deepOrange,
 ];
 
 final List<String> colorsNameTheme = [
   'Azul',
   'Morado',
-  'Morado Acento',
   'Verde',
   'Naranja',
   'Rojo',
@@ -31,8 +27,6 @@ final List<String> colorsNameTheme = [
   'Cian',
   'Ámbar',
   'Índigo',
-  'Lima',
-  'Naranja Oscuro',
 ];
 
 
@@ -49,16 +43,22 @@ class AppTheme {
     useMaterial3: true,
     colorSchemeSeed: colorsTheme[indexColor],
 
-    // * Tema de texto
+    // * Tema de texto title
     textTheme: TextTheme(
-      titleLarge: GoogleFonts.montserratAlternates()
-        .copyWith( fontSize: 23, fontWeight: FontWeight.bold ),
-      titleMedium: GoogleFonts.montserratAlternates()
+      titleLarge: GoogleFonts.googleSans()
+        .copyWith( fontSize: 23, fontWeight: FontWeight.bold ), 
+      titleMedium: GoogleFonts.montserrat()
         .copyWith( fontSize: 18, fontWeight: FontWeight.bold ),
-      titleSmall: GoogleFonts.montserratAlternates()
+      titleSmall: GoogleFonts.googleSans()
         .copyWith( fontSize: 15, ),
-      bodySmall: GoogleFonts.russoOne()
+    // * Tema de texto body
+      bodyLarge: GoogleFonts.googleSans(),
+      bodyMedium: GoogleFonts.saira(),
+      bodySmall: GoogleFonts.roboto(fontWeight: FontWeight.normal)
+    
+
     ),
+    
 
     // * Botones
     filledButtonTheme: FilledButtonThemeData(

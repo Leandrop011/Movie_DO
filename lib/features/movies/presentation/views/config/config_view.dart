@@ -23,7 +23,7 @@ class _ConfigViewState extends ConsumerState<ConfigView> with AutomaticKeepAlive
     final fount = ref.watch(isdarckProvider).fount;
 
     return FadeInRight(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.elasticInOut,
       child: Scaffold(
         body: Stack(
@@ -51,7 +51,7 @@ class _ConfigViewState extends ConsumerState<ConfigView> with AutomaticKeepAlive
               ),
             ),
 
-            _SettingsView(),
+            const _SettingsView(),
           ],
         ),
       ),
@@ -78,7 +78,7 @@ class _SettingsView extends ConsumerWidget {
           _AppBarView(existBiometrics: existBiometrics ?? false,),
       
           // ? CONTENIDO DE LA PANTALLA
-          _BodyView()
+          const _BodyView()
       
         ],
       ),
@@ -125,7 +125,7 @@ class _BodyView extends ConsumerWidget {
 
 
     return SliverPadding(
-      padding: EdgeInsetsGeometry.symmetric(vertical: 10),
+      padding: const EdgeInsetsGeometry.symmetric(vertical: 10),
       //* NO USAMOS EL LAYOUT SLIVER PORQUE NO ESTAMOS MOSTRANDO OBJETOS SEGUN EL TAMANO
       sliver: SliverGrid.count(
         crossAxisCount: 2,
@@ -158,7 +158,7 @@ class _BodyView extends ConsumerWidget {
             ),
           ).toList(),
           error: (error, stackTrace) => [Text('Error: $error')], 
-          loading: () => [CircularProgressIndicator()],
+          loading: () => [const CircularProgressIndicator()],
         ),
             
         // children: itemsWithBiometrics.map(
@@ -305,7 +305,7 @@ class _AppBarView extends ConsumerWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color.fromARGB(255, 0, 0, 0),
+                const Color.fromARGB(255, 0, 0, 0),
                 colorTheme.primary,
               ],
             ),
@@ -330,7 +330,7 @@ class _AppBarView extends ConsumerWidget {
                   onPressed: (){
                     context.pop();
                   }, 
-                  child: Text('Ok'),
+                  child: const Text('Ok'),
                 )
               ], 
               textTheme,

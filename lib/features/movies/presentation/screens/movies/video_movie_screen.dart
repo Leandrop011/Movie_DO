@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/config/plugins/redirect_yt_plugin.dart';
 import 'package:movies_app/features/movies/domain/entities/movie.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
-import 'package:movies_app/features/movies/presentation/providers/video/video_start_provider.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoMovieScreen extends ConsumerStatefulWidget {
@@ -77,6 +76,8 @@ class _VideoMovieScreenState extends ConsumerState<VideoMovieScreen> {
         // * O SI EL CONTROLLER ESTA LISTO O SI EL BUFFERED ES 0 O SI EL ESTADO DEL CONTROLLER ES DESCONOCIDO
         if(value.hasPlayed || value.isReady || (value.buffered == 0) || (value.playerState == PlayerState.unknown)){
           ref.read(videoStartProvider.notifier).changeStart(value: false);
+          
+          ref.read(movieTapValueChangeProvider.notifier).changeValue(false);
         }
 
         if (errorCode != newErrorCode || hasError != newHasError) {
@@ -95,6 +96,7 @@ class _VideoMovieScreenState extends ConsumerState<VideoMovieScreen> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+
     super.dispose();
   }
 
@@ -123,11 +125,11 @@ class _VideoMovieScreenState extends ConsumerState<VideoMovieScreen> {
           controller: controller,
           // ? LOS CONTROLES QUE ESTARAN DISPONIBLES EN EL VIDEO
           bottomActions: [
-            CurrentPosition(),
-            ProgressBar(isExpanded: true),
-            PlaybackSpeedButton(),
+            const CurrentPosition(),
+            const ProgressBar(isExpanded: true),
+            const PlaybackSpeedButton(),
             SizedBox(width: size.width * 0.03,),
-            RemainingDuration(),
+            const RemainingDuration(),
 
           ],
           
@@ -148,9 +150,9 @@ class _VideoMovieScreenState extends ConsumerState<VideoMovieScreen> {
                       context.pop();
                       
                     }, 
-                    icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,),
+                    icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white,),
                   ),
-                  SizedBox(width: 5,),
+                  const SizedBox(width: 5,),
                   Text(
                     titleMovie ?? '',
                     maxLines: 1,

@@ -14,9 +14,9 @@ class CustomInfomakeShowdialog {
 
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: AlertDialog(
-            backgroundColor: Colors.black54,
+            backgroundColor: Colors.black87,
             title: Text(title, style: styleText.titleLarge?.copyWith(color: Colors.white,)),
-            content: Text(content, style: styleText.titleMedium?.copyWith(color: Colors.white, fontSize: 13,)),
+            content: Text(content, style: styleText.titleMedium?.copyWith(color: Colors.white, fontSize: 13, fontWeight: FontWeight.normal)),
             actions: actions,
           
           ),

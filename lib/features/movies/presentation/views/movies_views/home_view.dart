@@ -66,7 +66,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
     
 
     // ! HASTA QUE CARGUE LA DATA PUES MUESTRA ESTO
-    if(initialLoading == true ) return CustomFullscreenLoading(); 
+    if(initialLoading == true ) return const CustomFullscreenLoading(); 
 
     
     FlutterNativeSplash.remove();
@@ -97,7 +97,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
       //curve: Curves.elasticOut,
       child: CustomScrollView(//todo, para controlar el scroll
       
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
           
           //! MANANA IMPLEMENTAR UNA APPBAR CON DESENFOQUE Y CON DISENO TRANSPARENTE
@@ -205,12 +205,11 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                 return Column(
       
                   children: [
-                    // const Spacer(),   
+
                     //* CARTELERA GRANDE DE LA PELICULA MAS POPULAR
                     MovieTop(movie: movieTop),
-                    // const Spacer(),
+
                     //* Peliculas en Cines
-                    // const Spacer(),
                     MovieHorizontalListview(
                       movies: nowPlayingMovies,
                       title: 'En cines',
@@ -220,20 +219,8 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                       },
                     ),
             
-                     //todo, widget que dibuja un carrucel de peliculas
+                     // * Widget que dibuja un carrucel de peliculas
                     MoviesSlideshow(movies: slideShowMovies),
-      
-                    // //* Peliculas Populares
-      
-                    // MovieHorizontalListview(
-                    //   movies: popularMovies,
-                    //   title: 'Populares',
-                    //   subTitle: 'En este mes', 
-                    //   loadNextPage: () {
-                    //     //todo, le pedimos que nos carge mas peliculas(infity scroll)
-                    //     ref.read(popularMoviesProvider.notifier).loadNextPage();
-                    //   },
-                    // ),
             
                     
                     // const Spacer(),

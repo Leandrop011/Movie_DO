@@ -48,10 +48,15 @@ class _VideosList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ignore: prefer_const_constructors
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: const Text('Video', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            children: [
+              Icon(Icons.movie),
+              SizedBox(width: 5,),
+              Text('Video', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            ],
+          ),
         ),
         
         // * Aunque tengo varios videos, s�lo quiero mostrar el primero
@@ -138,8 +143,8 @@ class _YouTubeVideoPlayer extends ConsumerWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircularProgressIndicator(strokeWidth: 4, ),
-                            SizedBox(height: 5,),
+                            const CircularProgressIndicator(strokeWidth: 4, ),
+                            const SizedBox(height: 5,),
                             
                               Center(
                                 child: Text(

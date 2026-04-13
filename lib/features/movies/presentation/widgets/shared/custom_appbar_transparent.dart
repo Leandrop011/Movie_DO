@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 
 class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWidget {
@@ -11,13 +13,16 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
   // final VoidCallback? onIconPressed;
   final double blurIntensity;
   final double glassOpacity;
+  final bool? leadingButton;
 
   const CustomAppbarTransparent( {
     super.key, 
     required this.leadingIcon, 
     required this.actions,
     this.blurIntensity = 10, 
-    this.glassOpacity = 0.1, required this.tittle, 
+    this.glassOpacity = 0.1, 
+    required this.tittle, 
+    this.leadingButton = false, 
     // required this.onIconPressed
   });
 
@@ -39,7 +44,16 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
       ),
       leading: Padding(
         padding: const EdgeInsets.only(left: 15.0,),
-        child: Icon(
+        child: leadingButton! ? 
+        IconButton(
+          onPressed: (){
+            HapticFeedback.heavyImpact();
+            context.pop();
+          }, 
+          icon: Icon(leadingIcon)
+        )
+        :
+        Icon(
           leadingIcon,
           color: colors.primary,
           size: size.width * 0.055,
@@ -53,7 +67,7 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
       scrolledUnderElevation: 0,
        
       flexibleSpace: ClipRRect(
-        borderRadius: BorderRadius.vertical(
+        borderRadius: const BorderRadius.vertical(
           bottom: Radius.circular(20),
         ),
         child: BackdropFilter(
@@ -88,5 +102,5 @@ class CustomAppbarTransparent extends StatelessWidget implements PreferredSizeWi
   
   //* para que pueda asignar esto a una Appbar
   @override
-  Size get preferredSize => Size.fromHeight(60);
+  Size get preferredSize => const Size.fromHeight(60);
 }

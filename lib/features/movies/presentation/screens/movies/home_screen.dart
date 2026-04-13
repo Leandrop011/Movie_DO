@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/features/movies/movies.dart';
-import 'package:movies_app/features/movies/presentation/providers/config/security_provider.dart';
-import 'package:movies_app/features/movies/presentation/providers/local_auth/local_auth_providers.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 //import '../../views/movies_views/home_view.dart';
 
 //todo, dotenv es para mover archivos de entorno hacia la app
@@ -72,14 +70,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
     super.build(context);
 
     final authAprove = ref.watch(localAuthProvider).didAuthenticate;
-    final securityActive = ref.watch(securityProvider).activeSecurity;
+    final securityActiveBiometric = ref.watch(securityProvider).activeSecurity;
+    // final securityActivePin = ref.watch(pinFormProvider.notifier).getValueActivePin();
     final tutorialValueExecuted = ref.watch(tutorialMoviesProvider).didExecuted;
+    // final pinAprove = ref.watch(pinFormProvider).isFormValid;
 
     return Scaffold(
       extendBody: true, //? PARA COLOCAR EL BOTTOMNAVIGATIONBAR ENCIMA DE TODO1, COMO QUE SE EXTIENDE
       // ? SI LA SEGURIDAD ESTA ACTIVA, PRIMERO HACE LAS CONSIDERACIONES, DE APROVADO O NO
       // ? SI NO ESTA ACTIVA MUESTRA LA APP NORMAL
-      body:  (securityActive == true) ? 
+      body:  (securityActiveBiometric == true) ? 
         // ? SI LA SEGURIDAD ESTA ACTIVA, PRIMERO VERIFICA SI ESTA APROVADO PARA VER QUE SE MUESTRA
         (authAprove == true) ?
         // * APROVADO: MUESTRA LA APP O EL TUTORIAL
@@ -90,10 +90,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
           children: viewRoutes
         )
         :
-        TutorialScreen()
+        const TutorialScreen()
         // * NO APROVADO: MUESTRA LA PANTALLA DE VERIFICARSE
         :
-        SecurityScreen()
+        const SecurityScreen()
       :
       (tutorialValueExecuted == true) ?
       PageView(
@@ -102,14 +102,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
         children: viewRoutes
       )
       :
-      TutorialScreen(),
+      const TutorialScreen(),
       
 
       // ? HAY QUE PRIMERO HACER UNA CONSIDERACION LUEGO OTRA AUTH AND SECURITY 2 TERNARIOS
       // ? PRIMERO SI ESTA ACTIVA LA SEGURIDAD Y HACE SUS CONSIDERACIONES
-      bottomNavigationBar: (securityActive == true) ?
+      bottomNavigationBar: (securityActiveBiometric == true ) ?
         // ? SI ESTA APROVADO MUESTRA EL BOTTOM, SINO NADA
-        (authAprove == true) ?
+        (authAprove == true ) ?
         (tutorialValueExecuted == true)?
         CustomBottomNavigationbar(currentIndex: widget.pageIndex,)
         :

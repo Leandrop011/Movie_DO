@@ -18,7 +18,7 @@ class MoviePosterLink extends StatelessWidget {
         //! ESTO ES LA distancia en píxeles desde donde comienza la animación
         from: random.nextInt(100) + 80,//! ESTO CONTROLA MEJOR LA PAGINACION EL CATEGORIES
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           child: FadeInImage(//* USAMOS ESTE FADE IN IMAGE PARA UNA MEJOR VISUALIZACION DE LA CARGA DE MOVIES
             height: index?
             200
@@ -28,7 +28,7 @@ class MoviePosterLink extends StatelessWidget {
             image: NetworkImage(movie.posterPath),
             //! PARA QUE NO DE ESE SALTO FEO POR QUE NO HAY COMO UN LOADING
             //!SOLO PERMITE IMAGENES
-            placeholder: AssetImage('assets/loaders/movie_do-loader.gif'),
+            placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'),
             fit: BoxFit.cover,
           ),
         ),

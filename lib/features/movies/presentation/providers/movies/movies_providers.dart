@@ -51,7 +51,8 @@ final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>
 );
 
 
-
+// ! CADA PROVIDER DE CADA CATEGORY DE LAS MOVIES, USA EL MISMO NOTIFIER PARA MANEJAR SU ESTADO
+// ! Y MISMAS FUNCIONES
 
 //todo, el objetivo es definir el caso de uso
 typedef MovieCallBack = Future<List<Movie>> Function({int page});  

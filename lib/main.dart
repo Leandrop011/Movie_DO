@@ -7,109 +7,39 @@ import 'package:movies_app/config/config.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 // ? RAMA ETAPA 07 QUICK ACTIONS
 Future <void> main()async{ 
-  // Intl.defaultLocale = 'es_ES';
-  // initializeDateFormatting('es_ES', null);
-  // FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
 
-  // ! ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS
+  // ! ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS O SERVICIOS EXTERNOS(FIREBASE)
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ! PARA ACCEDER A LOS PROVIDERS DESDE EL MAIN
+  // ! PARA ACCEDER A LOS PROVIDERS DESDE EL MAIN, OSEA DESDE EL INICIO DE LA APP
+  // ! Y TENER EL VALOR GUARDADO DE EL ID MOVIE Y NAVEGAR A ESA MOVIE
   final ref = ProviderContainer();
 
   final valueMovieId = await ref.read(lastMovieIdQuickActionProvider.notifier).getMovieIdValueQuickAction();
 
   QuickActionsPlugin.registerActions(movieId: valueMovieId);
 
-  // await db.into(db.favoritesMovies).insert(//!PARA HACER INCERSIONES DE ELEMENTOS EN LA BASE DE DATOS
-  //   FavoritesMoviesCompanion.insert(
-  //     movieId: 1, 
-  //     backdropPath: "backdropPath.png", 
-  //     originalTitle: "Mi first movie", 
-  //     posterPath: 'posterPath.png', 
-  //     title: 'Batman'
-  //   )
-  // );
-  //! PARA BORRAR LOS RECURSOS DE LA BASE DE DATOS
-  // final deleteQuery = db.delete(db.favoritesMovies);
-  // await deleteQuery.go();
-
-  //!EJEMPLO DE LO QUE INSERTA
-  // final movies = await db.select(db.favoritesMovies).get();
-
-  // print('Movies: $movies');
-
-  // ? PARA COLOCAR LA HORIENTACION DEL TELEFONO 
+  // ! PARA COLOCAR LA HORIENTACION DEL TELEFONO POR DEFECTO EN VERTICAL
   await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
   ]);
   
-  //todo, para usar el api key que colocamos en variables de entorno 
+  // ! Para usar el api key que colocamos en variables de entorno 
   await dotenv.load(fileName: '.env');
-  // await NotificationsBloc.initializeFCM();
-  // await LocalNotifications.initializeLocalNotifications();
-  //! Inicializar base de datos de notificaciones
-  // Esto asegura que la BD esté lista antes de usarla
-  // await dbNotifications.select(dbNotifications.notifications).get();
-  
-  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingTerminatedHandler);
-  runApp(
-  // MultiBlocProvider(
-    // providers: [
-    //   BlocProvider(create: (context) {
-    //     //! le pasamos el repo que nos provee del datasource la data de la database 
-    //     final container = ProviderContainer();
-    //     final repository = container.read(repositoryNotificationProvider);
-        
-    //     return NotificationsBloc(
-    //     //* caso de uso para pedir el permiso de las local notifications
-    //     requestLocalNotificationPermissions: LocalNotifications.requestPermissionLocalNotifications,
-    //     //* para el show local notification
-    //     showLocalNotification: LocalNotifications.showLocalNotifications,
-    //     notificationsRepository: repository
-    //     );
-    //  }
-    // )
 
-    // ],
-    //! EL PROVIDER SCOPE ES NECESARIO PARA EL FUNCIONAMIENTO DE RIVERPOD
-    ProviderScope(child: const MyApp())
+  runApp(
+    // ! EL PROVIDER SCOPE ES NECESARIO PARA EL FUNCIONAMIENTO DE RIVERPOD
+    const ProviderScope(child: MyApp())
   // ),
   );
 }
 
-class MyApp extends ConsumerStatefulWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-
-
-  @override
-  void initState() {
-    super.initState();
-
-    // final String valueMovie = ref.read(lastMovieIdQuickActionProvider).movieId ?? 'no-id';
-
-    // // ! QUICK ACTIONS INIT
-    // QuickActionsPlugin.registerActions(movieId: valueMovie);
-
-  }
-
-  // Key _appKey = UniqueKey();
-
-// void reiniciar(){
-//   setState(() {
-//     _appKey = UniqueKey();
-//   });
-// }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     //* Va a estar pendiente de cualquier cambio, si existe algun cambio pues redibuja
     final isdarck = ref.watch(isdarckProvider).fount;
@@ -119,7 +49,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
       theme: AppTheme(isdarck: isdarck, indexColor: indexColor).getTheme(),
-      // builder: (context, child) => HandleNotificationInteractions(child: child!),
     );
   }
 }

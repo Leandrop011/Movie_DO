@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/config/config.dart';
@@ -12,7 +13,6 @@ class MovieHorizontalListview extends StatefulWidget {
 
   final List<Movie> movies;
   final String? title;
-  final String? subTitle;
   // final bool? widthN;
   // final bool? heightN;
 
@@ -22,7 +22,6 @@ class MovieHorizontalListview extends StatefulWidget {
     super.key, 
     required this.movies, 
     this.title, 
-    this.subTitle, 
     this.loadNextPage, 
     // this.widthN, 
     // this.heightN = false
@@ -75,8 +74,8 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
           
 
           // ? el 'encabezado'
-          if(widget.title != null || widget.subTitle != null)// ? solo renderiza si es diferente de null lo renderiza
-          _Tittle(title: widget.title, subTittle: widget.subTitle,),
+          if(widget.title != null)// ? solo renderiza si es diferente de null lo renderiza
+          _Tittle(title: widget.title),
 
           // ? el listado de peliculas
 
@@ -85,7 +84,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
               controller: scrollController,
               itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 final movie = widget.movies[index];
 
@@ -107,16 +106,14 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 // * Encabezado que dice en cines y fecha
 class _Tittle extends StatelessWidget {
   final String? title;
-  final String? subTittle;
 
   const _Tittle({
-    this.title, 
-    this.subTittle
+    this.title,
   });
 
   @override
   Widget build(BuildContext context) {
-    final tittleStyle = Theme.of(context).textTheme.bodySmall;
+    final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
 
     return Container(
@@ -125,23 +122,31 @@ class _Tittle extends StatelessWidget {
       child: Row(
         children: [
 
-          Icon(Icons.label),
+          const Icon(Icons.label),
 
-          SizedBox(width: 5,),
+          const SizedBox(width: 5,),
 
-          if(title != null)//todo, una condicion para segurarse que no sea null
-            Text(title!, style: tittleStyle?.copyWith(fontSize: size.width * 0.055,),),
+          if(title != null)// ? Una condicion para segurarse que no sea null
+            Text(title!, style: textTheme.bodyMedium?.copyWith(fontSize: size.width * 0.055,),),
           
-          Spacer(),
+          const Spacer(),
 
-          if(subTittle != null)
-            FilledButton.tonal(
-              style: ButtonStyle(//todo, tamano del boton
-                visualDensity: VisualDensity.compact
-              ),
-              onPressed: (){}, 
-              child: Text(subTittle!,)//todo, es '!' es para forzarlo, es como decirle eso nunca va a ser null
-            )
+          FilledButton.tonal(
+            style: FilledButton.styleFrom(
+              fixedSize: size.flipped * 0.14,
+              minimumSize: const Size(100, 5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(10),
+              )
+            ),
+            onPressed: (){
+
+              HapticFeedback.heavyImpact();
+
+              context.push('/show_more_movies/$title');
+            }, 
+            child: Text('Ver Mas', style: textTheme.bodyMedium,)
+          )
 
         ],
       ),
@@ -168,12 +173,12 @@ class _Slide extends ConsumerWidget {
 
 
     return SizedBox(//! PARA DISENO RESPONSIVO Y QUE MAXIMO OCUPE ESE ESPACIO
-      width: size.width * 0.4,
+      width: size.width * 0.42,
       // height: size.height * 0.5,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),//todo, un marge de modo horizontal
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),// ? un marge de modo horizontal
         child: InkWell(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           //context.push('/movie/${movie.id}'); //! Esta ruta ya no existe porque se cambio el router
           //! Antes solo era /movie/${movie.id} porque la direccion raiz era /, ahora es home
           onTap: () {
@@ -190,11 +195,11 @@ class _Slide extends ConsumerWidget {
               SizedBox(
                 width: double.infinity,//* LO MAXIMO QUE PUEDA OCUPAR
                 child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(10),
+                  borderRadius: BorderRadiusGeometry.circular(5),
                   child: FadeInImage(
                     height: size.height * 0.31,
                     fit: BoxFit.cover,
-                    placeholder: AssetImage('assets/loaders/movie_do-loader.gif'), 
+                    placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
                     
                     image: NetworkImage(
                       movie.posterPath,

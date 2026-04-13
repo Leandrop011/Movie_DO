@@ -20,8 +20,8 @@ class SlideInfo {
 // ? LA LISTA DE SLIDES PARA EL TUTORIAL QUE SE CREARAN
 final slidesTutorial = <SlideInfo>[
   SlideInfo(title: 'Bienvenido a\nMovie DO', caption: 'Tu guía definitiva para explorar el séptimo arte. Encuentra información detallada sobre tus películas favoritas en un solo lugar.', image: 'assets/tutorial/slide_tutorial_01.png'),
-  SlideInfo(title: 'Descubre lo que sigue', caption: 'Explora estrenos, clásicos y recomendaciones personalizadas según tu gusto.', image: 'assets/tutorial/slide_tutorial_02.png'),
-  SlideInfo(title: 'Listo para empezar', caption: '¡Tu próxima película favorita te está esperando! Sumérgete en el mundo del cine ahora mismo.', image: 'assets/tutorial/slide_tutorial_03.png'),
+  SlideInfo(title: 'Descubre lo que\nsigue', caption: 'Explora estrenos, clásicos y recomendaciones personalizadas según tu gusto.', image: 'assets/tutorial/slide_tutorial_02.png'),
+  SlideInfo(title: 'Listo para empezar!', caption: '¡Tu próxima película favorita te está esperando! Sumérgete en el mundo del cine ahora mismo.', image: 'assets/tutorial/slide_tutorial_03.png'),
 ];
 
 class TutorialScreen extends ConsumerStatefulWidget {
@@ -85,7 +85,7 @@ class _TutorialScreenState extends ConsumerState<TutorialScreen> {
               
               // ? IMAGEN Y TEXTO EXPLICATIVO
               PageView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 controller: pageViewController,
                 children: slidesTutorial.map(
                   (slide) => _SlideView(
@@ -111,7 +111,7 @@ class _TutorialScreenState extends ConsumerState<TutorialScreen> {
                   }, 
                   child: Text(
                     'Saltar', 
-                    style: textTheme.bodySmall,
+                    style: textTheme.bodyMedium,
                   ),
                 )
               ),
@@ -125,7 +125,7 @@ class _TutorialScreenState extends ConsumerState<TutorialScreen> {
                 right: 10,
           
                 child: SlideInRight(
-                  duration: Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
                   curve: Curves.decelerate,
                   child: FilledButton(
 
@@ -140,13 +140,13 @@ class _TutorialScreenState extends ConsumerState<TutorialScreen> {
                       ref.read(tutorialMoviesProvider.notifier).setValueTutorial(!tutorialValue);
                     
                     }, 
-                    child: Text('Comenzar!')
+                    child: const Text('Comenzar!')
                   ),
                 ),
           
               )
               :
-              SizedBox(),
+              const SizedBox(),
           
               // ? PUNTITOS QUE MUESTRAN LA POSICION DE CADA SLIDE
               Positioned(
@@ -206,7 +206,7 @@ class _SlideView extends StatelessWidget {
           )
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          padding: const EdgeInsets.only(left: 12.0, right: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,34 +214,32 @@ class _SlideView extends StatelessWidget {
               // * TITULO
               Text(
                 title,
-                style: textTheme. titleLarge?.copyWith(fontSize: 25),
+                style: textTheme. bodySmall?.copyWith(fontSize: 25, fontWeight: FontWeight.bold),
               ),
 
-              SizedBox(height: 10,),
+              const SizedBox(height: 5,),
           
               // * IMAGEN
-              Center(
-                child: SizedBox(
-                  width: size.width * 0.7,
-                  height: size.height * 0.27,
-                  child: ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(10),
-                    child: Image.asset(
-                      width: double.infinity,
-                      height: double.infinity,
-                      image,
-                      fit: BoxFit.cover,
-                    ),
+              SizedBox(
+                width: size.width * 0.7,
+                height: size.height * 0.27,
+                child: ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(10),
+                  child: Image.asset(
+                    width: double.infinity,
+                    height: double.infinity,
+                    image,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
           
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
 
               // * DESCRIPCION O CAPTION
               Text(
                 caption,
-                style: textTheme.bodySmall?.copyWith(fontSize: 13),
+                style: textTheme.bodySmall?.copyWith(fontSize: 13, fontWeight: FontWeight.w100),
               ),
             ],
           ),
