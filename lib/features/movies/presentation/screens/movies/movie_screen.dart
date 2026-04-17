@@ -405,7 +405,7 @@ class _ElementsInDetailsState extends ConsumerState<_ElementsInDetails> {
                           ),
                         )
                       ):
-                      SizedBox(),
+                      const SizedBox(),
 
                       SizedBox(height: widget.size.height * 0.01,),
 

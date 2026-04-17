@@ -223,7 +223,7 @@ class _MovieItem extends ConsumerWidget {
         
           child: SizedBox(
             //* MAXIMOS
-            height: size.height * 0.3,
+            // height: size.height * 0.2,
             width: size.width * 0.5,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

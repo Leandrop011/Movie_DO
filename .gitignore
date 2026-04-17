@@ -1,5 +1,6 @@
 .env
-
+*.jks
+*.keystore
 # Miscellaneous
 *.class
 *.log

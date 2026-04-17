@@ -118,7 +118,7 @@ class _MovieTopViewWithVideo extends ConsumerWidget {
   const _MovieTopViewWithVideo({
     required this.movie,
     required this.size,
-    required this.youtubeId,
+    required this.youtubeId,  
   });
 
   final Movie movie;
@@ -134,7 +134,6 @@ class _MovieTopViewWithVideo extends ConsumerWidget {
       borderRadius: BorderRadius.circular(10),
       onTap: () {
         context.push('/home/0/movie/${movie.id}');
-        ref.read(movieTapValueChangeProvider.notifier).changeValue(true);
       },
       child: Padding(
         padding: const EdgeInsets.only(
