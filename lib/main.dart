@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/config.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-// ? RAMA ETAPA 07 QUICK ACTIONS
+// ? RAMA DEPLOYMENT APP-VERSION-01
 Future <void> main()async{ 
 
   // ! ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS O SERVICIOS EXTERNOS(FIREBASE)
