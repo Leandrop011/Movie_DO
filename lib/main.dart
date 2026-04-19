@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/config/config.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-// ? RAMA DEPLOYMENT APP-VERSION-01
+// ? MEJORAS DE ESTILOS PARA EL FRONTED DE LA APLICACION
 Future <void> main()async{ 
 
   // ! ES COMO EL INICIALIZADOR PARA USAR/MODIFICAR LA BASE DE DATOS O SERVICIOS EXTERNOS(FIREBASE)
