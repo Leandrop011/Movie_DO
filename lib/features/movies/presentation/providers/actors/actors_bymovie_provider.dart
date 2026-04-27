@@ -2,8 +2,6 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/presentation/providers/actors/actors.dart';
 
-//todo, provider que nos da cada actor por id
-//todo, nos da ua lista de actores como vienen en el JSON
 
 final actorsByMovieProvider = StateNotifierProvider<ActorsByMovieNotifier, Map<String, List<Actor>>>(
   (ref){

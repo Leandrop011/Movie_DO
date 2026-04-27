@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/features/movies/movies.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-//import '../../views/movies_views/home_view.dart';
-
-//todo, dotenv es para mover archivos de entorno hacia la app
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:movies_app/config/constants/environment.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
 
@@ -71,6 +66,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
 
     final authAprove = ref.watch(localAuthProvider).didAuthenticate;
     final securityActiveBiometric = ref.watch(securityProvider).activeSecurity;
+    final isBiometricEnabled = ref.watch(existBiometricProvider).value;
     // final securityActivePin = ref.watch(pinFormProvider.notifier).getValueActivePin();
     final tutorialValueExecuted = ref.watch(tutorialMoviesProvider).didExecuted;
     // final pinAprove = ref.watch(pinFormProvider).isFormValid;
@@ -79,49 +75,54 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with AutomaticKeepAlive
       extendBody: true, //? PARA COLOCAR EL BOTTOMNAVIGATIONBAR ENCIMA DE TODO1, COMO QUE SE EXTIENDE
       // ? SI LA SEGURIDAD ESTA ACTIVA, PRIMERO HACE LAS CONSIDERACIONES, DE APROVADO O NO
       // ? SI NO ESTA ACTIVA MUESTRA LA APP NORMAL
-      body:  (securityActiveBiometric == true) ? 
+
+      // ! EL VALOR SE ESTA GUARDANDO SIEMPRE, Y CUANDO EN EL CASO
+      // ! DE QUE EL USER ELIMINE SUS DATO SBIOMETRICOS PUES DE IGUAL MANERA
+      // ! SIEMPRE SE MOSTRARA INCLUSO SI NO TIENE BIOMETRICOS O SEGURIDAD CON PIN
+
+      body:  (securityActiveBiometric == true  && isBiometricEnabled == true) ? 
         // ? SI LA SEGURIDAD ESTA ACTIVA, PRIMERO VERIFICA SI ESTA APROVADO PARA VER QUE SE MUESTRA
-        (authAprove == true) ?
+        (authAprove == true ) ? 
         // * APROVADO: MUESTRA LA APP O EL TUTORIAL
-        (tutorialValueExecuted == true) ? 
+          (tutorialValueExecuted == true) ? 
+            PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController, //* este es el controller que da la animacion cuando se cambia de view
+              children: viewRoutes
+            )
+            :
+            const TutorialScreen()
+        // * NO APROVADO: MUESTRA LA PANTALLA DE VERIFICARSE
+        :
+        const SecurityScreen()
+      :
+      (tutorialValueExecuted == true) ?
         PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController, //* este es el controller que da la animacion cuando se cambia de view
           children: viewRoutes
         )
         :
-        const TutorialScreen()
-        // * NO APROVADO: MUESTRA LA PANTALLA DE VERIFICARSE
-        :
-        const SecurityScreen()
-      :
-      (tutorialValueExecuted == true) ?
-      PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: pageController, //* este es el controller que da la animacion cuando se cambia de view
-        children: viewRoutes
-      )
-      :
-      const TutorialScreen(),
+        const TutorialScreen(),
       
 
       // ? HAY QUE PRIMERO HACER UNA CONSIDERACION LUEGO OTRA AUTH AND SECURITY 2 TERNARIOS
       // ? PRIMERO SI ESTA ACTIVA LA SEGURIDAD Y HACE SUS CONSIDERACIONES
-      bottomNavigationBar: (securityActiveBiometric == true ) ?
+      bottomNavigationBar: (securityActiveBiometric == true  && isBiometricEnabled == true) ?
         // ? SI ESTA APROVADO MUESTRA EL BOTTOM, SINO NADA
         (authAprove == true ) ?
-        (tutorialValueExecuted == true)?
-        CustomBottomNavigationbar(currentIndex: widget.pageIndex,)
-        :
-        null
+          (tutorialValueExecuted == true)?
+          CustomBottomNavigationbar(currentIndex: widget.pageIndex,)
+          :
+          null
         :
         null
       :
       (tutorialValueExecuted == true) ?
       // ? PERO SI NO ESTA ACTIVA LA SEGURIDAD SIMPLEMENTE MUESTRA EL BOTTOM 
-      CustomBottomNavigationbar(currentIndex: widget.pageIndex,)
-      :
-      null,
+        CustomBottomNavigationbar(currentIndex: widget.pageIndex,)
+        :
+        null,
       
     );
   }

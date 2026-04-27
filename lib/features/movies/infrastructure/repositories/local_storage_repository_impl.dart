@@ -4,7 +4,6 @@ import 'package:movies_app/features/movies/domain/repositories/repositories.dart
 
 class LocalStorageRepositoryImpl extends LocalStorageRepository {
   
-  //*Esto es nuestro origen de datos y que implementaremos en algun repositorio que deseemos usar 
   final LocalStorageDatasource datasource;
 
   LocalStorageRepositoryImpl(this.datasource);

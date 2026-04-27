@@ -13,9 +13,6 @@ import 'package:movies_app/features/movies/presentation/providers/providers.dart
 import 'package:movies_app/config/plugins/share_plugin.dart';
 
 
-
-
-//todo, AQUI SE MUESTRAN LOS DETALLES, ACTORES, GENEROS, VIDEO DE LA PELICULA SELECCIONADA
 class MovieScreen extends ConsumerStatefulWidget {
 
   static const String name = 'movie-screen';
@@ -59,6 +56,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     // final isDarck = ref.read(isdarckProvider);
     final securutyActive = ref.watch(securityProvider).activeSecurity;
     final authAprove = ref.watch(localAuthProvider).didAuthenticate;
+    final isBiometricEnabled = ref.watch(existBiometricProvider).value;
     
     
     if(movie == null ){
@@ -73,7 +71,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
     QuickActionsPlugin.registerActions( movieId: movie.id.toString(), titleMovie: movie.title);
 
-    return (securutyActive == true) ?
+    return (securutyActive == true && isBiometricEnabled == true) ?
       (authAprove == true) ?
       ZoomInDown(
         child: Scaffold(
@@ -185,7 +183,9 @@ class _MovieDetailsState extends ConsumerState<_MovieDetails> {
       children: [
         
         //* INFORMACION DE LA MOVIE
-        _ElementsInDetails(isDarck: fount, size: size, movie: widget.movie, textStyle: textStyle),
+        _ElementsInDetails(fount: fount, size: size, movie: widget.movie, textStyle: textStyle),
+
+        _DividerSectionsView(fount: fount),
 
         //* VIDEO DE LA MOVIE SOLO SI EL TIEMPO PASO
         if(_showTrailer == true)//? solo cuando se cumpla los 1 segundos esto sera true
@@ -234,7 +234,7 @@ class _DividerSectionsView extends StatelessWidget {
 }
 
 // * GENEROS DE LA PELICULA
-class _Genders extends StatelessWidget {
+class _Genders extends ConsumerWidget {
   final _MovieDetails widget;
   const _Genders({
     required this.widget,
@@ -242,7 +242,11 @@ class _Genders extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+
+    final colors = Theme.of(context).colorScheme;
+    final fount = ref.watch(isdarckProvider).fount;
+
     return Padding(//* GENEROS DE LA MOVIE
       padding: const EdgeInsets.all(8),
       child: SizedBox(
@@ -255,8 +259,10 @@ class _Genders extends StatelessWidget {
             (gender) => Container(
               margin: const EdgeInsets.only(right: 10),
               child: Chip(
+
                 label: Text(gender),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5),),
+                backgroundColor: colors.primary.withOpacity( fount ? 0.3 : 0.9),
               ),
             )
           ).toList(),
@@ -269,13 +275,13 @@ class _Genders extends StatelessWidget {
 //* ELEMENTOS QUE ESTARAN DENTRO DE LA CAJA DE PELICULA(like overview), TITLE, DETAILS
 class _ElementsInDetails extends ConsumerStatefulWidget {
   const _ElementsInDetails({
-    required this.isDarck,
+    required this.fount,
     required this.size,
     required this.movie,
     required this.textStyle,
   });
 
-  final bool isDarck;
+  final bool fount;
   final Size size;
   final Movie movie;
   final TextTheme textStyle;
@@ -310,130 +316,123 @@ class _ElementsInDetailsState extends ConsumerState<_ElementsInDetails> {
         width: widget.size.width,
         // ! QUITAMOS EL HEIGHT PARA DECIRLE AL WIDGET QUE COJA TODO1 EL HEIGHT QUE NECESITE 
         // height: size.height * 0.42,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: widget.isDarck ?
-            const Color.fromARGB(255, 42, 42, 42)
-            :
-            const Color.fromARGB(255, 225, 224, 224),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: widget.isDarck ?
-                const Color.fromARGB(255, 73, 72, 72)
-                :
-                const Color.fromARGB(255, 134, 132, 132), 
-                blurRadius: 6,
-                offset: const Offset(1, 3)
-              ),
-            ]
-          ),
-          child: Padding(
-            padding: const EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                
-                ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(10),
-                  child: FadeInImage(
-                    image: NetworkImage(
-                      widget.movie.posterPath
-                    ),
-                    placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'),
-                    width: widget.size.width * 0.3,
-                    fit: BoxFit.cover,
-                  ),
+        child: Padding(
+          padding: const EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              
+              ClipRRect(
+                borderRadius: BorderRadiusGeometry.circular(10),
+                child: CustomImageMovieView(
+                  image: widget.movie.posterPath, 
+                  iconErrorWidget: Icons.movie, 
+                  size: widget.size,
+                  valueSize: 0.17,
                 ),
+              ),
+              
+              const SizedBox(width: 10,),
+          
+              SizedBox( 
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        widget.movie.title, 
+                        style: textStyle.titleLarge,
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 10,),
                 
-                const SizedBox(width: 10,),
-            
-                SizedBox(
-                  width: widget.size.width * 0.6,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          widget.movie.title, 
-                          style: textStyle.titleMedium,
-                        ),
+                    SizedBox(
+                      // height: size.height * 0.17,
+                      width: double.infinity,
+                      child: Text(
+                        widget.movie.overview, 
+                        style: textStyle.titleSmall,
+                        maxLines: linesState,
+                        overflow: TextOverflow.ellipsis,
+                        // textAlign: TextAlign.start,
                       ),
-                      
-                      const SizedBox(height: 10,),
+                    ),
         
-                      SizedBox(
-                        // height: size.height * 0.17,
-                        width: double.infinity,
-                        child: Text(
-                          widget.movie.overview, 
-                          style: textStyle.titleSmall,
-                          maxLines: linesState,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-
-                      SizedBox(height: widget.size.height * 0.01,),
-
-                     
-                      (enabledValue == true) ? 
-                      SizedBox(
-                        width: widget.size.width * 0.3,
-                        height: widget.size.height * 0.05,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(5),
-                          onTap: () {
-
-                            ref.read(valueInformationMovieProvider(informationMovieLength).notifier).changeValueInformation(!activeStatus, );
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            decoration: BoxDecoration(
-                              color: colors.primary,
-                              borderRadius: BorderRadius.circular(5),
+                    SizedBox(height: widget.size.height * 0.01,),
+        
+                   
+                    (enabledValue == true) ? 
+                    SizedBox(
+                      width: widget.size.width * 0.3,
+                      height: widget.size.height * 0.05,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(5),
+                        onTap: () {
+        
+                          ref.read(valueInformationMovieProvider(informationMovieLength).notifier).changeValueInformation(!activeStatus, );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            color: colors.primary,
+                            borderRadius: BorderRadius.circular(5),
+                            
+                          ),
+                          child: Center(
+                            child: Text(
+                              (activeStatus) ? 'Leer menos' : 'Leer mas....', 
+                              style: textStyle.bodySmall?.copyWith( color: Colors.black, fontSize: widget.size.width * 0.035),
                               
                             ),
-                            child: Center(
-                              child: Text(
-                                (activeStatus) ? 'Leer menos' : 'Leer mas....', 
-                                style: textStyle.bodySmall?.copyWith( color: Colors.black, fontSize: widget.size.width * 0.035),
-                                
-                              ),
-                            ),
                           ),
-                        )
-                      ):
-                      const SizedBox(),
-
-                      SizedBox(height: widget.size.height * 0.01,),
-
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Icon(Icons.star_half_rounded, color: Colors.yellow.shade900,),
-                            const SizedBox(width: 5,),
-                            Text(widget.movie.voteAverage.toStringAsFixed(2), style: TextStyle(color: Colors.yellow.shade900),),
-                            
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Text('Estreno: ', style: textStyle.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 15),),
-                            Text(DateFormat('yyyy/MM/dd').format(widget.movie.releaseDate), style: textStyle.bodySmall?.copyWith(fontSize: 14),),
-                          ],
                         ),
                       )
-                    ],
-                  )
+                    ):
+                    const SizedBox(),
+        
+                    SizedBox(height: widget.size.height * 0.01,),
+        
+                    SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          Icon(Icons.star_half_rounded, color: Colors.yellow.shade900,),
+                          const SizedBox(width: 5,),
+                          Text(widget.movie.voteAverage.toStringAsFixed(2), style: TextStyle(color: Colors.yellow.shade900),),
+                          
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Estreno: ', 
+                            style: textStyle.bodySmall?.copyWith(
+                              fontWeight: FontWeight.bold, 
+                              fontSize: 15, 
+                              color: widget.fount ? Colors.grey : Colors.grey.shade700 
+                              ),
+                          ),
+                          Text(
+                            DateFormat('yyyy/MM/dd').format(widget.movie.releaseDate), 
+                            style: textStyle.bodySmall?.copyWith(
+                              fontSize: 14, 
+                              color: widget.fount ? Colors.grey : Colors.grey.shade700 
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 )
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
@@ -466,6 +465,7 @@ class _PreSimilarMoviesView extends ConsumerWidget {
     if (movies.isEmpty){
       return const SizedBox();
     }
+    final colors = Theme.of(context).colorScheme;
     
     return Padding(
       padding: const EdgeInsetsGeometry.only(bottom: 2, left: 10, right: 10, top: 1),
@@ -476,12 +476,15 @@ class _PreSimilarMoviesView extends ConsumerWidget {
 
           Row(
             children: [
-              const Icon(Icons.label_important_sharp),
+              
+              CustomWidgetForSections(size: size, colors: colors),
+
               const SizedBox(width: 4,),
               Text(
                 'Recomendaciones', 
                 style: textStyle.bodyMedium?.copyWith(fontSize: 24),
               ),
+
               const Spacer(),
               Icon(Icons.recommend, size: size.width * 0.1,),
             ],
@@ -558,7 +561,7 @@ class _MovieSimilarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // final textStyle = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return SizedBox(
       width: double.infinity,
@@ -579,19 +582,15 @@ class _MovieSimilarView extends StatelessWidget {
             size.height * 0.24
             :
             size.height * 0.29,//* le decimos que tome solo una parte no todo
-            child: FadeInImage(
-              width: double.infinity,
-              height: double.infinity,
-                  
-              placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
-              
-              fit: BoxFit.cover,
-              
-              image:  NetworkImage(
-                movie.posterPath,
-              ),
+            child: Stack(
+              alignment: Alignment.topRight,
+              children: [
+                CustomImageMovieView(image: movie.posterPath, iconErrorWidget: Icons.movie, size: size, valueSize: 0.3,),
+
+                CustomViewRating(size: size, movie: movie, textStyle: textTheme,)
+              ],
             ),
-          ) 
+          ),
          
         ),
       ),
@@ -626,24 +625,32 @@ class _TitleCast extends ConsumerWidget {
       return const SizedBox();
     }
 
+    final colors = Theme.of(context).colorScheme;
+
     return Column(
       children: [
 
         // * DIVIDER
         _DividerSectionsView(fount: fount),
 
-        Row(
-          children: [
-            const SizedBox(width: 10,),
-        
-            Icon(Icons.person_2, size: size.width * 0.07,),
-        
-            const SizedBox(width: 5,),
-            Text(
-              'Elenco',
-              style: textTheme.bodyMedium?.copyWith(fontSize: 23),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0, left: 5),
+          child: Row(
+            children: [
+              
+              CustomWidgetForSections(size: size, colors: colors),
+          
+              const SizedBox(width: 5,),
+              Text(
+                'Elenco',
+                style: textTheme.bodyMedium?.copyWith(fontSize: 23),
+              ),
+          
+              const Spacer(),
+              
+              Icon(Icons.person_2, size: size.width * 0.07,),
+            ],
+          ),
         ),
       ],
     );
@@ -716,34 +723,13 @@ class _ActorView extends StatelessWidget {
           children: [
 
             //* Foto de el Actor
-            FadeInRight(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    width: 0.5,
-                    color: fount ? Colors.white38 : Colors.black54, 
-                  )
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(//* DEFINE EL TAMANO QUE LA IMAGEN PUEDE TOMAR
-                    width: double.infinity,//* TOMA TODO1 EL TAMANO QUE PUEED
-                    height: size.height * 0.265,
-                    child: FadeInImage(
-                      width: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN 
-                      // height: double.infinity,//* TOMAN TODO1 EL TAMANO QUE PUEDEN
-                      placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
-                      
-                      fit: BoxFit.cover,
-                      
-                      image: NetworkImage(
-                        actor.profilePath,
-                      ),
-                    ),
-                  ),
-                ) 
-                
+            ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(20),
+              child: CustomImageMovieView(
+                image: actor.profilePath, 
+                iconErrorWidget: Icons.person, 
+                size: size, 
+                valueSize: 0.27
               ),
             ),
 
@@ -820,7 +806,7 @@ class _CustomSliverAppBarState extends ConsumerState<_CustomSliverAppBar> {
     //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     
     return SliverAppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black87,
       foregroundColor: Colors.white,
 
       
@@ -950,20 +936,18 @@ class _ContentSilverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final size = MediaQuery.of(context).size;
+
     return Stack(//* el fondo
       children: [
 
         Expanded(
-          child: ClipRRect(
-            child: SizedBox.expand(
-             
-              child: FadeInImage(
-                placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'),
-                fit: BoxFit.cover, 
-                image: NetworkImage(
-                  movie.posterPath,
-                ),
-              ),
+          child: SizedBox.expand(
+           
+            child: CustomImageMovieView(
+              image: movie.posterPath, 
+              iconErrorWidget: Icons.movie, 
+              size: size,
             ),
           ),
         ),
@@ -980,7 +964,7 @@ class _ContentSilverAppBar extends StatelessWidget {
         const _CustomGradient(
           begin: Alignment.topLeft, 
           stops: [0.0, 0.4],
-          colors: [Colors.black87, Colors.transparent]
+          colors: [Colors.black, Colors.transparent]
         ),
 
         //*GRADIENTE DE EL BOTON DE FAVORITOS
@@ -988,7 +972,7 @@ class _ContentSilverAppBar extends StatelessWidget {
           begin: Alignment.topRight, 
           end: Alignment.bottomCenter, 
           stops: [0.0, 0.2],
-          colors: [Colors.black87, Colors.transparent]
+          colors: [Colors.black, Colors.transparent]
         ),
         
       ],

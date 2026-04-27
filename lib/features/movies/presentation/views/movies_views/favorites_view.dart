@@ -99,49 +99,43 @@ class _FavoritesEmptyView extends ConsumerWidget {
       body: Center(
         child: ZoomInDown(
           
-          child: Container(
-            width: size.width * 0.8,
-            height: size.height * 0.7,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                width: 0.5,
-                color: fount ? Colors.white38 : Colors.black45
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+
+              Icon(
+                Icons.star_outline_rounded, 
+                size: size.width * 0.15, 
+                color: colors.primary,
               ),
-              color: fount? Colors.white10 : Colors.black12
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                
-                SizedBox(
-                  width: size.width * 0.7,
-                  height: size.height * 0.4,
-                  child: Image.asset(
-                    width: double.infinity,
-                    height: double.infinity,
-                    (fount) ? 'assets/images/image_without_favorites_white.png' : 'assets/images/image_without_favorites_black.png',
-                    fit: BoxFit.cover,
-                  ),
+              
+              SizedBox(
+                width: size.width * 0.7,
+                height: size.height * 0.4,
+                child: Image.asset(
+                  width: double.infinity,
+                  height: double.infinity,
+                  (fount) ? 'assets/images/image_without_favorites_white.png' : 'assets/images/image_without_favorites_black.png',
+                  fit: BoxFit.cover,
                 ),
-                
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadiusGeometry.circular(10),
-                    )
-                  ),
-                    
-                  onPressed: (){
-                    context.go('/home/0');
-                  }, 
-                  child: Text(
-                    'Empezar a Buscar',
-                    style: textTheme.bodySmall?.copyWith(fontSize: 14, color: Colors.black),
-                  ),
-                )
-              ],
-            ),
+              ),
+              
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(10),
+                  )
+                ),
+                  
+                onPressed: (){
+                  context.go('/home/0');
+                }, 
+                child: Text(
+                  'Empezar a Buscar',
+                  style: textTheme.bodySmall?.copyWith(fontSize: 14, color: Colors.black),
+                ),
+              )
+            ],
           ),
         ),
       ),

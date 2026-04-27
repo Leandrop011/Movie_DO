@@ -7,13 +7,13 @@ final initialLoadingProvider = Provider<bool>(
   (ref) {
 
     final step1 = ref.watch(nowPlayingMoviesProvider).isEmpty;
-    //todo, es un provider que me da solo 6 de las peliculas que hay en esa lista de movies
+    // * es un provider que me da solo 6 de las peliculas que hay en esa lista de movies
     final step2 = ref.watch(moviesSlideshowProvider).isEmpty;
-    //todo, provider que da las peliculas populares
+    // * Provider que da las peliculas populares
     // final step3 = ref.watch(popularMoviesProvider).isEmpty;
-    //todo, provider que da las peliculas up coming
+    // * Provider que da las peliculas up coming
     // final step4 = ref.watch(upComingMoviesProvider).isEmpty;
-    //todo, provider que da las peliculas top rated
+    // * Provider que da las peliculas top rated
     // final step5 = ref.watch(topRatedMoviesProvider).isEmpty;
     
     //* si etsna cargando y no tienen data devuelve true

@@ -3,4 +3,7 @@ export 'database/database.dart';
 export 'helpers/helpers.dart';
 export 'router/router.dart';
 export 'theme/theme.dart';
+export 'plugins/local_auth_plugin.dart';
 export 'plugins/quick_actions_plugin.dart';
+export 'plugins/redirect_yt_plugin.dart';
+export 'plugins/share_plugin.dart';

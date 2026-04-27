@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +63,7 @@ class _MovieTopViewWithOutVideo extends StatelessWidget {
           duration: const Duration(seconds: 3),
           curve: Curves.elasticOut,
           child: SizedBox(
-            width: size.width * 0.9,
+            // width: size.width * 0.9,
             height: size.height * 0.6,
             child: Stack(
               alignment: Alignment.bottomCenter,
@@ -225,10 +226,10 @@ class _GenderView extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       width: size.width * 0.3,//!DISENO RESPONSIVO UN TAMANO DE CAJA DEPENDIENDO EL DISPOSITIVO
-      height: size.height * 0.03,
+      height: size.height * 0.04,
       decoration: BoxDecoration(
         color: Colors.black54, 
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
           width: 1, 
           color: const Color.fromARGB(255, 162, 159, 159)
@@ -257,7 +258,7 @@ class _MovieTopViewPosterPath extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarck = ref.watch(isdarckProvider).fount;//* WATCH PORQUE NECESITO QUE ESTE PENDIENTE DE LOS CAMBIOS
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return DecoratedBox(
       decoration: BoxDecoration(
         // border: Border.all(
@@ -281,17 +282,34 @@ class _MovieTopViewPosterPath extends ConsumerWidget {
         padding: const EdgeInsetsGeometry.all(0.5),
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(10),
-          child: FadeInImage(
-            width: double.infinity,//! DISENO RESPONSIVO
-            height: double.infinity,
-            
-            placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
-            
+          child: CachedNetworkImage(
             fit: BoxFit.cover,
-            image: NetworkImage(
-            movie.posterPath,
+            
+            width: double.infinity,
+            height: double.infinity,
+
+            imageUrl: movie.posterPath,
+            
+            placeholder: (context, url) {
+              return Image.asset( 
+                // height: double.infinity, 
+                // width: double.infinity, 
+                'assets/loaders/movie_do-loader.gif', 
+                fit: BoxFit.cover,
+              );
+            },
+
+            errorWidget: (context, url, error) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Error, fallo en carga'),
+                  const SizedBox(height: 10,),
+                  Icon(Icons.movie, size: size.width * 0.2,)
+                ],
+              );
+            },
           ),
-          )
           
         ),
       ),
@@ -346,7 +364,7 @@ class _CustomButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: color ?? Colors.black54,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(15),
           border: Border.all(
             width: 0.5,
             color: colorText ?? Colors.white54
@@ -355,7 +373,7 @@ class _CustomButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon( icon ?? Icons.info_outline, color: colorText ?? Colors.white,),
+            Icon( icon ?? Icons.info_outline, color: colorText ?? Colors.white, size: size.width * 0.065,),
             const SizedBox(width: 10,),
             Text(
               text, 

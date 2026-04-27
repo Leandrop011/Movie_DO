@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:movies_app/config/config.dart';
 
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
-import 'package:movies_app/features/movies/presentation/providers/movies/movies.dart';
+import 'package:movies_app/features/movies/presentation/providers/providers.dart';
+import 'package:movies_app/features/movies/presentation/widgets/shared/shared.dart';
 
 
 class MovieHorizontalListview extends StatefulWidget {
@@ -113,6 +114,7 @@ class _Tittle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
 
@@ -122,30 +124,40 @@ class _Tittle extends StatelessWidget {
       child: Row(
         children: [
 
-          const Icon(Icons.label),
-
           const SizedBox(width: 5,),
 
+          CustomWidgetForSections(size: size, colors: colors),
+          
           if(title != null)// ? Una condicion para segurarse que no sea null
             Text(title!, style: textTheme.bodyMedium?.copyWith(fontSize: size.width * 0.055,),),
           
           const Spacer(),
 
-          FilledButton.tonal(
-            style: FilledButton.styleFrom(
-              fixedSize: size.flipped * 0.14,
-              minimumSize: const Size(100, 5),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(10),
+          SizedBox(
+            width: size.width * 0.35,
+            height: size.height * 0.05,
+            child: FilledButton.tonal(
+              style: FilledButton.styleFrom(
+                // minimumSize: Size.zero,
+                // tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(10),
+                )
+              ),
+              onPressed: (){
+            
+                HapticFeedback.heavyImpact();
+            
+                context.push('/show_more_movies/$title');
+              }, 
+              child: Row(
+                children: [
+                  Text('Ver Mas', style: textTheme.bodyMedium,),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios_sharp)
+                ],
               )
             ),
-            onPressed: (){
-
-              HapticFeedback.heavyImpact();
-
-              context.push('/show_more_movies/$title');
-            }, 
-            child: Text('Ver Mas', style: textTheme.bodyMedium,)
           )
 
         ],
@@ -167,14 +179,14 @@ class _Slide extends ConsumerWidget {
 
     final textStyle = Theme.of(context).textTheme;
 
-    // final isdarck = ref.read(isdarckProvider);
+    final fount = ref.read(isdarckProvider).fount;
     final size = MediaQuery.of(context).size;
 
 
 
     return SizedBox(//! PARA DISENO RESPONSIVO Y QUE MAXIMO OCUPE ESE ESPACIO
       width: size.width * 0.42,
-      // height: size.height * 0.5,
+      height: size.height * 0.5,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),// ? un marge de modo horizontal
         child: InkWell(
@@ -191,55 +203,42 @@ class _Slide extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //* Imagen
-              SizedBox(
-                width: double.infinity,//* LO MAXIMO QUE PUEDA OCUPAR
-                child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(5),
-                  child: FadeInImage(
-                    height: size.height * 0.31,
-                    fit: BoxFit.cover,
-                    placeholder: const AssetImage('assets/loaders/movie_do-loader.gif'), 
-                    
-                    image: NetworkImage(
-                      movie.posterPath,
-                    ),
-                  )
-                ),
-              ),  
+              Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  //* Imagen
+                  _ViewImage(size: size, movie: movie),
+
+                  // * RATING
+                  CustomViewRating(size: size, movie: movie, textStyle: textStyle),
+
+                ],
+              ),    
           
               SizedBox(height: size.height * 0.008,),
               // Spacer(),
           
               //* Titulo
           
-              SizedBox(
-                // width: 150,
-                // height: size.height * 0.03,
-                child: Text(
-                  movie.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: textStyle.titleSmall,
-                ),
+              Text(
+                movie.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textStyle.titleSmall?.copyWith(color: fount ?Colors.grey : Colors.black, fontSize: size.width * 0.04),
               ),
           
-              //* Rating
-      
-              SizedBox(//? para que tenga un limite 
-                width: size.width * 0.35,
-                // height: size.height * 0.03,
+            
+
+              Padding(
+                padding: const EdgeInsets.only(top: 5.0),
                 child: Row(
-                
                   children: [
-                    Icon(Icons.star_half_outlined, color: Colors.yellow.shade800,),
-                    const SizedBox(width: 3,),
-                    Text(movie.voteAverage.toStringAsFixed(2), style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800),),
-                    const Spacer(),
-  
-                    Text(HumanFormats.number(movie.popularity.toDouble()), style: textStyle.bodySmall,),
+                    Text(
+                      HumanFormats.number(movie.popularity.toDouble()), 
+                      style: textStyle.bodySmall?.copyWith(color: fount ?Colors.grey : Colors.black),
+                    ),
                     SizedBox(width: size.width * 0.008,),
-                    Icon(Icons.visibility, size: size.width * 0.05,),
+                    Icon(Icons.visibility, size: size.width * 0.05, color: fount ?Colors.grey : Colors.black,),
                     // const Spacer(),
                   ],
                 ),
@@ -247,6 +246,35 @@ class _Slide extends ConsumerWidget {
               
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// * WIDGET DE LA IMAGEN
+class _ViewImage extends StatelessWidget {
+  const _ViewImage({
+    required this.size,
+    required this.movie,
+  });
+
+  final Size size;
+  final Movie movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,//* LO MAXIMO QUE PUEDA OCUPAR
+      height: size.height * 0.33,
+    
+      child: ClipRRect(
+        borderRadius: BorderRadiusGeometry.circular(5),
+        child: CustomImageMovieView(
+          image: movie.posterPath, 
+          iconErrorWidget: Icons.movie, 
+          size: size,
+          valueSize: 0.3,
         ),
       ),
     );

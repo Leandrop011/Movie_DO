@@ -3,7 +3,6 @@
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb.dart';
 
-//todo, para poder acoplar a nuestro modelo de negocio de actor
 class ActorMapper {
   static Actor castToEntity(Cast cast) => Actor(
     id: cast.id != 0 ? cast.id : 0, 

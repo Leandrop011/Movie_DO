@@ -5,7 +5,6 @@ import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/infrastructure/mappers/mappers.dart';
 import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb.dart';
 
-//todo, DATASOURCE QUE BRINDA LA DATA DE LOS ACTORES Y AQUI MISMO MAPEAMOS Y ACOPLAMOS
 class ActorMoviedbDatasourceImplementation extends ActorsDatasource{
   
   final dio = Dio(BaseOptions(
@@ -16,7 +15,6 @@ class ActorMoviedbDatasourceImplementation extends ActorsDatasource{
     }
   ));
   
-  //todo, DATA SOURCE DE LOS ACTORES
   @override
   Future<List<Actor>> getActorByMovie(String movieid) async{
     // * respuesta

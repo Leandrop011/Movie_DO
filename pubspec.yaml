@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  animate_do: ^4.2.0
+  animate_do: ^5.1.0
   card_swiper: ^3.0.1
   cupertino_icons: ^1.0.8
   dio: ^5.9.0
@@ -63,6 +63,7 @@ dependencies:
   smooth_page_indicator: ^2.0.1
   quick_actions: ^1.1.0
   formz: ^0.8.0
+  cached_network_image: ^3.4.1
 flutter_launcher_icons:
   android: true
   ios: true

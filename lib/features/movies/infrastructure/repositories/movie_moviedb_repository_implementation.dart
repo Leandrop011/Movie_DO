@@ -1,6 +1,3 @@
-//todo, lo que hara esta implementacion del respositorie
-//todo, es llamar al datasource y ese datasourc va a llamar a esos metodos y 
-//todo, obtenemos la info
 
 import 'package:movies_app/features/movies/domain/data_sources/data_sources.dart';
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
@@ -15,7 +12,7 @@ class MovieMovieDbRepositoryImplementation extends MoviesRepositorie{
   //* PRIMER REPOSITORY
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) {
-    return datasource.getNowPlaying(page: page);//todo, le mandamos la page del datasource
+    return datasource.getNowPlaying(page: page);
   }
   
   //* SEGUNDO REPOSITORY

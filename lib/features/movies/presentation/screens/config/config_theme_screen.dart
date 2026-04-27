@@ -19,7 +19,7 @@ class ConfigThemeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Temas'),
+        title: const Text('Temas'),
 
         actions: [
           IconButton(
@@ -33,7 +33,7 @@ class ConfigThemeScreen extends StatelessWidget {
                     onPressed: (){
                       context.pop();
                     }, 
-                    child: Text('Ok'),
+                    child: const Text('Ok'),
                   )
                 ], 
                 textTheme,
@@ -44,7 +44,7 @@ class ConfigThemeScreen extends StatelessWidget {
         ],
       ),
 
-      body: _BodyView(),
+      body: const _BodyView(),
     );
   }
 }

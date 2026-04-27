@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
+import 'package:movies_app/features/movies/presentation/widgets/widgets.dart';
 
 // ! EXISTE UN PROBLEMA QUE NO SE PUEDE CONTROLAR, DEBIDO A LAS POLITICAS DE YT QUE RECIENTEMENTE
 // ! ACTUALIZARON, NO DE PUEDE REPRODUCIR LOS TRAILERS, NO ES UN PROBLEMA DE LA APP, SINO DE LAS POLITICAS DE YT
@@ -40,6 +41,9 @@ class _VideosList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final size = MediaQuery.of(context).size;
+    final colors = Theme.of(context).colorScheme;
+
     //* Nada que mostrar
     if ( videos.isEmpty ) {
       return const SizedBox(); 
@@ -48,13 +52,16 @@ class _VideosList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             children: [
-              Icon(Icons.movie),
-              SizedBox(width: 5,),
-              Text('Video', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              const SizedBox(width: 5,),
+              CustomWidgetForSections(size: size, colors: colors),
+              const SizedBox(width: 5,),
+              const Icon(Icons.movie),
+              const SizedBox(width: 5,),
+              const Text('Video', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
             ],
           ),
         ),

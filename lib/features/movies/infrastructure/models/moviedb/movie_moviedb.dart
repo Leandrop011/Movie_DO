@@ -1,5 +1,3 @@
-//todo, una pelicula de themoviedb, por id
-
 class MovieMovieDB {
     final bool adult;
     final String backdropPath;

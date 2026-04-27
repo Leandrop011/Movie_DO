@@ -19,8 +19,6 @@ class FountNotifier extends StateNotifier<FountState> {
     initialFount();//* inicializamos el fount apenes inicie el uso del provider
   }
   
-  // * inicializamos el valor del fount, obtenemos el valor que ya fue guardado con el set
-  // * y cambaimos el state de la app, para que se vean los cambios
   void initialFount() async{
     //* obtenemos el valor guardado
     final value = await fountValueStorageService.getValue('value');

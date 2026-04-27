@@ -91,26 +91,28 @@ class MenuItem {
   final String title;
   final IconData icon;
   final String route;
+  final String subtitle;
 
   MenuItem({
     required this.title, 
     required this.icon, 
-    required this.route
+    required this.route, 
+    required this.subtitle,
   });
 }
 
 // * INFORMACION DE CONTENIDO CON BIOMETRICOS
 final itemsWithBiometrics = <MenuItem>[
-  MenuItem(title: 'Fondo', icon: Icons.brightness_6_rounded, route: '/fount'),
-  MenuItem(title: 'Tema', icon: Icons.palette_rounded, route: '/theme'),
+  MenuItem(title: 'Fondo', icon: Icons.brightness_6_rounded, route: '/fount', subtitle: 'Obscuro/Claro'),
+  MenuItem(title: 'Tema', icon: Icons.palette_rounded, route: '/theme', subtitle: 'Diferentes colores'),
   
-  MenuItem(title: 'Seguridad', icon: Icons.security, route: '/security'),
+  MenuItem(title: 'Seguridad', icon: Icons.security, route: '/security', subtitle: 'Seguridad Biometrica'),
 ];
 
 // * INFORMACION DE CONTENIDO SIN BIOMETRICOS
 final itemsWithOutBiometrics = <MenuItem>[
-  MenuItem(title: 'Fondo', icon: Icons.brightness_6_rounded, route: '/fount'),
-  MenuItem(title: 'Tema', icon: Icons.palette_rounded, route: '/theme'),
+  MenuItem(title: 'Fondo', icon: Icons.brightness_6_rounded, route: '/fount', subtitle: 'Obscuro/Claro'),
+  MenuItem(title: 'Tema', icon: Icons.palette_rounded, route: '/theme', subtitle: 'Diferentes colores'),
   
 ];
 
@@ -143,6 +145,7 @@ class _BodyView extends ConsumerWidget {
               title: item.title,
               icon: item.icon,
               route: item.route,
+              subtitle: item.subtitle,
             ),
           ).toList()
           :
@@ -154,6 +157,7 @@ class _BodyView extends ConsumerWidget {
                 title: item.title,
                 icon: item.icon,
                 route: item.route,
+                subtitle: item.subtitle,
               ),
             ),
           ).toList(),
@@ -161,17 +165,6 @@ class _BodyView extends ConsumerWidget {
           loading: () => [const CircularProgressIndicator()],
         ),
             
-        // children: itemsWithBiometrics.map(
-        //   (item) => FadeInDown(
-        //     duration: const Duration(seconds: 1),
-        //     curve: Curves.elasticInOut,
-        //     child: _CardView(
-        //       title: item.title,
-        //       icon: item.icon,
-        //       route: item.route,
-        //     ),
-        //   ),
-        // ).toList(),
       ),
     );
   }
@@ -183,11 +176,13 @@ class _CardView extends StatelessWidget {
   final String title;
   final IconData icon;
   final String route;
+  final String subtitle;
   
   const _CardView({  
     required this.title, 
     required this.icon, 
-    required this.route
+    required this.route, 
+    required this.subtitle
   });
 
   @override
@@ -195,7 +190,7 @@ class _CardView extends StatelessWidget {
 
     final textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
-    final colorTheme = Theme.of(context).colorScheme;
+    final colors = Theme.of(context).colorScheme;
 
     return InkWell(
       borderRadius: BorderRadius.circular(10),
@@ -205,8 +200,10 @@ class _CardView extends StatelessWidget {
         child: CustomAppCard(
           // padding: const EdgeInsets.all(5),
           margin: EdgeInsets.zero,
+          colors: colors,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               
               // ? ICONO Y SU CAJA
@@ -224,7 +221,7 @@ class _CardView extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Icon(icon, color: colorTheme.primary, size: size.width * 0.08),
+                child: Icon(icon, color: colors.primary, size: size.width * 0.08),
               ),
 
               const SizedBox(height: 12),
@@ -234,6 +231,13 @@ class _CardView extends StatelessWidget {
                 title,
                 style: textTheme.titleMedium?.copyWith(fontSize: 15, color: Colors.white),
                 textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5,),
+              // ? SUBTITULO
+              Text(
+                subtitle,
+                style: textTheme.titleMedium?.copyWith(fontSize: 10, color: Colors.white54),
+                textAlign: TextAlign.start,
               ),
             ],
           ),

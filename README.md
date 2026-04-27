@@ -1,19 +1,47 @@
-# movies_app
+# Movie DO
 
-A new Flutter project.
+```
+Aplicación móvil para explorar películas, ver trailers 
+y descubrir los últimos estrenos, construida con Flutter.
+```
+![App](assets/logo_app/logo1.png)
+![Logo App](assets/logo_app/logo_app_without_fount_with_words_white.png)
 
-## Getting Started
+# Descripcion
+```
+Movie Do es una aplicación móvil desarrollada con Flutter que permite a los usuarios explorar películas populares, próximos estrenos y las mejor valoradas. Consume la API de TMDB para obtener información actualizada, permite reproducir trailers directamente, y ofrece accesos directos desde el launcher mediante Quick Actions.
+```
 
-This project is a starting point for a Flutter application.
+# Funcionalidades
+```
+Exploración de películas — populares, en cartelera y mejor valoradas (TMDB API)
+Reproducción de trailers — integración con YouTube Player
+Quick Actions — accesos directos desde el ícono de la app en el launcher
+Persistencia de sesión — recuerda la última película vista con SharedPreferences
+```
+# Tecnologias usadas
+```
+Framework - Flutter
+State Management - Riverpod
+Navegación - GoRouter
+API - TMDB API
+Video - youtube_player_flutter 
+Quick - Actionsquick_actions
+```
 
-A few resources to get you started if this is your first Flutter project:
+# Pasos
+```
+# 1. Clonar el repositorio
+git clone https://github.com/Leandrop011/Movie_DO.git
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# 2. Instalar dependencias
+flutter pub get
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# 3. Configurar variables de entorno
+
+# 4. Correr la app
+flutter run
+```
 
 # Dev
 1. Copiar el .env.template y renombrarlo a .env 
@@ -21,19 +49,19 @@ samples, guidance on mobile development, and a full API reference.
 
 
 # Prod
-Para cmabiar el nombre de la Aplicacion
+Cambiar el nombre de la Aplicacion
 ```
 <!-- ! DEBE SER PARTE DE DEV DEPENDENCIES -->
 change_app_package_name <--- paquete
-flutter pub run change_app_package_name:main com.leoVeloper.movies_app
+flutter pub run change_app_package_name:main com.[name]_app
 ```
 
-Para Cambiar el icono de la aplicacion
+Cambiar el icono de la aplicacion
 ```
 dart run flutter_launcher_icons
 ```
 
-Para Cambiar el Splash Screen
+Cambiar el Splash Screen
 ```
 dart run flutter_native_splash:create
 ```
@@ -47,5 +75,7 @@ Obtener sha-256 para deep-linking
 ```
 cd android
 ./gradlew signingReport
-copiar el sha y pegarlo en la app web
+copiar el sha y pegarlo en la app web, para el proceso de deeplinking
 ```
+
+

@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies_app/features/movies/presentation/providers/config/fount_provider.dart';
@@ -33,9 +32,9 @@ class CustomFullscreenLoading extends ConsumerWidget {
     return Center(
       child: Container(
         width: size.width * 0.7,
-        height: size.height * 0.5,
+        height: size.height * 0.4,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           color: fount ? Colors.white10 : Colors.black26,
           border: Border.all(
             width: 0.5, 
@@ -49,24 +48,7 @@ class CustomFullscreenLoading extends ConsumerWidget {
             Text('Espere por favor', style: style.bodySmall?.copyWith(fontSize: 17),),
             const SizedBox(height: 20,),
         
-            SizedBox(
-              width: size.width * 0.3,
-              height: size.height * 0.2,
-              child: SpinPerfect(
-                duration: const Duration(milliseconds: 1100),
-                infinite: true,
-                spins: 10,
-                child: Image.asset(
-                  width: double.infinity,
-                  height: double.infinity,
-                  (fount) ?
-                  'assets/loaders/loader_movie_do_white.png'
-                  :
-                  'assets/loaders/loader_movie_do_black.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            const CircularProgressIndicator(strokeWidth: 2.5,),
         
             const SizedBox(height: 10,),
         

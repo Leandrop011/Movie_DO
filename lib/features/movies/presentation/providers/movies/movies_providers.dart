@@ -9,8 +9,8 @@ import 'package:movies_app/features/movies/presentation/providers/movies/movies.
 //* DEL PRIMER REPOSITORY(USAMOS LA MISMA CLASE DE ABAJO PARA LAS DOS)
 final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
   (ref) {
-    //todo, le pasamos el repo 
-    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getNowPlaying;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    // * le pasamos el repo 
+    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getNowPlaying;// * le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
     return MoviesNotifier(
       fetchMoreMovies: fetchMoreMoviesR
     ); 
@@ -20,8 +20,8 @@ final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movi
 //* DEL SEGUNDO RESPOSITORY
 final popularMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
   (ref) {
-    //todo, le pasamos el repo 
-    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getPopular;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    // * le pasamos el repo 
+    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getPopular;// * le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
     return MoviesNotifier(
       fetchMoreMovies: fetchMoreMoviesR
     ); 
@@ -31,8 +31,8 @@ final popularMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>
 //* DEL TERCER REPOSITORY
 final upComingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
   (ref) {
-    //todo, le pasamos el repo 
-    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getUpComing;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    // * le pasamos el repo 
+    final fetchMoreMoviesR = ref.watch(movieRepositoryProvider).getUpComing;// * le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
     return MoviesNotifier(
       fetchMoreMovies: fetchMoreMoviesR
     ); 
@@ -42,8 +42,8 @@ final upComingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>
 //* DEL CUARTO REPOSITORY
 final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>(
   (ref) {
-    //todo, le pasamos el repo 
-    final getTopRatedMovies = ref.watch(movieRepositoryProvider).getTopRated;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    // * le pasamos el repo 
+    final getTopRatedMovies = ref.watch(movieRepositoryProvider).getTopRated;// * le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
     return MoviesNotifier(
       fetchMoreMovies: getTopRatedMovies
     ); 
@@ -54,19 +54,19 @@ final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>
 // ! CADA PROVIDER DE CADA CATEGORY DE LAS MOVIES, USA EL MISMO NOTIFIER PARA MANEJAR SU ESTADO
 // ! Y MISMAS FUNCIONES
 
-//todo, el objetivo es definir el caso de uso
+// * el objetivo es definir el caso de uso
 typedef MovieCallBack = Future<List<Movie>> Function({int page});  
 
 typedef SimilarMoviesCallback = Future<List<Movie>> Function(String movieId);
 
 
-///todo, se crea dependiendo del caso de uso
+/// * se crea dependiendo del caso de uso
 class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   bool isLoading = false;
-  //todo, actualiza en la pagina que esta
+  // * actualiza en la pagina que esta
   int currentPage = 0;
-  //todo, una funcion que sabe como traer las peliculas
+  // * una funcion que sabe como traer las peliculas
   MovieCallBack fetchMoreMovies;
 
   MoviesNotifier(
@@ -75,10 +75,10 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
     }
   ): super([]);
 
-  //todo, este metodo carga mas peliculas
+  // * este metodo carga mas peliculas
   Future<List<Movie>> loadNextPage() async{
 
-    if(isLoading == true) isLoading = false;//todo, para que no haga demasiadas peticiones simultaneas
+    if(isLoading == true) isLoading = false;// * para que no haga demasiadas peticiones simultaneas
 
     isLoading = true;
      
@@ -97,14 +97,14 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
 final similarMoviesProvider = StateNotifierProvider<SimilarMoviesNotifier, Map<String, List<Movie>>>(
   (ref) {
-    //todo, le pasamos el repo 
-    final getMoviesSimilar = ref.watch(movieRepositoryProvider).getMoviesSimilar;//todo, le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
+    // * le pasamos el repo 
+    final getMoviesSimilar = ref.watch(movieRepositoryProvider).getMoviesSimilar;// * le traemos esas pelicuas y eso se aplicara dependiendo del caso de uso
     return SimilarMoviesNotifier(
       fetchSimilarMovies: getMoviesSimilar
     ); 
   }
 );
-//todo, PARA OBTENER SEGUN EL ID MAS PELICULAS SIMILARES  
+// * PARA OBTENER SEGUN EL ID MAS PELICULAS SIMILARES  
 class SimilarMoviesNotifier extends StateNotifier<Map<String, List<Movie>>> {
   
   final SimilarMoviesCallback fetchSimilarMovies;

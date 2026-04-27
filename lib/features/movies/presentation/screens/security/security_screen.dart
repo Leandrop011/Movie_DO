@@ -28,8 +28,9 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
     final size = MediaQuery.of(context).size;
     final valueBiometricsEnabled = ref.watch(existBiometricProvider).value;
 
-    return Scaffold(
+    
 
+    return Scaffold(
       body: Center(
         child: Container(
           width: size.width * 0.8,
@@ -95,14 +96,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
                 :
                 const SizedBox(),
 
-                // const SizedBox(height: 10,),
-
-                // // * BOTON QUE EJECUTA EL PROCESO DE AUTENTICACION CON CODIGO
-                // (valuePinEnabled == true) ? 
-                // _ButtonVerificationPinView(size: size, colors: colors, textTheme: textTheme, fount: fount)
-                // :
-                // const SizedBox(),                  
-                // ),
+               
               ],
             ),
           ),
@@ -111,82 +105,6 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
     );
   }
 }
-
-// class _ButtonVerificationPinView extends ConsumerWidget {
-//   const _ButtonVerificationPinView({
-//     required this.size,
-//     required this.colors,
-//     required this.textTheme,
-//     required this.fount,
-//   });
-
-//   final Size size;
-//   final ColorScheme colors;
-//   final TextTheme textTheme;
-//   final bool fount;
-
-//   @override
-//   Widget build(BuildContext context, ref) {
-
-//     final errors = ref.watch(pinFormProvider).pinInput.errorMessage;
-//     final valuePinTemporal = ref.watch(valuePinProvider);
-
-//     return Center(
-//       child: Container(
-//         decoration: BoxDecoration(
-//           color: Colors.grey,
-//           borderRadius: BorderRadius.circular(10),
-//         ),
-//         child: Column(
-//           children: [
-//             const Text('Ingrese el Pin'),
-//             CustomFormPIN(
-//               onChanged: (value) {
-//                 ref.read(pinFormProvider.notifier).onInputChanged(int.tryParse(value) ?? -1);
-
-//                 ref.read(valuePinProvider.notifier).state = (int.tryParse(value) ?? -1);
-//               },
-//               errorMessage: errors,
-//             ),
-//             FilledButton(
-//               onPressed: () async{ 
-
-//                 final isValid = await ref.read(pinFormProvider.notifier).verificationPin(valuePinTemporal);
-                
-//                 if(isValid == true){
-//                   CustomSnackBar.snackBar(
-//                     // ignore: use_build_context_synchronously
-//                     context, 
-//                     fount, 
-//                     'Verificacion con exito', 
-//                     textTheme,
-//                   );
-//                 }else{
-//                   CustomSnackBar.snackBar(
-//                     // ignore: use_build_context_synchronously
-//                     context, 
-//                     fount, 
-//                     'Verificacion fallida :(', 
-//                     textTheme,
-//                   );
-
-//                 }
-//               }, 
-//               child: const Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Icon(Icons.verified),
-//                   SizedBox(width: 5,),
-//                   Text('Verificar')
-//                 ],
-//               )
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class _ButtonVerificationBiometricsView extends StatelessWidget {
   const _ButtonVerificationBiometricsView({

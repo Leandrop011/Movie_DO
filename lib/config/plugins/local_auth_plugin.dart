@@ -39,15 +39,12 @@ class LocalAuthPlugin {
       
       // ? AUTENTICACION
       final bool didAuthenticate = await auth.authenticate(
-        // ? mensaje que indica al user
         localizedReason: 'Por favor autenticate para acceder.',
-        // ? el biometric only lo recibimos opcional,
-        //? por si otros devs quieres acceder a esto pero no tienen acceso al plugin o al provider
-        biometricOnly: biometricOnly //* solo permitir el biometrico, nada de pin registrado
+        biometricOnly: biometricOnly 
       );
 
 
-      // * MANDAMOS EL RESULTADO DEL DIDaUTHENTICATE
+      // * MANDAMOS EL RESULTADO DEL DIDAUTHENTICATE
       // * Y SI ES TRUE MANDAMOS UN MENSAJE DE HECHO, PERO SI NO MANDAMOS UN MENSAJE DE ERROR
       return(didAuthenticate, didAuthenticate ? 'Hecho.': 'Cancelado por Usuario.');
 

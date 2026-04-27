@@ -3,6 +3,7 @@ import 'package:movies_app/config/theme/theme.dart';
 
 class CustomAppCard extends StatelessWidget {
   final Widget child;
+  final ColorScheme colors;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   final VoidCallback? onTap; //* para e onpressed
@@ -12,7 +13,8 @@ class CustomAppCard extends StatelessWidget {
     required this.child,
     this.padding = const EdgeInsets.all(16),
     this.margin = const EdgeInsets.symmetric(vertical: 8),
-    this.onTap,
+    this.onTap, 
+    required this.colors,
   });
 
   @override
@@ -24,8 +26,8 @@ class CustomAppCard extends StatelessWidget {
         gradient: AppTheme.accentGradient,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          width: 0.5,
-          color: Colors.white12,
+          width: 1,
+          color: colors.primary.withOpacity(0.27),
         ),
         boxShadow: const [
           BoxShadow(

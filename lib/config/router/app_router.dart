@@ -11,8 +11,6 @@ final appRouter = GoRouter(
     // ! PARA QUE EL DEEPLINKING FUNCIONE ES NECESARIO QUE ESTAS RUTAS 
     // ! ESTEN ESPECIFICADAS EN EL ENLACE DE LA APP WEB
     // ! EJEMPL https://moviedo.up.railway.app/home/0/movie/$id/
-    // ! NO SOLO MOVIE/:ID, PORQUE ESA RUTA NO ESTA EN NUESTRO ROUTER CUANDO COMIENCE EL PROCESO DE DEEPLINKING
-    // ! LA RUTA QUE EXISTE ES: /home/0/movie/$id
    
     GoRoute(
       path: '/home/:page',
@@ -73,8 +71,6 @@ final appRouter = GoRouter(
       },
     ),
 
-
-    //! Para redireccionar la direccion / a la nueva /home/0
     GoRoute(
       path: '/',
       redirect: ( _ , _ ) {

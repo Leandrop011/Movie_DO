@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
 import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 
-//todo, esto es para poder cargar una pelicula segun el ID, se lo pide al provider que provee los respositorios
 final movieInfoProvider = StateNotifierProvider<MovieMapNotifier, Map<String, Movie>>(
   (ref){
     final movieRepository = ref.watch(movieRepositoryProvider).getMovieById;

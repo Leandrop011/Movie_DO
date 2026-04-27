@@ -1,4 +1,4 @@
-//todo, reglas de negocio para cada actor
+// ! ENTITY ACTOR
 class Actor {
   final int id;
   final String name;
@@ -11,7 +11,4 @@ class Actor {
     required this.profilePath, 
     required this.character
   }); 
-
-  
-
 }

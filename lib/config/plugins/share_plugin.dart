@@ -1,7 +1,6 @@
 import 'package:share_plus/share_plus.dart';
 
-// ? METODO QUE ACCEDEREMOS AL METODO DE SHARE PLUS PARA
-// ? GENERAR UN ENLACE 
+// ? METODO QUE GENERAR UN ENLACE PARA EL PROCESO DE DEEPLINKING 
 class SharePlugin {
   
   static void shareLink(String link, String subject){

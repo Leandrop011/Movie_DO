@@ -8,7 +8,6 @@ class ActorsMoviedbRepositoryImplementation extends ActorsRepository{
 
   ActorsMoviedbRepositoryImplementation(this.datasource);
 
-  //todo, PRIMER RESPOSITORIO INFORMACION DE LOS ACTORES DE LA PELICULA
   @override
   Future<List<Actor>> getActorByMovie(String movieid) {
     return datasource.getActorByMovie(movieid);

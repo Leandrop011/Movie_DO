@@ -1,8 +1,4 @@
 
-//todo, EN LOS MODELOS, EN ESTOS MODELOS, NO AGREGAR VALIDACIONES NI RESTRICCIONES
-//todo, POR EJEMPLO SI NO VIENE UNA DATA PON ESO, ESO NO HACER EN LSO MODELOS, 
-//todo, ESO SE DEBE HACER EN LOS MAPPERS
-
 class MovideDbDetails {
     final bool adult;
     final String backdropPath;

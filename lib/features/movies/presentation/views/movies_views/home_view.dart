@@ -10,14 +10,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/*
-  todo, el StateLes solo sirve para leer y reaccionar a los providers
-  todo, miestras que el stateful tienes poder del initsate
-  todo, el initsate es el lugar ideal para inicializar cosas que tu widget necesita antes de renderizarse. 
-  todo, el initsate: se ejecuta una sola vez, antes del primer render y es para inicializar lógica o cargar datos
-*/
-
-//todo consumer de un ful para los providers 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
   
@@ -31,11 +23,8 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
   @override
   void initState(){
     super.initState();
-
-    //todo, aqui simplemente se dice que cargue peliculas para comenzar
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-    //ref.read(popularMoviesProvider.notifier).loadNextPage();
-    //todo, carga diferida para no bloquear el primer frame
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || _deferredLoadsRequested) return;
       _deferredLoadsRequested = true;
@@ -61,7 +50,6 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
     final colors = Theme.of(context).colorScheme;
     // final textTheme = Theme.of(context).textTheme;
 
-    //todo, provider que determina si los provider ya  tienen data y asi hacer lo que se dice
     final initialLoading = ref.watch(initialLoadingProvider);
     
 
@@ -71,15 +59,9 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
     
     FlutterNativeSplash.remove();
 
-    //todo, renderizar la data, llamamos al repository
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-    //todo, es un provider que me da solo 6 de las peliculas que hay en esa lista de movies
     final slideShowMovies = ref.read(moviesSlideshowProvider);
-    //todo, provider que da las peliculas populares
-    //final popularMovies = ref.watch(popularMoviesProvider);
-    //todo, provider que da las peliculas up coming
     final upcomingMovies = ref.watch(upComingMoviesProvider);
-    //todo, provider que da las peliculas top rated
     final topratedMovies = ref.watch(topRatedMoviesProvider);
     
     //? para obtener entre una lista de peliculas en cines 
@@ -95,24 +77,11 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
     return ZoomIn(//* EFECTO DE ENTRADA COMO UN ZOOM
       duration: const Duration(seconds: 1),
       //curve: Curves.elasticOut,
-      child: CustomScrollView(//todo, para controlar el scroll
+      child: CustomScrollView(
       
         physics: const BouncingScrollPhysics(),
         slivers: [
           
-          //! MANANA IMPLEMENTAR UNA APPBAR CON DESENFOQUE Y CON DISENO TRANSPARENTE
-          // SliverAppBar (//todo, appbar de un sliver(constrolara que si subimos un poco aparece)
-          //   floating: true,//* para que aparezca cuando se sube un poco
-          //   flexibleSpace: FlexibleSpaceBar(//todo widget que hicimos para el appbar
-            
-          //     title: Padding(
-          //       padding: EdgeInsetsGeometry.only(right:5, top: 5),
-          //       child: CustomAppbar()
-          //     ),
-          //     centerTitle: true,
-            
-          //   ),
-          // ),
           GlassSliverAppBar(
             expandedHeight: size.height * 0.08, 
             title: 'Movie DO',
@@ -192,7 +161,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
               padding: const EdgeInsets.only(top: 8.0),
               child: Icon(
                 Icons.movie_outlined,
-                size: size.width * 0.055,
+                size: size.width * 0.065,
                 color: colors.primary,
               ),
             ),
@@ -214,7 +183,6 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                       movies: nowPlayingMovies,
                       title: 'En cines',
                       loadNextPage: () {
-                        //todo, le pedimos que nos carge mas peliculas(infity scroll)
                         ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
                       },
                     ),
@@ -231,7 +199,6 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                       title: 'Proximamente',
                       //subTitle: 'En este mes', 
                       loadNextPage: () {
-                        //todo, le pedimos que nos carge mas peliculas(infity scroll)
                         ref.read(upComingMoviesProvider.notifier).loadNextPage();
                       },
                     ),
@@ -242,8 +209,6 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                       movies: topratedMovies,
                       title: 'Mejor calificadas',
                       loadNextPage: () {
-                        //todo, PAGINACION
-                        //todo, le pedimos que nos carge mas peliculas(infity scroll)
                         ref.read(topRatedMoviesProvider.notifier).loadNextPage();
                       },
                     ),
@@ -253,8 +218,6 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                 );
               },
 
-            
-              //todo, esto le dira cuantos hijos construir(osea cuantas veces construir lo que esta dentro)
               childCount: 1,
             )
           )

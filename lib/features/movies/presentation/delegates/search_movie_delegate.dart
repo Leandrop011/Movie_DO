@@ -38,7 +38,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   }
 
   //* DEBOUNCE MANUAL(CONTROLAR QUE SE HAGA UNA PETICION HTTP, LUEGO DE QUE EL USUARIO HAYA ESCRITO LA PELICULA)
-  void _onQueryChanged(String query){//* ESTA ES LA FUNC PARA EMITIR CAMBIOS
+  void _onQueryChanged(String query){
     if (isLoadingStream.isClosed) return;
     isLoadingStream.add(true);//! cambiamos el valor del stream y asi trabaja
 
@@ -46,11 +46,6 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     _debounceTimer = Timer (
       const Duration(milliseconds: 500), 
       () async{
-        // if(query.isEmpty) {//* si el query es vacio
-        //   debounceMovies.add([]);
-          
-        //   return;
-        // }
         final movies = await searchMovie(query);//LAS MOVIES QUE NOS DA
         initialMovies = movies;
 
@@ -64,13 +59,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     );
   }
 
-  //* ES UN WIDGET QUE DEVUELVE LA MISMA DATA PERO ES UNO PARA CUANDO ESCRIBE Y 
-  //* OTRO CUANDO PULSA EN BUSCAR, AMBOS SE APLICAN DE LA MISMA FORMA
   Widget buildResultsAndSuggestions(){
 
 
     return StreamBuilder(
-      //* LAS PELICULAS INICIADAS AHORA LAS GUARDO EN EL DEBOUNCE ENTONCES SE CARGA CUANDO DOY EN BUSCAR
       initialData: initialMovies,
       stream: debounceMovies.stream, 
       builder: (context, snapshot) {
@@ -159,7 +151,6 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     ];
   }
 
-  //* EL ICONO QUE NOS REGRESA A LA PANTALLA DE HOME <= 
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
@@ -172,21 +163,17 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     );
   }
 
-  //* LO QUE SALE CUANDO SE LE DA EN BUSCAR Y DA LAS MOVIES 
   @override
   Widget buildResults(BuildContext context) {
     return buildResultsAndSuggestions();
   }
 
-  //* LO QUE APARECE AL INGRESAR TEXTO(MOVIES EN ESTA PARTE IMPLEMENTAMOS EL DEBOUNCE)
   @override
   Widget buildSuggestions(BuildContext context) {
    //* ESTA FUNCION SE MANDA A LLAMAR CADA QUE EL USUARIO PULSA O INGRESA ALGO
-    _onQueryChanged(query);//! EL DEBOUNCER
+    _onQueryChanged(query);//! FUNCION DEBOUNCER
 
     return GestureDetector(
-      //? se ecuta cuando el dedo toca la pantalla
-      //? y pierde el foco el teclado
       onTapDown: (_) => FocusScope.of(context).unfocus(),
       child: buildResultsAndSuggestions()
     );

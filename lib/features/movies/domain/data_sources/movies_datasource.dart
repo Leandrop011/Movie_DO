@@ -3,7 +3,6 @@
 import 'package:movies_app/features/movies/domain/entities/entities.dart';
 
 abstract class MoviesDatasource {
-  //todo, una lista de movie, la info que nos va a dar 
   Future <List<Movie>>getNowPlaying({int page = 1});
 
   Future <List<Movie>>getPopular({int page = 1});

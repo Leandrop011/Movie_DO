@@ -1,4 +1,3 @@
-//todo, esto es para hacer el mapeo y asi manejar la data del datasource
 import 'package:movies_app/features/movies/infrastructure/models/moviedb/moviedb.dart';
 
 class MovideDbResponse {

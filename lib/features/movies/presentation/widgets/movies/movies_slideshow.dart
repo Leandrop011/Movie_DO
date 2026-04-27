@@ -1,4 +1,4 @@
-import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -72,6 +72,7 @@ class _Slide extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final textTheme = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
     // final fount = ref.watch(isdarckProvider).fount;
 
     //* Hasta que cargue
@@ -119,24 +120,27 @@ class _Slide extends ConsumerWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  movie.backdropPath,//todo, consultamos a esa cierta pelicula, segune el index
+                child: CachedNetworkImage(
+                  imageUrl: movie.posterPath,
                   fit: BoxFit.cover,
-                  // height: double.infinity,
-                  //todo, esto es como para que mientras carga se coloque algo
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress != null) {
-                      return const DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Colors.black12
-                        )
-                      );
-                    }
-              
-                    //todo, para hacerla la animacion de cuadno la imagen entre, entre con suavidad
-                    return FadeIn(child: child);
+
+                  placeholder: (context, url) {
+                    return Image.asset('assets/loaders/movie_do-loader.gif', fit: BoxFit.cover,);
                   },
-                )
+
+                  errorWidget: (context, url, error) {
+                    return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Error, fallo en carga'),
+                            const SizedBox(height: 10,),
+                            Icon(Icons.movie, size: size.height * 0.1,)
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
               

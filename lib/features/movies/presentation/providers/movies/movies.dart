@@ -1,11 +1,12 @@
 export 'initial_loading_provider.dart';
+export 'last_movie_id_quick_action_provider.dart';
 export 'movie_info_provider.dart';
 export 'movie_top_provider.dart';
+export 'movie_top_value_change_provider.dart';
+export 'movie_video_provider.dart';
 export 'movies_providers.dart';
 export 'movies_repository_provider.dart';
 export 'movies_slideshow_proivder.dart';
-export 'visibility_movies_provider.dart';
-export 'movie_video_provider.dart';
 export 'tutorial_movies_provider.dart';
 export 'value_information_movie_provider.dart';
-export 'last_movie_id_quick_action_provider.dart';
+export 'visibility_movies_provider.dart';

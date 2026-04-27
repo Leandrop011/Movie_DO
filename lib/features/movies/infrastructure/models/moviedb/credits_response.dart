@@ -1,4 +1,3 @@
-//todo, AQUI LO QUE HACEMOS ES EL MODEL DE LOS ACTORES  
 class CastResponse {
     final int id;
     final List<Cast> cast;

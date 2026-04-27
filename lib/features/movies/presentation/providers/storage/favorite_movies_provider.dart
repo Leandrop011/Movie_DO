@@ -22,7 +22,6 @@ class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>>{
 
   StorageMoviesNotifier({required this.localStorageRepository}): super({});
 
-  // /* TAMBIEN PODEMOS CREAR UNA FUNCION QUE DEVUELVA EL BOOL PARA EL ICONO DE FAVORITOS
  
 //  * CARGA LAS PELICULAS 
   Future<List<Movie>> loadNextPage() async{
