@@ -21,6 +21,7 @@ class CustomImageMovieView extends StatelessWidget {
     return CachedNetworkImage(
         imageUrl: image,
         height: size.height * valueSize!,
+        width: size.width * valueSize!,
         fit: BoxFit.cover,
         placeholder: (context, url) {
           return Image.asset( 

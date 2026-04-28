@@ -119,22 +119,20 @@ class _HomeView extends StatelessWidget {
       return const SizedBox();
     }
 
-    return Expanded(
-      child: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          // * Apppbar
-          _CustomSliverAppBar(movie: movie!),
-          // * Contenido
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => _MovieDetails(movie: movie!,),
-              childCount: 1,
-            ),
-            
+    return CustomScrollView(
+      physics: const ClampingScrollPhysics(),
+      slivers: [
+        // * Apppbar
+        _CustomSliverAppBar(movie: movie!),
+        // * Contenido
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => _MovieDetails(movie: movie!,),
+            childCount: 1,
           ),
-        ],
-      ),
+
+        ),
+      ],
     );
   }
 }
@@ -310,10 +308,12 @@ class _ElementsInDetailsState extends ConsumerState<_ElementsInDetails> {
 
     return Padding(
       padding: const EdgeInsetsGeometry.all(8),
-      child: SizedBox(
+      child: Container(
         width: widget.size.width,
-        // ! QUITAMOS EL HEIGHT PARA DECIRLE AL WIDGET QUE COJA TODO1 EL HEIGHT QUE NECESITE 
-        // height: size.height * 0.42,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: widget.fount ? Colors.grey.shade800 : Colors.grey.shade400,
+        ),
         child: Padding(
           padding: const EdgeInsetsGeometry.only(top: 15, right: 5, left: 5, bottom: 10),
           child: Row(
@@ -939,14 +939,11 @@ class _ContentSilverAppBar extends StatelessWidget {
     return Stack(//* el fondo
       children: [
 
-        Expanded(
-          child: SizedBox.expand(
-           
-            child: CustomImageMovieView(
-              image: movie.posterPath, 
-              iconErrorWidget: Icons.movie, 
-              size: size,
-            ),
+        SizedBox.expand(
+          child: CustomImageMovieView(
+            image: movie.posterPath,
+            iconErrorWidget: Icons.movie,
+            size: size,
           ),
         ),
 
