@@ -9,8 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:movies_app/config/config.dart';
 
 import 'package:movies_app/features/features.dart';
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
-import 'package:movies_app/config/plugins/share_plugin.dart';
 
 
 class MovieScreen extends ConsumerStatefulWidget {
@@ -335,7 +333,7 @@ class _ElementsInDetailsState extends ConsumerState<_ElementsInDetails> {
               const SizedBox(width: 10,),
           
               SizedBox( 
-                width: double.infinity,
+                width: widget.size.width * 0.65,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
