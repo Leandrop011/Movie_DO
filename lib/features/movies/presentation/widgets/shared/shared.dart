@@ -12,3 +12,5 @@ export 'custom_view_rating.dart';
 export 'custom_widget_for_sections.dart';
 export 'custom_form_pin_security.dart';
 export 'custom_image_movie_view.dart';
+export 'custom_divider_section.dart';
+export 'custom_gradient_movie.dart';

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movies_app/features/features.dart';
-import 'package:movies_app/features/movies/presentation/providers/providers.dart';
 
 class ShowMoreMovies extends ConsumerStatefulWidget {
 
@@ -87,6 +86,7 @@ class _ShowMoreMoviesState extends ConsumerState<ShowMoreMovies> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
         child: MasonryGridView.count(
+          physics: const BouncingScrollPhysics(),
           crossAxisCount: 3, 
           mainAxisSpacing: 10,//* separacion en y
           crossAxisSpacing: 10,//* separacion en x

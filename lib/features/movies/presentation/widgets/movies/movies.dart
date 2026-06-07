@@ -3,3 +3,7 @@ export 'movie_poster_link.dart';
 export 'movies_masonry.dart';
 export 'movies_slideshow.dart';
 export 'movie_top.dart';
+export 'movie_gender.dart';
+export 'movie_description.dart';
+export 'movie_similar.dart';
+export 'movie_sliver_appbar.dart';
